@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/screens/home_screen.dart';
+
+import 'modules/home/home_screen.dart';
 
 void main() {
   runApp(
