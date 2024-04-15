@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/modules/notifications_detail/notifications_details_screen.dart';
+import '../../widgets/notification.dart';
 
 class ViewNotificationsScreen extends StatefulWidget {
   const ViewNotificationsScreen({super.key});
