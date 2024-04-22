@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/presentation/screens/home/home.dart';
 
 class TypewriterAnimation extends StatefulWidget {
   const TypewriterAnimation({required this.duration, required this.text, required this.textStyle,super.key});

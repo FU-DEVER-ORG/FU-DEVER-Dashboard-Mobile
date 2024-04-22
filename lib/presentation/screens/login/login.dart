@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/presentation/screens/home/home.dart';
 
 class Login extends StatelessWidget {
-  const Login({super.key});
+  const Login({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.fromLTRB(screenWidth/10, screenWidth/10, screenWidth/5, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(child: Image.asset("assets/images/fu-dever-logo.png",width: screenHeight/5,)),
-            Text("Sign in"),
-            SizedBox(height: 30),
-            LoginForm()
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(
+            screenWidth / 10,
+            screenHeight / 8, // Adjusted padding from top to center the logo
+            screenWidth / 10,
+            0,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Image.asset(
+                  "assets/images/fu-dever-logo.png",
+                  width: screenHeight / 5,
+                ),
+              ),
+              const SizedBox(
+                  height: 20), // Increased space between logo and text
+              const Text("Sign in",
+                  style: TextStyle(fontSize: 20)), // Increased font size
+              const SizedBox(height: 30),
+              const LoginForm()
+            ],
+          ),
         ),
       ),
     );
@@ -28,7 +43,7 @@ class Login extends StatelessWidget {
 }
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  const LoginForm({Key? key}) : super(key: key);
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -37,6 +52,16 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
+  void _tapLogion() {
+    setState(() {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -44,55 +69,59 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Your email"),
-          SizedBox(height: 5),
+          const Text("Your email"),
+          const SizedBox(height: 5),
           TextFormField(
             decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black45),
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderSide: const BorderSide(color: Colors.black45),
+                    borderRadius: BorderRadius.circular(10)),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black45, width: 2),
-                    borderRadius: BorderRadius.circular(15)
-                ),
-                hintText: "name@company.com",
-                hintStyle: TextStyle(color: Colors.black38)
-            ),
+                    borderSide:
+                        const BorderSide(color: Colors.black45, width: 2),
+                    borderRadius: BorderRadius.circular(15)),
+                hintText: "name@gmail.com",
+                hintStyle: const TextStyle(color: Colors.black38)),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Enter a valid email';
-              } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value))
+              } else if (!RegExp(
+                      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                  .hasMatch(value)) {
                 return 'Enter a valid email';
-              else
+              } else {
                 return null;
+              }
             },
           ),
-          SizedBox(height: 30),
-          Text("Your password"),
-          SizedBox(height: 5),
+          const SizedBox(
+              height: 20), // Increased space between email and password fields
+          const Text("Your password"),
+          const SizedBox(height: 5),
           TextFormField(
             decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black45),
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderSide: const BorderSide(color: Colors.black45),
+                    borderRadius: BorderRadius.circular(10)),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black45, width: 2),
-                    borderRadius: BorderRadius.circular(15)
-                ),
+                    borderSide:
+                        const BorderSide(color: Colors.black45, width: 2),
+                    borderRadius: BorderRadius.circular(15)),
                 hintText: "Enter your password",
-                hintStyle: TextStyle(color: Colors.black38)
-            ),
+                hintStyle: const TextStyle(color: Colors.black38)),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Enter a valid email';
-              } else if (!RegExp(r'^[\w]+$').hasMatch(value))
-                return 'Enter a valid email';
-              else
+                return 'Enter a valid password'; // Changed error message
+              } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
+                return 'Enter a valid password'; // Changed error message
+              } else {
                 return null;
+              }
             },
           ),
+          const SizedBox(
+              height:
+                  20), // Increased space between password field and remember me
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -100,27 +129,24 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   Checkbox(
                     value: true,
-                    onChanged: (isChecked){},
+                    onChanged: (isChecked) {},
                   ),
-                  Text("Remember me"),
+                  const Text("Remember me"),
                 ],
               ),
-              Text("Forget Password")
+              const Text("Forget Password")
             ],
           ),
+          const SizedBox(
+              height:
+                  20), // Increased space between remember me and login button
           MaterialButton(
-            onPressed: (){
-              if (_formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('Processing Data')));
-              }
-            },
-            color: Color(0xFF0065A9),
-            child: Text("Login to your account"),
+            onPressed: _tapLogion,
+            color: const Color(0xFF0065A9),
+            child: const Text("Login to your account"),
           ),
         ],
       ),
     );
   }
 }
-

@@ -15,11 +15,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Image.asset('assets/images/fu-dever-logo.png'),
+        // leading: Image.asset('assets/images/fu-dever-logo.png'),
         title: const Text(
           'FU-DEVER',
           style: TextStyle(
-            color: Color.fromARGB(1, 0, 152, 255),
+            color: Color.fromARGB(1, 0, 0, 0),
           ),
         ),
       ),
