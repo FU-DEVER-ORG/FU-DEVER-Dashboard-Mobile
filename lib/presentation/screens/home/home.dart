@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/main_drawer.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -15,14 +14,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: Image.asset('assets/images/fu-dever-logo.png'),
-        title: const Text(
-          'FU-DEVER',
-          style: TextStyle(
-            color: Color.fromARGB(1, 0, 0, 0),
+          // leading: Image.asset('assets/images/fu-dever-logo.png'),
+          title: Row(
+        children: [
+          Image.asset(
+            'assets/images/fu-dever-logo.png',
+            width: 60,
+            height: 60,
           ),
-        ),
-      ),
+          const SizedBox(
+            width: 10,
+          ),
+          const Text('FU - DEVER')
+        ],
+      )),
       drawer: const MainDrawer(),
       body: const Center(
         child: Column(

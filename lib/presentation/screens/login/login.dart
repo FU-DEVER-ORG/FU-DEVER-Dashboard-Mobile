@@ -73,15 +73,17 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 5),
           TextFormField(
             decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black45),
-                    borderRadius: BorderRadius.circular(10)),
-                focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.black45, width: 2),
-                    borderRadius: BorderRadius.circular(15)),
-                hintText: "name@gmail.com",
-                hintStyle: const TextStyle(color: Colors.black38)),
+              enabledBorder: OutlineInputBorder(
+                  // borderSide: BorderSide(
+                  //     color: Theme.of(context).colorScheme.onPrimary),
+                  borderRadius: BorderRadius.circular(10)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.black45, width: 2),
+                  borderRadius: BorderRadius.circular(15)),
+              hintText: "name@gmail.com",
+              // hintStyle:
+              //     TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Enter a valid email';
@@ -100,15 +102,17 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 5),
           TextFormField(
             decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black45),
-                    borderRadius: BorderRadius.circular(10)),
-                focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.black45, width: 2),
-                    borderRadius: BorderRadius.circular(15)),
-                hintText: "Enter your password",
-                hintStyle: const TextStyle(color: Colors.black38)),
+              enabledBorder: OutlineInputBorder(
+                  // borderSide: BorderSide(
+                  //     color: Theme.of(context).colorScheme.dar),
+                  borderRadius: BorderRadius.circular(10)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.black45, width: 2),
+                  borderRadius: BorderRadius.circular(15)),
+              hintText: "Enter your password",
+              // hintStyle:
+              //     TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Enter a valid password'; // Changed error message
@@ -119,9 +123,7 @@ class _LoginFormState extends State<LoginForm> {
               }
             },
           ),
-          const SizedBox(
-              height:
-                  20), // Increased space between password field and remember me
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

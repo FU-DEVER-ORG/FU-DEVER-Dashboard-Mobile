@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fudever_dashboard/presentation/screens/home/splash.dart';
+import 'package:fudever_dashboard/presentation/widgets/background_theme.dart';
 
 void main() {
   runApp(
-    const MaterialApp(
+    MaterialApp(
+      theme: getLightTheme(),
+      darkTheme: getDarkTheme(),
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-      home: Splash(),
+      home: const Splash(),
     ),
   );
 }
