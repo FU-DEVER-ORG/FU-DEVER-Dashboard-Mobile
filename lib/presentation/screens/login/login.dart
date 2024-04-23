@@ -54,11 +54,7 @@ class _LoginFormState extends State<LoginForm> {
 
   void _tapLogion() {
     setState(() {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      );
+      Navigator.of(context).pushNamed('/');
     });
   }
 
@@ -142,9 +138,8 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(
               height:
                   20), // Increased space between remember me and login button
-          MaterialButton(
+          ElevatedButton(
             onPressed: _tapLogion,
-            color: const Color(0xFF0065A9),
             child: const Text("Login to your account"),
           ),
         ],

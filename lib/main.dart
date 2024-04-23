@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/presentation/screens/home/splash.dart';
-import 'package:fudever_dashboard/presentation/widgets/background_theme.dart';
+import 'package:fudever_dashboard/presentation/routes/routes.dart';
+import 'package:fudever_dashboard/presentation/themes/background_theme.dart';
 
 void main() {
   runApp(
@@ -9,7 +9,8 @@ void main() {
       darkTheme: getDarkTheme(),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-      home: const Splash(),
+      onGenerateRoute: (settings) => Routes.generateRoutes(settings),
+      initialRoute: 'splash',
     ),
   );
 }

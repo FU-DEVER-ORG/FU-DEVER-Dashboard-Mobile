@@ -10,13 +10,7 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
-  void _tapOnProfile(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const ProfileScreen(),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +50,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     //Member Lists
                     break;
                   case 2:
-                    _tapOnProfile(context);
+                    Navigator.of(context).pushNamed('profile');
                     break;
                   case 3:
                     //Setting
