@@ -5,6 +5,7 @@ class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _MainDrawerState createState() => _MainDrawerState();
 }
 
@@ -27,73 +28,50 @@ class _MainDrawerState extends State<MainDrawer> {
             leading: const Icon(Icons.notifications),
             title: const Text('Notifications'),
             onTap: () {
-              showMenu(
-                context: context,
-                position: const RelativeRect.fromLTRB(0, 100, 0, 0),
-                items: [
-                  const PopupMenuItem(
-                    value: 1,
-                    child: Text('View notifications'),
-                  ),
-                  const PopupMenuItem(
-                    value: 2,
-                    child: Text('Create notifications'),
-                  ),
-                ],
-              );
+              //Notifications
             },
           ),
           ListTile(
             leading: const Icon(Icons.people),
             title: const Text('Members'),
-            onTap: () {
-              showMenu(
-                context: context,
-                position: const RelativeRect.fromLTRB(0, 100, 0, 0),
-                items: [
-                  const PopupMenuItem(
-                    value: 1,
-                    child: Text('Member Lists'),
-                  ),
-                  PopupMenuItem(
-                    value: 2,
-                    onTap: () => _tapOnProfile(context),
-                    child: const Text('Profile'),
-                  ),
-                  const PopupMenuItem(
-                    value: 3,
-                    child: Text('Settings'),
-                  ),
-                ],
-              );
-            },
+            trailing: DropdownButton<int>(
+              hint: const Text('Show more'),
+              items: const [
+                DropdownMenuItem<int>(
+                  value: 1,
+                  child: Text('Member Lists'),
+                ),
+                DropdownMenuItem<int>(
+                  value: 2,
+                  child: Text('Profile'),
+                ),
+                DropdownMenuItem<int>(
+                  value: 3,
+                  child: Text('Settings'),
+                ),
+              ],
+              onChanged: (value) {
+                switch (value) {
+                  case 1:
+                    //Member Lists
+                    break;
+                  case 2:
+                    _tapOnProfile(context);
+                    break;
+                  case 3:
+                    //Setting
+                    break;
+                  default:
+                    break;
+                }
+              },
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.article),
             title: const Text('Blogs'),
             onTap: () {
-              showMenu(
-                context: context,
-                position: const RelativeRect.fromLTRB(0, 100, 0, 0),
-                items: [
-                  const PopupMenuItem(
-                    value: 1,
-                    child: Text('Blogs list'),
-                  ),
-                  const PopupMenuItem(
-                    value: 2,
-                    child: Text('Your blogs'),
-                  ),
-                  const PopupMenuItem(
-                    value: 3,
-                    child: Text('Pending Blog'),
-                  ),
-                  const PopupMenuItem(
-                    value: 4,
-                    child: Text('Create Blog'),
-                  ),
-                ],
-              );
+              //Blogs
             },
           ),
         ],
