@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fudever_dashboard/presentation/screens/home/home.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -10,33 +10,29 @@ class Login extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.fromLTRB(
-            screenWidth / 10,
-            screenHeight / 8, // Adjusted padding from top to center the logo
-            screenWidth / 10,
-            0,
+      body: ListView(
+        children: <Widget>[
+          SvgPicture.asset(
+            'assets/images/plane-background.svg',
+            fit: BoxFit.contain,
+            width: screenWidth,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.asset(
-                  "assets/images/fu-dever-logo.png",
-                  width: screenHeight / 5,
-                ),
-              ),
-              const SizedBox(
-                  height: 20), // Increased space between logo and text
-              const Text("Sign in",
-                  style: TextStyle(fontSize: 20)), // Increased font size
-              const SizedBox(height: 30),
-              const LoginForm()
-            ],
+          Align(
+          alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                    height: 20), // Increased space between logo and text
+                const Text("Sign in",
+                    style: TextStyle(fontSize: 20)), // Increased font size
+                const SizedBox(height: 30),
+                const LoginForm()
+              ],
+            ),
           ),
-        ),
+        ]
       ),
     );
   }
