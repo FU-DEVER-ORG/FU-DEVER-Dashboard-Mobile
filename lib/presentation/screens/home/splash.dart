@@ -29,14 +29,16 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor: Color.fromARGB(1, 0, 153, 255),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logo-only.png',
+              'assets/images/fu-dever-logo-white.png',
               height: 190,
             ),
             const SizedBox(
