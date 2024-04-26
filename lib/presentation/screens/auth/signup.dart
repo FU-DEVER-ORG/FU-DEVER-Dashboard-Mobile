@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/presentation/screens/home/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter/services.dart';
-class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+class Signup extends StatelessWidget {
+  const Signup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +12,19 @@ class Login extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
-      children:[
+      children: [
         LoginForm(screenHeight: screenHeight,screenWidth: screenWidth,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Bạn chưa có tài khoản?   "),
+            Text("Bạn đã có tài khoản?   "),
             GestureDetector(
-              child: Text("Đăng ký"),
-              onTap: () => Navigator.of(context).pushNamed('signup'),
-              )
+              child: Text("Đăng nhập"),
+              onTap: () => Navigator.of(context).pushNamed('login'),
+            )
           ],
         )
-      ]
+      ],
     );
   }
 }
@@ -148,33 +148,62 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: true,
-                      onChanged: (isChecked) {},
+            Material(
+              elevation: 3,
+              shadowColor: Colors.grey,
+              borderRadius: BorderRadius.circular(10),
+              child: TextFormField(
+                obscureText: obscureText,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  label: Row(
+                    children: [
+                      Icon(Icons.lock_open_rounded),
+                      SizedBox(width: 5,),
+                      Text("Nhập lại mật khẩu"),
+                    ],
+                  ),
+                  labelStyle: TextStyle(
+                      color: Colors.black
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.visibility,
+                      color: Colors.grey, // Customize the eye icon color
                     ),
-                    const Text("Nhớ mật khẩu"),
-                  ],
+                    onPressed: () {
+                      // Toggle the obscureText value when the eye icon is pressed
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
+                  ),
                 ),
-                GestureDetector(
-                  onTap: ()=>Navigator.of(context).pushNamed('forgot-password'),
-                  child: Text("Quên mật khẩu?"),
-                )
-              ],
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter a valid password'; // Changed error message
+                  } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
+                    return 'Enter a valid password'; // Changed error message
+                  } else {
+                    return null;
+                  }
+                },
+              ),
             ),
-            const SizedBox(
-                height:
-                    20), // Increased space between remember me and login button
+            const SizedBox(height:20), // Increased space between remember me and Signup button
             Container(
               width: widget.screenWidth,
               height: 40,
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pushNamed('/'),
-                child: Text("Đăng nhập"),
+                child: Text("Đăng ký"),
               ),
             ),
           ],
