@@ -29,7 +29,6 @@ class _DefaultLayoutState extends State<DefaultLayout> {
           ],
         )
       ),
-      drawer: const MainDrawer(),
       body: widget.body,
     );
   }
