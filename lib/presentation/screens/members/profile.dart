@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -11,13 +12,13 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       // appBar: AppBar(
       //   title: const Text('Profile Screen'),
       // ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
           child: Column(
             children: [
               HeaderImage(),
@@ -25,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               CardTwo(),
               CardThree(),
               CardFour(),
-              CardFive(),
             ],
           ),
         ),
@@ -39,77 +39,84 @@ class HeaderImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        bottomLeft: Radius.circular(20),
+        bottomRight: Radius.circular(20),
+      ),
       child: Image.asset(
         'assets/images/demo-image.png',
-        height: 250,
-        width: double.infinity,
+        fit: BoxFit.cover,
       ),
     );
   }
 }
 
-class CardOne extends StatelessWidget {
-  const CardOne({Key? key}) : super(key: key);
+class CardOne extends StatefulWidget {
+  const CardOne({super.key});
 
   @override
+  State<CardOne> createState() => _CardOneState();
+}
+
+class _CardOneState extends State<CardOne> {
+  @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        const Row(
           children: [
-            Text(
-              'Unnamed',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),
-            ),
-            Row(
+            Column(
               children: [
-                Icon(Icons.work),
-                Text('Not set yet'),
+                Text('Name'),
+                Text('Role'),
               ],
             ),
-            Row(
+            Text('Generation')
+          ],
+        ),
+        Row(
+          children: [
+            const Column(
               children: [
-                Icon(Icons.calendar_month),
-                Text('01-01-2000'),
+                Row(
+                  children: [
+                    Icon(Icons.work),
+                    Text('Job Role'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.calendar_month),
+                    Text('Birthday'),
+                  ],
+                ),
               ],
             ),
-            Text('Email address:'),
-            Text(
-              '...',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+            GestureDetector(
+              child: SvgPicture.asset(
+                'assets/images/facebook-icon.svg',
+                fit: BoxFit.cover,
+                alignment: Alignment.bottomCenter,
               ),
             ),
-            Text('Phone number:'),
-            Text(
-              '...',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+            GestureDetector(
+              child: SvgPicture.asset(
+                'assets/images/github-icon.svg',
+                fit: BoxFit.cover,
+                alignment: Alignment.bottomCenter,
               ),
             ),
-            Text(
-              'Social media',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            Text(
-              '...',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+            GestureDetector(
+              child: SvgPicture.asset(
+                'assets/images/youtube-icon.svg',
+                fit: BoxFit.cover,
+                alignment: Alignment.bottomCenter,
               ),
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 }

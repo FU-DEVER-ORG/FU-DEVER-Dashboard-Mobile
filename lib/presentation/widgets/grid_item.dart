@@ -25,11 +25,32 @@ class MemberGridItem extends StatelessWidget {
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                member.imageAssetPath,
-                height: 250,
-                fit: BoxFit.cover,
+              borderRadius: BorderRadius.circular(20),
+              child: Stack(
+                children: [
+                  Image.asset(
+                    member.imageAssetPath,
+                    height: 250,
+                    fit: BoxFit.cover,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: const Color.fromARGB(0, 0, 152, 255)
+                            .withOpacity(0.5),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                        child: Text(
+                          member.generation,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 10),
