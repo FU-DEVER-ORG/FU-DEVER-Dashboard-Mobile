@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../auth/login.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../widgets/typewriter_animation.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -43,25 +41,6 @@ class _SplashState extends State<Splash> {
                 alignment: Alignment.topCenter,
               ),
             ),
-            // const SizedBox(
-            //   height: 30,
-            // ),
-            // Transform.translate(
-            //   offset: const Offset(-15.0, 0.0),
-            //   child: TypewriterAnimation(
-            //     text: "Work Hard",
-            //     textStyle: textStyle,
-            //     duration: splashDuration,
-            //   ),
-            // ),
-            // Transform.translate(
-            //   offset: const Offset(25.0, 20.0),
-            //   child: TypewriterAnimation(
-            //     text: "Play Hard",
-            //     textStyle: textStyle,
-            //     duration: splashDuration,
-            //   ),
-            // )
           ],
         ),
       ),
