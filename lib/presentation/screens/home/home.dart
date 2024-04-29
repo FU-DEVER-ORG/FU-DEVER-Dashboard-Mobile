@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/presentation/screens/members/profile.dart';
 import 'package:fudever_dashboard/presentation/widgets/grid_item.dart';
 
@@ -64,6 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Flexible(
                   child: SearchAnchor.bar(
+                    barHintText: 'Tìm thành viên',
+                    viewBackgroundColor: Colors.white,
                     suggestionsBuilder:
                         (BuildContext context, SearchController controller) {
                       return List<Widget>.generate(
@@ -78,12 +81,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                const SizedBox(width: 20),
-                FloatingActionButton(
-                  onPressed: () {},
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                  child: const Icon(Icons.filter_alt_outlined),
+                const SizedBox(width: 5),
+                GestureDetector(
+                  child: SvgPicture.asset(
+                    'assets/images/filter-button.svg',
+                    height: 100,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.bottomCenter,
+                  ),
                 ),
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: const Icon(Icons.filter_alt),
+                // ),
               ],
             ),
             const SizedBox(height: 10),

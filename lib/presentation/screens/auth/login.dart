@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
+
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -10,27 +11,31 @@ class Login extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children:[
-        LoginForm(screenHeight: screenHeight,screenWidth: screenWidth,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Bạn chưa có tài khoản?   "),
-            GestureDetector(
-              child: Text("Đăng ký"),
-              onTap: () => Navigator.of(context).pushNamed('signup'),
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          LoginForm(
+            screenHeight: screenHeight,
+            screenWidth: screenWidth,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Bạn chưa có tài khoản?   "),
+              GestureDetector(
+                child: const Text("Đăng ký"),
+                onTap: () => Navigator.of(context).pushNamed('signup'),
               )
-          ],
-        )
-      ]
-    );
+            ],
+          )
+        ]);
   }
 }
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({required this.screenWidth, required this.screenHeight,Key? key}) : super(key: key);
+  const LoginForm(
+      {required this.screenWidth, required this.screenHeight, Key? key})
+      : super(key: key);
   final double screenWidth;
   final double screenHeight;
 
@@ -53,36 +58,40 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formKey,
       child: Container(
-        height: widget.screenHeight/2.5,
-        padding: EdgeInsets.all(10),
+        height: widget.screenHeight / 2.5,
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             Material(
               elevation: 3,
               shadowColor: Colors.grey,
               borderRadius: BorderRadius.circular(10),
               child: TextFormField(
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white, width: 2),
+                    borderSide: const BorderSide(color: Colors.white, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.white, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  label: Row(
+                  label: const Row(
                     children: [
                       Icon(Icons.mail_outline),
-                      SizedBox(width: 5,),
+                      SizedBox(
+                        width: 5,
+                      ),
                       Text("Nhập email"),
                     ],
                   ),
-                  labelStyle: TextStyle(
-                    color: Colors.black
-                  ),
+                  labelStyle: const TextStyle(color: Colors.black),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -105,26 +114,28 @@ class _LoginFormState extends State<LoginForm> {
               child: TextFormField(
                 obscureText: obscureText,
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white, width: 2),
+                    borderSide: const BorderSide(color: Colors.white, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.white, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  label: Row(
+                  label: const Row(
                     children: [
                       Icon(Icons.lock_open_rounded),
-                      SizedBox(width: 5,),
+                      SizedBox(
+                        width: 5,
+                      ),
                       Text("Nhập mật khẩu"),
                     ],
                   ),
-                  labelStyle: TextStyle(
-                      color: Colors.black
-                  ),
+                  labelStyle: const TextStyle(color: Colors.black),
                   suffixIcon: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.visibility,
                       color: Colors.grey, // Customize the eye icon color
                     ),
@@ -161,20 +172,26 @@ class _LoginFormState extends State<LoginForm> {
                   ],
                 ),
                 GestureDetector(
-                  onTap: ()=>Navigator.of(context).pushNamed('forgot-password'),
-                  child: Text("Quên mật khẩu?"),
+                  onTap: () =>
+                      Navigator.of(context).pushNamed('forgot-password'),
+                  child: const Text("Quên mật khẩu?"),
                 )
               ],
             ),
             const SizedBox(
                 height:
                     20), // Increased space between remember me and login button
-            Container(
+            SizedBox(
               width: widget.screenWidth,
               height: 40,
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pushNamed('/'),
-                child: Text("Đăng nhập"),
+                child: const Text(
+                  "Đăng nhập",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ],

@@ -62,184 +62,119 @@ class CardOne extends StatefulWidget {
 class _CardOneState extends State<CardOne> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Row(
-          children: [
-            Column(
-              children: [
-                Text('Name'),
-                Text('Role'),
-              ],
-            ),
-            Text('Generation')
-          ],
-        ),
-        Row(
-          children: [
-            const Column(
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          const Row(
+            children: [
+              Column(
+                children: [
+                  Text('Name'),
+                  Text('Role'),
+                ],
+              ),
+              Spacer(),
+              Text('Generation')
+            ],
+          ),
+          Row(
+            children: [
+              const Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.work),
+                      Text('Job Role'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.calendar_month),
+                      Text('Birthday'),
+                    ],
+                  ),
+                ],
+              ),
+              Spacer(),
+              GestureDetector(
+                child: SvgPicture.asset(
+                  'assets/images/facebook-icon.svg',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.bottomCenter,
+                ),
+              ),
+              GestureDetector(
+                child: SvgPicture.asset(
+                  'assets/images/github-icon.svg',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.bottomCenter,
+                ),
+              ),
+              GestureDetector(
+                child: SvgPicture.asset(
+                  'assets/images/youtube-icon.svg',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.bottomCenter,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            child: const Column(
               children: [
                 Row(
                   children: [
-                    Icon(Icons.work),
-                    Text('Job Role'),
+                    Text('Email'),
+                    Spacer(),
+                    Text('...'),
                   ],
                 ),
                 Row(
                   children: [
-                    Icon(Icons.calendar_month),
-                    Text('Birthday'),
+                    Text('Quê quán'),
+                    Spacer(),
+                    Text('...'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('Số điện thoại'),
+                    Spacer(),
+                    Text('...'),
                   ],
                 ),
               ],
             ),
-            GestureDetector(
-              child: SvgPicture.asset(
-                'assets/images/facebook-icon.svg',
-                fit: BoxFit.cover,
-                alignment: Alignment.bottomCenter,
-              ),
-            ),
-            GestureDetector(
-              child: SvgPicture.asset(
-                'assets/images/github-icon.svg',
-                fit: BoxFit.cover,
-                alignment: Alignment.bottomCenter,
-              ),
-            ),
-            GestureDetector(
-              child: SvgPicture.asset(
-                'assets/images/youtube-icon.svg',
-                fit: BoxFit.cover,
-                alignment: Alignment.bottomCenter,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class CardTwo extends StatelessWidget {
-  const CardTwo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'General Information',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),
-            ),
-            Text(
-              'About me',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            Text('Nothing here'),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Join date:'),
-                      Text(
-                        '01-01-2024',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text('Position:'),
-                      Text(
-                        'Not set yet',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text('Department:'),
-                      Text(
-                        'Not set yet',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 40),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Education:'),
-                      Text(
-                        'Not set yet',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text('Major:'),
-                      Text(
-                        'Not set yet',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text('Work history:'),
-                      Text(
-                        'Not set yet',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class CardThree extends StatelessWidget {
-  const CardThree({Key? key}) : super(key: key);
+class CardTwo extends StatefulWidget {
+  const CardTwo({super.key});
 
   @override
+  State<CardTwo> createState() => _CardTwoState();
+}
+
+class _CardTwoState extends State<CardTwo> {
+  @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Column(
       children: [
-        Expanded(
-          child: Card(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'My projects',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
-                  Text('No profile yet'),
-                ],
-              ),
+        Text('Sở thích'),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.purple.shade100),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Text(
+              '',
+              style: TextStyle(color: Colors.purple.shade800),
             ),
           ),
         ),
@@ -248,30 +183,28 @@ class CardThree extends StatelessWidget {
   }
 }
 
-class CardFour extends StatelessWidget {
-  const CardFour({Key? key}) : super(key: key);
+class CardThree extends StatefulWidget {
+  const CardThree({super.key});
 
   @override
+  State<CardThree> createState() => _CardThreeState();
+}
+
+class _CardThreeState extends State<CardThree> {
+  @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Column(
       children: [
-        Expanded(
-          child: Card(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Skills',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
-                  Text('Haven\'t updated any skills yet'),
-                ],
-              ),
+        Text('Kỹ năng'),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.green.shade100),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Text(
+              '',
+              style: TextStyle(color: Colors.green.shade800),
             ),
           ),
         ),
@@ -280,32 +213,56 @@ class CardFour extends StatelessWidget {
   }
 }
 
-class CardFive extends StatelessWidget {
-  const CardFive({Key? key}) : super(key: key);
+class CardFour extends StatefulWidget {
+  const CardFour({super.key});
 
   @override
+  State<CardFour> createState() => _CardFourState();
+}
+
+class _CardFourState extends State<CardFour> {
+  @override
   Widget build(BuildContext context) {
-    return const Row(
+    return const Column(
       children: [
-        Expanded(
-          child: Card(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Hobbies',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
-                  Text('Haven\'t updated any hobbies yet'),
-                ],
-              ),
-            ),
-          ),
+        Text('Giới thiệu'),
+        SizedBox(height: 10),
+        Text(
+            'Dedicated, passionate, and accomplished Full Stack Developer with 9+ years of progressive experience working as an Independent Contractor for Google and developing and growing my educational social network that helps others learn programming, web design, game development, networking.\n Aside from my job, I like to create and contribute to open source projects. That helps me to learn a ton of new stuff, grow as a developer and support other open source projects.'),
+        Row(
+          children: [
+            Text('Tham gia'),
+            Spacer(),
+            Text('... tháng ... năm ...'),
+          ],
+        ),
+        Row(
+          children: [
+            Text('Chức vụ'),
+            Spacer(),
+            Text('...'),
+          ],
+        ),
+        Row(
+          children: [
+            Text('Ban'),
+            Spacer(),
+            Text(''),
+          ],
+        ),
+        Row(
+          children: [
+            Text('Chuyên ngành'),
+            Spacer(),
+            Text(''),
+          ],
+        ),
+        Row(
+          children: [
+            Text('Nơi làm việc'),
+            Spacer(),
+            Text('... tháng ... năm ...'),
+          ],
         ),
       ],
     );
