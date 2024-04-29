@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/presentation/layouts/auth_layout.dart';
-import 'package:fudever_dashboard/presentation/layouts/default_layout.dart';
-import 'package:fudever_dashboard/presentation/screens/auth/forgot_pass.dart';
-import 'package:fudever_dashboard/presentation/screens/auth/login.dart';
-import 'package:fudever_dashboard/presentation/screens/auth/signup.dart';
-import 'package:fudever_dashboard/presentation/screens/home/home.dart';
-import 'package:fudever_dashboard/presentation/screens/home/splash.dart';
-import 'package:fudever_dashboard/presentation/screens/members/profile.dart';
+import 'package:fudever_dashboard/layouts/auth_layout.dart';
+import 'package:fudever_dashboard/layouts/default_layout.dart';
+import 'package:fudever_dashboard/modules/screens/auth/forgot_pass.dart';
+import 'package:fudever_dashboard/modules/screens/auth/login.dart';
+import 'package:fudever_dashboard/modules/screens/auth/signup.dart';
+import 'package:fudever_dashboard/modules/screens/home/home.dart';
+import 'package:fudever_dashboard/modules/screens/home/splash.dart';
+import 'package:fudever_dashboard/modules/screens/members/profile.dart';
 
 class Routes {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -41,10 +41,10 @@ class Routes {
             title: "Quên mật khẩu",
           );
         });
-      case 'profile':
-        return MaterialPageRoute(builder: (_) {
-          return DefaultLayout(body: ProfileScreen());
-        });
+      // case 'profile':
+      //   return MaterialPageRoute(builder: (_) {
+      //     return DefaultLayout(body: ProfileScreen());
+      //   });
       default:
         return MaterialPageRoute(builder: (_) {
           return Center(

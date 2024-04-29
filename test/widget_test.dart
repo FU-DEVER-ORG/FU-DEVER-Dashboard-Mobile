@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fudever_dashboard/main.dart';
-import 'package:fudever_dashboard/presentation/screens/home/home.dart';
+import 'package:fudever_dashboard/modules/screens/home/home.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

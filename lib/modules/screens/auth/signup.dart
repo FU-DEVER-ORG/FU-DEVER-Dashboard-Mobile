@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/presentation/screens/home/home.dart';
+import 'package:fudever_dashboard/modules/screens/home/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Signup extends StatelessWidget {

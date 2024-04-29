@@ -43,25 +43,6 @@ class _SplashState extends State<Splash> {
                 alignment: Alignment.topCenter,
               ),
             ),
-            // const SizedBox(
-            //   height: 30,
-            // ),
-            // Transform.translate(
-            //   offset: const Offset(-15.0, 0.0),
-            //   child: TypewriterAnimation(
-            //     text: "Work Hard",
-            //     textStyle: textStyle,
-            //     duration: splashDuration,
-            //   ),
-            // ),
-            // Transform.translate(
-            //   offset: const Offset(25.0, 20.0),
-            //   child: TypewriterAnimation(
-            //     text: "Play Hard",
-            //     textStyle: textStyle,
-            //     duration: splashDuration,
-            //   ),
-            // )
           ],
         ),
       ),

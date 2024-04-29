@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fudever_dashboard/presentation/screens/members/profile.dart';
-import 'package:fudever_dashboard/presentation/widgets/grid_item.dart';
+import 'package:fudever_dashboard/models/member.dart';
+import 'package:fudever_dashboard/modules/screens/members/profile.dart';
+import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
 import '../../../data/dummy_data.dart';
+import '../members/view_members.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,15 +15,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void onSelectMember() {
-    Navigator.of(context).pushNamed('profile');
+  void onSelectMember(BuildContext context, Member member) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ViewMemberScreen(
+          member: member,
+        ),
+      ),
+    );
+  }
+
+  void onSelectAvatar(BuildContext context, Member member) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ProfileScreen(
+          member: member,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // shape: CircleBorder(eccentricity: 0.5),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: FloatingActionButton(
@@ -51,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
+              onTap: () {},
               child: Image.asset('assets/images/Avatar.png'),
             ),
           ),
@@ -110,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   final member = memberList[index];
                   return MemberGridItem(
                     member: member,
-                    onSelectMember: onSelectMember,
+                    onSelectMember: () => onSelectMember(context, member),
                   );
                 },
               ),
