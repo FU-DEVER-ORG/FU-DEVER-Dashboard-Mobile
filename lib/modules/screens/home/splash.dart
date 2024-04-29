@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../auth/login.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../widgets/typewriter_animation.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
