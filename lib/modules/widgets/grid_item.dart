@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/presentation/models/member.dart';
+import 'package:fudever_dashboard/models/member.dart';
 
 class MemberGridItem extends StatelessWidget {
   const MemberGridItem({

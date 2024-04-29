@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD:lib/modules/screens/auth/signup.dart
+import 'package:fudever_dashboard/modules/screens/home/home.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+=======
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+>>>>>>> main:lib/presentation/screens/auth/signup.dart
 
 class Signup extends StatelessWidget {
   const Signup({Key? key}) : super(key: key);

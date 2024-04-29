@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/presentation/routes/routes.dart';
-import 'package:fudever_dashboard/presentation/themes/background_theme.dart';
+import 'package:fudever_dashboard/routes/routes.dart';
+import 'package:fudever_dashboard/modules/themes/background_theme.dart';
 
 void main() {
   runApp(

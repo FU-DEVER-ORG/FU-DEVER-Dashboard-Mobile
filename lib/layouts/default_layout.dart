@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/main_drawer.dart';
+import '../modules/widgets/main_drawer.dart';
 
 class DefaultLayout extends StatefulWidget {
   const DefaultLayout({required this.body, super.key});
