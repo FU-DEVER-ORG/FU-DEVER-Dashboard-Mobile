@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD:lib/modules/screens/auth/forgot_pass.dart
 import 'package:fudever_dashboard/modules/screens/home/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-=======
 import 'dart:convert';
-import 'package:http/http.dart'as http;
->>>>>>> main:lib/presentation/screens/auth/forgot_pass.dart
+import 'package:http/http.dart' as http;
+
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({Key? key}) : super(key: key);
 
@@ -18,7 +16,10 @@ class ForgotPassword extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        LoginForm(screenHeight: screenHeight,screenWidth: screenWidth,),
+        LoginForm(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -35,7 +36,9 @@ class ForgotPassword extends StatelessWidget {
 }
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({required this.screenWidth, required this.screenHeight,Key? key}) : super(key: key);
+  const LoginForm(
+      {required this.screenWidth, required this.screenHeight, Key? key})
+      : super(key: key);
   final double screenWidth;
   final double screenHeight;
 
@@ -49,12 +52,13 @@ class _LoginFormState extends State<LoginForm> {
 
   String email = '';
 
-  void handleSubmission()async {
-    if (_formKey.currentState!.validate()){
+  void handleSubmission() async {
+    if (_formKey.currentState!.validate()) {
       //forgotPassword(email);
       Navigator.of(context).pushNamed('/');
     }
   }
+
   Future<void> forgotPassword(String email) async {
     final url = 'http://api/Auth/sign-up';
 
@@ -87,20 +91,24 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formKey,
       child: Container(
-        height: widget.screenHeight/2.5,
+        height: widget.screenHeight / 2.5,
         padding: EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             Container(
-              width: widget.screenWidth*0.8,
+              width: widget.screenWidth * 0.8,
               child: Text(
                 "Đừng lo lắng! Chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn một mật mã để đặt lại mật khẩu của bạn!",
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             TextFormField(
               decoration: InputDecoration(
                 filled: true,
@@ -120,15 +128,15 @@ class _LoginFormState extends State<LoginForm> {
                 label: Row(
                   children: [
                     Icon(Icons.mail_outline),
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     Text("Nhập email"),
                   ],
                 ),
-                labelStyle: TextStyle(
-                  color: Colors.black
-                ),
+                labelStyle: TextStyle(color: Colors.black),
               ),
-              onChanged: (value){
+              onChanged: (value) {
                 setState(() {
                   email = value!;
                 });
