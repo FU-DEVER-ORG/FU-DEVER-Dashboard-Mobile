@@ -17,8 +17,7 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    textStyle =
-        GoogleFonts.dancingScript(fontSize: 32, color: Colors.white);
+    textStyle = GoogleFonts.dancingScript(fontSize: 32, color: Colors.white);
     splashDuration = 1200;
     Future.delayed(Duration(milliseconds: splashDuration + 750), () {
       Navigator.of(context).pushNamed('login');
@@ -30,39 +29,39 @@ class _SplashState extends State<Splash> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 0, 153, 255),
+      backgroundColor: const Color.fromARGB(255, 0, 153, 255),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: screenWidth/2,
+            SizedBox(
+              width: screenWidth / 2,
               child: Image.asset(
                 'assets/images/logo-white-only.png',
                 fit: BoxFit.cover,
                 alignment: Alignment.topCenter,
               ),
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            Transform.translate(
-              offset: Offset(-15.0, 0.0),
-              child: TypewriterAnimation(
-                text: "Work Hard",
-                textStyle: textStyle,
-                duration: splashDuration,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(25.0, 20.0),
-              child: TypewriterAnimation(
-                text: "Play Hard",
-                textStyle: textStyle,
-                duration: splashDuration,
-              ),
-            )
+            // const SizedBox(
+            //   height: 30,
+            // ),
+            // Transform.translate(
+            //   offset: const Offset(-15.0, 0.0),
+            //   child: TypewriterAnimation(
+            //     text: "Work Hard",
+            //     textStyle: textStyle,
+            //     duration: splashDuration,
+            //   ),
+            // ),
+            // Transform.translate(
+            //   offset: const Offset(25.0, 20.0),
+            //   child: TypewriterAnimation(
+            //     text: "Play Hard",
+            //     textStyle: textStyle,
+            //     duration: splashDuration,
+            //   ),
+            // )
           ],
         ),
       ),

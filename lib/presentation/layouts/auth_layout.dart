@@ -22,7 +22,7 @@ class _AuthLayoutState extends State<AuthLayout> {
         statusBarColor: Colors.transparent, // Set status bar color to transparent
       ),
       child:Scaffold(
-        body: ListView(
+        body: Column(
             children: <Widget>[
               Container(
                 height: screenHeight/2,

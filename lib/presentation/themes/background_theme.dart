@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 final kColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(1, 0, 153, 255),
+  seedColor: const Color.fromARGB(1, 37, 74, 122),
+  background: Colors.blue.shade50,
 );
 final kDarkColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
-  seedColor: const Color.fromARGB(255, 255, 255, 255),
+  seedColor: const Color.fromARGB(1, 37, 74, 122),
 );
 
 ThemeData getLightTheme() {
@@ -13,11 +14,11 @@ ThemeData getLightTheme() {
     useMaterial3: true,
     colorScheme: kColorScheme,
     appBarTheme: const AppBarTheme().copyWith(
-      backgroundColor: kColorScheme.onPrimaryContainer,
+      backgroundColor: Colors.blue,
       foregroundColor: kColorScheme.primaryContainer,
     ),
     cardTheme: const CardTheme().copyWith(
-      color: kColorScheme.secondaryContainer,
+      color: kColorScheme.background,
       margin: const EdgeInsets.symmetric(
         vertical: 10,
         horizontal: 20,
@@ -25,13 +26,13 @@ ThemeData getLightTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: kColorScheme.primaryContainer,
+        backgroundColor: Colors.blue,
       ),
     ),
     textTheme: ThemeData().textTheme.copyWith(
-          titleLarge: TextStyle(
+          titleLarge: const TextStyle(
             fontWeight: FontWeight.bold,
-            color: kColorScheme.onPrimaryContainer,
+            color: Colors.white,
             fontSize: 18,
           ),
         ),
