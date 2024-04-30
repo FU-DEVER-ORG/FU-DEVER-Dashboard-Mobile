@@ -1,20 +1,20 @@
 class Member {
-  final String imageAssetPath;
-  final String generation;
-  final String name;
-  final String role;
-  final String career;
-  final DateTime birthday;
-  final String email;
-  final String address;
-  final String phoneNumber;
-  final List<String> hobbies;
-  final List<String> skills;
-  final String introduction;
-  final DateTime joiningDate;
-  final String executiveBoard;
-  final String major;
-  final String workPlace;
+  late String imageAssetPath;
+  late String generation;
+  late String name;
+  late String role;
+  late String career;
+  late DateTime birthday;
+  late String email;
+  late String address;
+  late String phoneNumber;
+  late List<String> hobbies;
+  late List<String> skills;
+  late String introduction;
+  late DateTime joiningDate;
+  late String executiveBoard;
+  late String major;
+  late String workPlace;
 
   Member({
     required this.imageAssetPath,
