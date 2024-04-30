@@ -91,155 +91,157 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formKey,
       child: Container(
-        height: widget.screenHeight / 2.5,
+        height: widget.screenHeight / 2.2,
         padding: const EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.red, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                label: const Row(
-                  children: [
-                    Icon(Icons.mail_outline),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text("Nhập email"),
-                  ],
-                ),
-                labelStyle: const TextStyle(color: Colors.black),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
               ),
-              onChanged: (value){
-                setState(() {
-                  email = value!;
-                });
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter a valid email';
-                } else if (!RegExp(
-                        r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                    .hasMatch(value)) {
-                  return 'Enter a valid email';
-                } else {
-                  return null;
-                }
-              },
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              obscureText: obscureText,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.red, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                label: const Row(
-                  children: [
-                    Icon(Icons.lock_open_rounded),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text("Nhập mật khẩu"),
-                  ],
-                ),
-                labelStyle: const TextStyle(color: Colors.black),
-                suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.visibility,
-                    color: Colors.grey, // Customize the eye icon color
+              TextFormField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  onPressed: () {
-                    // Toggle the obscureText value when the eye icon is pressed
-                    setState(() {
-                      obscureText = !obscureText;
-                    });
-                  },
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  label: const Row(
+                    children: [
+                      Icon(Icons.mail_outline),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text("Nhập email"),
+                    ],
+                  ),
+                  labelStyle: const TextStyle(color: Colors.black),
                 ),
+                onChanged: (value){
+                  setState(() {
+                    email = value!;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter a valid email';
+                  } else if (!RegExp(
+                          r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                      .hasMatch(value)) {
+                    return 'Enter a valid email';
+                  } else {
+                    return null;
+                  }
+                },
               ),
-              onChanged: (value){
-                setState(() {
-                  password = value!;
-                });
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter a valid password'; // Changed error message
-                } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
-                  return 'Enter a valid password'; // Changed error message
-                } else {
-                  return null;
-                }
-              },
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: rememberMe,
-                      onChanged: (onChange) {
-                        setState(() {
-                          rememberMe = onChange!;
-                        });
-                      },
+              const SizedBox(height: 20),
+              TextFormField(
+                obscureText: obscureText,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  label: const Row(
+                    children: [
+                      Icon(Icons.lock_open_rounded),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text("Nhập mật khẩu"),
+                    ],
+                  ),
+                  labelStyle: const TextStyle(color: Colors.black),
+                  suffixIcon: IconButton(
+                    icon: const Icon(
+                      Icons.visibility,
+                      color: Colors.grey, // Customize the eye icon color
                     ),
-                    const Text("Nhớ mật khẩu"),
-                  ],
-                ),
-                GestureDetector(
-                  onTap: () =>
-                      Navigator.of(context).pushNamed('forgot-password'),
-                  child: const Text("Quên mật khẩu?"),
-                )
-              ],
-            ),
-            const SizedBox(
-                height:
-                    20), // Increased space between remember me and login button
-            SizedBox(
-              width: widget.screenWidth,
-              height: 40,
-              child: ElevatedButton(
-                onPressed: handleSubmission,
-                child: const Text(
-                  "Đăng nhập",
-                  style: TextStyle(
-                    color: Colors.white,
+                    onPressed: () {
+                      // Toggle the obscureText value when the eye icon is pressed
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
                   ),
                 ),
+                onChanged: (value){
+                  setState(() {
+                    password = value!;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter a valid password'; // Changed error message
+                  } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
+                    return 'Enter a valid password'; // Changed error message
+                  } else {
+                    return null;
+                  }
+                },
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: rememberMe,
+                        onChanged: (onChange) {
+                          setState(() {
+                            rememberMe = onChange!;
+                          });
+                        },
+                      ),
+                      const Text("Nhớ mật khẩu"),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () =>
+                        Navigator.of(context).pushNamed('forgot-password'),
+                    child: const Text("Quên mật khẩu?"),
+                  )
+                ],
+              ),
+              const SizedBox(
+                  height:
+                      20), // Increased space between remember me and login button
+              SizedBox(
+                width: widget.screenWidth,
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: handleSubmission,
+                  child: const Text(
+                    "Đăng nhập",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -91,7 +91,7 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formKey,
       child: Container(
-        height: widget.screenHeight / 2.5,
+        height: widget.screenHeight / 2.2,
         padding: EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
