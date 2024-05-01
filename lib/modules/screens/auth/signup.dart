@@ -49,6 +49,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   late bool obscureText;
+  late bool obscureVerification;
 
   String email = '';
   String password = '';
@@ -205,7 +206,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
               const SizedBox(height: 10),
               TextFormField(
-                obscureText: obscureText,
+                obscureText: obscureVerification,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -239,7 +240,7 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: () {
                       // Toggle the obscureText value when the eye icon is pressed
                       setState(() {
-                        obscureText = !obscureText;
+                        obscureVerification = !obscureVerification;
                       });
                     },
                   ),

@@ -7,18 +7,19 @@ import 'package:fudever_dashboard/modules/screens/auth/login.dart';
 import 'package:fudever_dashboard/modules/screens/auth/signup.dart';
 import 'package:fudever_dashboard/modules/screens/home/home.dart';
 import 'package:fudever_dashboard/modules/screens/home/splash.dart';
+import 'package:fudever_dashboard/modules/screens/members/change_password.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 class Routes {
 
   static Route<dynamic> generateRoutes(RouteSettings settings, String token) {
-    if(JwtDecoder.isExpired(token)){
-      return MaterialPageRoute(builder: (_) {
-        return AuthLayout(
-          body: Login(),
-          title: "Đăng nhập",
-        );
-      });
-    }
+    // if(JwtDecoder.isExpired(token)){
+    //   return MaterialPageRoute(builder: (_) {
+    //     return AuthLayout(
+    //       body: Login(),
+    //       title: "Đăng nhập",
+    //     );
+    //   });
+    // }
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) {
@@ -48,6 +49,10 @@ class Routes {
             body: ForgotPassword(),
             title: "Quên mật khẩu",
           );
+        });
+      case 'change-password':
+        return MaterialPageRoute(builder: (_) {
+          return ChangePassword();
         });
       // case 'profile':
       //   return MaterialPageRoute(builder: (_) {

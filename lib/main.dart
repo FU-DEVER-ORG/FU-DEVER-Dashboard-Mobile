@@ -13,7 +13,7 @@ void main() async{
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) => Routes.generateRoutes(settings, token??''),
-      initialRoute: 'splash',
+      initialRoute: 'change-password',
     ),
   );
 }
