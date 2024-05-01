@@ -11,14 +11,14 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class Routes {
 
   static Route<dynamic> generateRoutes(RouteSettings settings, String token) {
-    if(JwtDecoder.isExpired(token)){
-      return MaterialPageRoute(builder: (_) {
-        return AuthLayout(
-          body: Login(),
-          title: "Đăng nhập",
-        );
-      });
-    }
+    // if(JwtDecoder.isExpired(token)){
+    //   return MaterialPageRoute(builder: (_) {
+    //     return AuthLayout(
+    //       body: Login(),
+    //       title: "Đăng nhập",
+    //     );
+    //   });
+    // }
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) {

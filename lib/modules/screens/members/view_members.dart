@@ -84,6 +84,43 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         ),
                       ],
                     ),
+                    // ListTile(
+                    //   title: Row(
+                    //     children: [
+                    //       const Icon(Icons.work),
+                    //       Text(widget.member.career),
+                    //     ],
+                    //   ),
+                    //   trailing: Row(
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     children: [
+                    //     GestureDetector(
+                    //       child: SvgPicture.asset(
+                    //         'assets/images/facebook-icon.svg',
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    //     ),
+                    //     GestureDetector(
+                    //       child: SvgPicture.asset(
+                    //         'assets/images/github-icon.svg',
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    //     ),
+                    //     GestureDetector(
+                    //       child: SvgPicture.asset(
+                    //         'assets/images/youtube-icon.svg',
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    //     ),
+                    //   ]),
+                    //   subtitle: Row(
+                    //     children: [
+                    //       const Icon(Icons.calendar_month),
+                    //       Text(
+                    //           '${widget.member.birthday.day}/${widget.member.birthday.month}/${widget.member.birthday.year}')
+                    //     ],
+                    //   ),
+                    // ),
                     Row(
                       children: [
                         Column(
@@ -104,27 +141,27 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             ),
                           ],
                         ),
-                        const Spacer(),
-                        GestureDetector(
-                          child: SvgPicture.asset(
-                            'assets/images/facebook-icon.svg',
-                            fit: BoxFit.cover,
-                            alignment: Alignment.bottomCenter,
-                          ),
-                        ),
-                        GestureDetector(
-                          child: SvgPicture.asset(
-                            'assets/images/github-icon.svg',
-                            fit: BoxFit.cover,
-                            alignment: Alignment.bottomCenter,
-                          ),
-                        ),
-                        GestureDetector(
-                          child: SvgPicture.asset(
-                            'assets/images/youtube-icon.svg',
-                            fit: BoxFit.cover,
-                            alignment: Alignment.bottomCenter,
-                          ),
+                        Expanded(
+                          child: Row(children: [
+                            GestureDetector(
+                              child: SvgPicture.asset(
+                                'assets/images/facebook-icon.svg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            GestureDetector(
+                              child: SvgPicture.asset(
+                                'assets/images/github-icon.svg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            GestureDetector(
+                              child: SvgPicture.asset(
+                                'assets/images/youtube-icon.svg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ]),
                         ),
                       ],
                     ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/models/member.dart';
-import 'package:fudever_dashboard/modules/screens/members/profile.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
 import '../../../data/dummy_data.dart';
@@ -25,12 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void onSelectAvatar(BuildContext context, Member member) {
+  void onSelectAvatar() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ProfileScreen(
-          member: member,
-        ),
+        builder: (context) => ProfileScreen(),
       ),
     );
   }
@@ -68,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: onSelectAvatar,
               child: Image.asset('assets/images/Avatar.png'),
             ),
           ),
@@ -78,41 +76,59 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: SearchAnchor.bar(
-                    barHintText: 'Tìm thành viên',
-                    viewBackgroundColor: Colors.white,
-                    suggestionsBuilder:
-                        (BuildContext context, SearchController controller) {
-                      return List<Widget>.generate(
-                        5,
-                        (int index) {
-                          return ListTile(
-                            titleAlignment: ListTileTitleAlignment.center,
-                            title: Text('Initial list item $index'),
-                          );
-                        },
-                      );
-                    },
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: SearchAnchor.bar(
+                      barHintText: 'Tìm thành viên',
+                      viewBackgroundColor: Colors.white,
+                      barBackgroundColor:
+                          MaterialStateColor.resolveWith((states) {
+                        if (states.contains(MaterialState.pressed)) {
+                          return Colors.white;
+                        }
+                        return Colors.white;
+                      }),
+                      suggestionsBuilder:
+                          (BuildContext context, SearchController controller) {
+                        return List<Widget>.generate(
+                          5,
+                          (int index) {
+                            return ListTile(
+                              titleAlignment: ListTileTitleAlignment.center,
+                              title: Text('Initial list item $index'),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(width: 5),
-                GestureDetector(
-                  child: SvgPicture.asset(
-                    'assets/images/filter-button.svg',
-                    height: 100,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.bottomCenter,
+                  const SizedBox(width: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2.0,
+                          blurRadius: 5.0,
+                          offset: const Offset(2.0, 4.0),
+                        ),
+                      ],
+                    ),
+                    height: 55,
+                    width: 55,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.filter_alt),
+                    ),
                   ),
-                ),
-                // IconButton(
-                //   onPressed: () {},
-                //   icon: const Icon(Icons.filter_alt),
-                // ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 10),
             Expanded(
