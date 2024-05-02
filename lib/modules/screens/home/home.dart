@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/models/member.dart';
+import 'package:fudever_dashboard/modules/screens/filters/filters.dart';
 import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
@@ -107,24 +108,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(width: 20),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2.0,
-                          blurRadius: 5.0,
-                          offset: const Offset(2.0, 4.0),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => FilterScreen(),
+                          ),
+                        );
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2.0,
+                            blurRadius: 5.0,
+                            offset: const Offset(2.0, 4.0),
+                          ),
+                        ],
+                      ),
+                      height: 55,
+                      width: 55,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: SvgPicture.asset(
+                          'assets/images/filter.svg',
+                          fit: BoxFit.cover,
                         ),
-                      ],
-                    ),
-                    height: 55,
-                    width: 55,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.filter_alt),
+                      ),
                     ),
                   ),
                 ],
