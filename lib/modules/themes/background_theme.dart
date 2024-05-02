@@ -30,12 +30,13 @@ ThemeData getLightTheme() {
       ),
     ),
     textTheme: ThemeData().textTheme.copyWith(
-          titleLarge: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 18,
-          ),
-        ),
+      titleLarge: const TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+        fontSize: 18,
+      ),
+    ),
+
   );
 }
 
