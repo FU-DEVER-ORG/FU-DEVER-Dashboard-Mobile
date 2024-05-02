@@ -37,12 +37,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(
+            left: 20.0,
+          ), // Khoảng cách lề phải là 20px
           child: FloatingActionButton(
             onPressed: () {},
-            child: const Icon(Icons.apps_sharp),
+            backgroundColor: Colors.white,
+            shape: const CircleBorder(),
+            // heroTag: null,
+            mini: true,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            elevation: 4,
+            child: const Icon(
+              Icons.apps_sharp,
+              color: Colors.blue,
+            ),
           ),
         ),
         title: Column(
@@ -62,10 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Colors.blue.shade50,
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
               onTap: onSelectAvatar,
               child: Image.asset('assets/images/Avatar.png'),

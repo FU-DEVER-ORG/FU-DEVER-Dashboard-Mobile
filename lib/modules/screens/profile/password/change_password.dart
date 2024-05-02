@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
-
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({
+    super.key,
+    required this.title,
+  });
+  final String title;
   @override
-  State<ChangePassword> createState() => _ChangePasswordState();
+  State<ChangePasswordScreen> createState() => _ChangePasswordState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _ChangePasswordState extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   late bool obscureCurrentPassword;
   late bool obscureNewPassword;
@@ -59,7 +62,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight= MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -245,32 +248,30 @@ class _ChangePasswordState extends State<ChangePassword> {
       ),
       bottomSheet: Container(
           width: screenWidth,
-          decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
+          decoration: BoxDecoration(color: Colors.white, boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.5), // Shadow color
               spreadRadius: 0,
               blurRadius: 10, // Shadow blur radius
               offset: Offset(0, -1),
             )
-          ]
-        ),
-        height: 75,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: MaterialButton(
-            color: Colors.blue,
-            onPressed: () {},
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0), // Adjust the border radius
-            ),
-            child: Text("Xác nhận",
-              style: TextStyle(color: Theme.of(context).colorScheme.background),
-            ),
-          )
-        )
-      ),
+          ]),
+          height: 75,
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: MaterialButton(
+                color: Colors.blue,
+                onPressed: () {},
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(8.0), // Adjust the border radius
+                ),
+                child: Text(
+                  "Xác nhận",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.background),
+                ),
+              ))),
     );
   }
 }

@@ -10,11 +10,11 @@ void main() async{
   runApp(
     MaterialApp(
       theme: getLightTheme(),
-      darkTheme: getDarkTheme(),
+      // darkTheme: getDarkTheme(),
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) => Routes.generateRoutes(settings, token??''),
-      initialRoute: 'skills',
+      initialRoute: 'splash',
     ),
   );
 }
