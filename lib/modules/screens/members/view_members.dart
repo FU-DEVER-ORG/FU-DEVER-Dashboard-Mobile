@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
                     Row(
@@ -84,44 +84,8 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         ),
                       ],
                     ),
-                    // ListTile(
-                    //   title: Row(
-                    //     children: [
-                    //       const Icon(Icons.work),
-                    //       Text(widget.member.career),
-                    //     ],
-                    //   ),
-                    //   trailing: Row(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: [
-                    //     GestureDetector(
-                    //       child: SvgPicture.asset(
-                    //         'assets/images/facebook-icon.svg',
-                    //         fit: BoxFit.cover,
-                    //       ),
-                    //     ),
-                    //     GestureDetector(
-                    //       child: SvgPicture.asset(
-                    //         'assets/images/github-icon.svg',
-                    //         fit: BoxFit.cover,
-                    //       ),
-                    //     ),
-                    //     GestureDetector(
-                    //       child: SvgPicture.asset(
-                    //         'assets/images/youtube-icon.svg',
-                    //         fit: BoxFit.cover,
-                    //       ),
-                    //     ),
-                    //   ]),
-                    //   subtitle: Row(
-                    //     children: [
-                    //       const Icon(Icons.calendar_month),
-                    //       Text(
-                    //           '${widget.member.birthday.day}/${widget.member.birthday.month}/${widget.member.birthday.year}')
-                    //     ],
-                    //   ),
-                    // ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,28 +105,8 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             ),
                           ],
                         ),
-                        Expanded(
-                          child: Row(children: [
-                            GestureDetector(
-                              child: SvgPicture.asset(
-                                'assets/images/facebook-icon.svg',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            GestureDetector(
-                              child: SvgPicture.asset(
-                                'assets/images/github-icon.svg',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            GestureDetector(
-                              child: SvgPicture.asset(
-                                'assets/images/youtube-icon.svg',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ]),
-                        ),
+                        const Spacer(),
+                        _buildSocialMediaContainer(),
                       ],
                     ),
                     Column(
@@ -345,5 +289,59 @@ Widget _buildSkillsContainer(List<String> skills) {
         child: Text(skill),
       );
     }).toList(),
+  );
+}
+
+Widget _buildSocialMediaContainer() {
+  return Row(
+    children: [
+      Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: SvgPicture.asset(
+            'assets/images/facebook.svg',
+            fit: BoxFit.cover,
+            alignment: Alignment.bottomCenter,
+            height: 24,
+          ),
+        ),
+      ),
+      const SizedBox(width: 12),
+      Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: SvgPicture.asset(
+            'assets/images/github.svg',
+            fit: BoxFit.cover,
+            alignment: Alignment.bottomCenter,
+            height: 24,
+          ),
+        ),
+      ),
+      const SizedBox(width: 12),
+      Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: SvgPicture.asset(
+            'assets/images/youtube.svg',
+            fit: BoxFit.cover,
+            alignment: Alignment.bottomCenter,
+            height: 24,
+          ),
+        ),
+      ),
+    ],
   );
 }
