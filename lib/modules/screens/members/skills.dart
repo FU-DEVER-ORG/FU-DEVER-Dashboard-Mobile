@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
+class Skills extends StatefulWidget {
+  const Skills({super.key});
 
   @override
-  State<ChangePassword> createState() => _ChangePasswordState();
+  State<Skills> createState() => _SkillsState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _SkillsState extends State<Skills> {
   final _formKey = GlobalKey<FormState>();
   late bool obscureCurrentPassword;
   late bool obscureNewPassword;
@@ -91,12 +91,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                     fillColor: Colors.white,
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     errorBorder: OutlineInputBorder(
@@ -144,12 +144,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                     fillColor: Colors.white,
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     errorBorder: OutlineInputBorder(
@@ -197,12 +197,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                     fillColor: Colors.white,
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     errorBorder: OutlineInputBorder(
@@ -246,30 +246,30 @@ class _ChangePasswordState extends State<ChangePassword> {
       bottomSheet: Container(
           width: screenWidth,
           decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5), // Shadow color
-              spreadRadius: 0,
-              blurRadius: 10, // Shadow blur radius
-              offset: Offset(0, -1),
-            )
-          ]
-        ),
-        height: 75,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: MaterialButton(
-            color: Colors.blue,
-            onPressed: () {},
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0), // Adjust the border radius
-            ),
-            child: Text("Xác nhận",
-              style: TextStyle(color: Theme.of(context).colorScheme.background),
-            ),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.5), // Shadow color
+                  spreadRadius: 0,
+                  blurRadius: 10, // Shadow blur radius
+                  offset: Offset(0, -1),
+                )
+              ]
+          ),
+          height: 75,
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: MaterialButton(
+                color: Colors.blue,
+                onPressed: () {},
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0), // Adjust the border radius
+                ),
+                child: Text("Xác nhận",
+                  style: TextStyle(color: Theme.of(context).colorScheme.background),
+                ),
+              )
           )
-        )
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:fudever_dashboard/modules/themes/background_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
   runApp(
@@ -13,7 +14,7 @@ void main() async{
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) => Routes.generateRoutes(settings, token??''),
-      initialRoute: 'change-password',
+      initialRoute: 'skills',
     ),
   );
 }

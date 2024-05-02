@@ -92,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Container(
         height: widget.screenHeight / 2.2,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
