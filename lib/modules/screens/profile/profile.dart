@@ -4,7 +4,7 @@ import 'package:fudever_dashboard/modules/screens/profile/contacts/contact.dart'
 import 'package:fudever_dashboard/modules/screens/profile/favorites/favorites.dart';
 import 'package:fudever_dashboard/modules/screens/profile/introduction/introduction.dart';
 import 'package:fudever_dashboard/modules/screens/profile/individual_information/individual_information.dart';
-import 'package:fudever_dashboard/modules/screens/profile/password/chang_password.dart';
+import 'package:fudever_dashboard/modules/screens/profile/password/change_password.dart';
 import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 
 class ProfileScreen extends StatefulWidget {

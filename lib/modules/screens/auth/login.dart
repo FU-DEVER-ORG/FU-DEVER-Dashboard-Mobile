@@ -51,12 +51,13 @@ class _LoginFormState extends State<LoginForm> {
   String password = '';
   bool rememberMe = false;
 
-  void handleSubmission()async {
-    if (_formKey.currentState!.validate()){
+  void handleSubmission() async {
+    if (_formKey.currentState!.validate()) {
       //loginUser(email, password, rememberMe);
       Navigator.of(context).pushNamed('/');
     }
   }
+
   Future<void> loginUser(String email, String password, bool rememberMe) async {
     final url = 'http://api/Auth/sign-in';
 
@@ -127,7 +128,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   labelStyle: const TextStyle(color: Colors.black),
                 ),
-                onChanged: (value){
+                onChanged: (value) {
                   setState(() {
                     email = value!;
                   });
@@ -185,7 +186,7 @@ class _LoginFormState extends State<LoginForm> {
                     },
                   ),
                 ),
-                onChanged: (value){
+                onChanged: (value) {
                   setState(() {
                     password = value!;
                   });
@@ -224,9 +225,7 @@ class _LoginFormState extends State<LoginForm> {
                   )
                 ],
               ),
-              const SizedBox(
-                  height:
-                      20), // Increased space between remember me and login button
+              const SizedBox(height: 20),
               SizedBox(
                 width: widget.screenWidth,
                 height: 40,
