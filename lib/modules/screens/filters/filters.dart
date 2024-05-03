@@ -25,13 +25,13 @@ class _FilterScreenState extends State<FilterScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(1, 243, 249, 253),
+      backgroundColor: const Color.fromARGB(255, 243, 249, 253),
       appBar: AppBar(
         title: const Text("Bộ lọc"),
         centerTitle: true,
         leading: GestureDetector(
           onTap: (){Navigator.pop(context);},
-          child: Icon(Icons.arrow_back_ios_new),
+          child: const Icon(Icons.arrow_back_ios_new),
         ),
       ),
       bottomNavigationBar: Container(
@@ -87,14 +87,17 @@ class _FilterScreenState extends State<FilterScreen> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                title: const Text('Khóa'),
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: const Text('Khóa'),
+                ),
                 subtitle: DropdownMenu<String>(
                   width: screenWidth*0.9,
                   initialSelection: dropdownValue,
@@ -105,6 +108,14 @@ class _FilterScreenState extends State<FilterScreen> {
                       });
                     }
                   },
+                  textStyle: TextStyle(color: Colors.grey.shade400),
+                  inputDecorationTheme: InputDecorationTheme(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade400)
+                      )
+                  ),
+                  trailingIcon: Icon(Icons.expand_more,color: Colors.grey.shade400,),
+                  selectedTrailingIcon: Icon(Icons.expand_less,color: Colors.grey.shade400,),
                   dropdownMenuEntries:
                       list.map<DropdownMenuEntry<String>>((String value) {
                     return DropdownMenuEntry<String>(value: value, label: value);
@@ -112,7 +123,10 @@ class _FilterScreenState extends State<FilterScreen> {
                 ),
               ),
               ListTile(
-                title: const Text('Chức vụ CLB'),
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: const Text('Chức vụ CLB'),
+                ),
                 subtitle: DropdownMenu<String>(
                   width: screenWidth*0.9,
                   initialSelection: dropdownValue,
@@ -123,6 +137,14 @@ class _FilterScreenState extends State<FilterScreen> {
                       });
                     }
                   },
+                  textStyle: TextStyle(color: Colors.grey.shade400),
+                  inputDecorationTheme: InputDecorationTheme(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade400)
+                      )
+                  ),
+                  trailingIcon: Icon(Icons.expand_more,color: Colors.grey.shade400,),
+                  selectedTrailingIcon: Icon(Icons.expand_less,color: Colors.grey.shade400,),
                   dropdownMenuEntries:
                       list.map<DropdownMenuEntry<String>>((String value) {
                     return DropdownMenuEntry<String>(value: value, label: value);
@@ -130,7 +152,10 @@ class _FilterScreenState extends State<FilterScreen> {
                 ),
               ),
               ListTile(
-                title: const Text('Ban'),
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: const Text('Ban'),
+                ),
                 subtitle: DropdownMenu<String>(
                   width: screenWidth*0.9,
                   initialSelection: dropdownValue,
@@ -141,6 +166,14 @@ class _FilterScreenState extends State<FilterScreen> {
                       });
                     }
                   },
+                  textStyle: TextStyle(color: Colors.grey.shade400),
+                  inputDecorationTheme: InputDecorationTheme(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade400)
+                      )
+                  ),
+                  trailingIcon: Icon(Icons.expand_more,color: Colors.grey.shade400,),
+                  selectedTrailingIcon: Icon(Icons.expand_less,color: Colors.grey.shade400,),
                   dropdownMenuEntries:
                       list.map<DropdownMenuEntry<String>>((String value) {
                     return DropdownMenuEntry<String>(value: value, label: value);
@@ -148,7 +181,10 @@ class _FilterScreenState extends State<FilterScreen> {
                 ),
               ),
               ListTile(
-                title: const Text('Chuyên ngành'),
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: const Text('Chuyên ngành'),
+                ),
                 subtitle: DropdownMenu<String>(
                   width: screenWidth*0.9,
                   initialSelection: dropdownValue,
@@ -159,6 +195,14 @@ class _FilterScreenState extends State<FilterScreen> {
                       });
                     }
                   },
+                  textStyle: TextStyle(color: Colors.grey.shade400),
+                  inputDecorationTheme: InputDecorationTheme(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400)
+                    )
+                  ),
+                  trailingIcon: Icon(Icons.expand_more,color: Colors.grey.shade400,),
+                  selectedTrailingIcon: Icon(Icons.expand_less,color: Colors.grey.shade400,),
                   dropdownMenuEntries:
                       list.map<DropdownMenuEntry<String>>((String value) {
                     return DropdownMenuEntry<String>(value: value, label: value);
