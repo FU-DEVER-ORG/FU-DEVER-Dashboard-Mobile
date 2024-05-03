@@ -16,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late List<Member>? data = null;
+
   void onSelectMember(BuildContext context, Member member) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -35,9 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    data = memberList;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: Color.fromARGB(255, 243, 249, 253),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(
@@ -74,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        backgroundColor: Colors.blue.shade50,
+        backgroundColor: Color.fromARGB(255, 243, 249, 253),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -158,24 +166,32 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.53,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+            (data != null)
+                ? Expanded(
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.53,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                          ),
+                      itemCount: data!.length,
+                      itemBuilder: (context, index) {
+                        return MemberGridItem(
+                          member: data![index],
+                          onSelectMember: () => onSelectMember(context, data![index]),
+                        );
+                      },
+                    ),
+                  )
+                : Padding(
+                  padding: EdgeInsets.only(top: 100),
+                  child: SvgPicture.asset(
+                      'assets/images/filter-no-members.svg',
+                      fit: BoxFit.cover,
+                    ),
                 ),
-                itemCount: memberList.length,
-                itemBuilder: (context, index) {
-                  final member = memberList[index];
-                  return MemberGridItem(
-                    member: member,
-                    onSelectMember: () => onSelectMember(context, member),
-                  );
-                },
-              ),
-            ),
           ],
         ),
       ),

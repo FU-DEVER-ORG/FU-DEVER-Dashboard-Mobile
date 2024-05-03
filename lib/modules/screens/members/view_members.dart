@@ -20,7 +20,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: Color.fromARGB(255, 243, 249, 253),
       appBar: AppBar(
         title: const Text(
           'Xem thành viên',
