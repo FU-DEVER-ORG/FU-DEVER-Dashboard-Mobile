@@ -11,8 +11,8 @@ import 'package:fudever_dashboard/modules/screens/profile/password/change_passwo
 import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 import 'package:fudever_dashboard/modules/screens/members/test.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-class Routes {
 
+class Routes {
   static Route<dynamic> generateRoutes(RouteSettings settings, String token) {
     // if(JwtDecoder.isExpired(token)){
     //   return MaterialPageRoute(builder: (_) {
@@ -25,29 +25,29 @@ class Routes {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) {
-          return HomeScreen();
+          return const HomeScreen();
         });
       case 'splash':
         return MaterialPageRoute(builder: (_) {
-          return Splash();
+          return const Splash();
         });
       case 'login':
         return MaterialPageRoute(builder: (_) {
-          return AuthLayout(
+          return const AuthLayout(
             body: Login(),
             title: "Đăng nhập",
           );
         });
       case 'signup':
         return MaterialPageRoute(builder: (_) {
-          return AuthLayout(
+          return const AuthLayout(
             body: Signup(),
             title: "Đăng ký tài khoản",
           );
         });
       case 'forgot-password':
         return MaterialPageRoute(builder: (_) {
-          return AuthLayout(
+          return const AuthLayout(
             body: ForgotPassword(),
             title: "Quên mật khẩu",
           );
@@ -66,11 +66,11 @@ class Routes {
       //   });
       case 'testing':
         return MaterialPageRoute(builder: (_) {
-          return Testing();
+          return const Testing();
         });
       default:
         return MaterialPageRoute(builder: (_) {
-          return Center(
+          return const Center(
             child: Text("Error Page"),
           );
         });

@@ -15,6 +15,44 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileState extends State<ProfileScreen> {
+  List<Map<String, dynamic>> listItems = [
+    {
+      'icon': Icons.edit,
+      'title': 'Giới thiệu',
+      'screen': const IntroductionScreen(title: 'Giới thiệu')
+    },
+    {
+      'icon': Icons.error,
+      'title': 'Thông tin cá nhân',
+      'screen': const IndividualInformationScreen(title: 'Thông tin cá nhân')
+    },
+    {
+      'icon': Icons.contacts_rounded,
+      'title': 'Liên hệ',
+      'screen': const ContactsScreen(title: 'Liên hệ')
+    },
+    {
+      'icon': Icons.public,
+      'title': 'Mạng xã hội',
+      'screen': const IntroductionScreen(title: 'Mạng xã hội')
+    },
+    {
+      'icon': Icons.favorite,
+      'title': 'Sở thích',
+      'screen': const FavoritesScreen(title: 'Sở thích')
+    },
+    {
+      'icon': Icons.lightbulb,
+      'title': 'Kỹ năng',
+      'screen': const SkillsScreen(title: 'Kỹ năng')
+    },
+    {
+      'icon': Icons.lock,
+      'title': 'Đổi mật khẩu',
+      'screen': const ChangePasswordScreen(title: 'Đổi mật khẩu')
+    },
+  ];
+
   PreferredSizeWidget _buildProfileHeader(BuildContext context) {
     return AppBar(
       foregroundColor: Theme.of(context).colorScheme.onBackground,
@@ -99,43 +137,20 @@ class _ProfileState extends State<ProfileScreen> {
                   fontWeight: FontWeight.w200,
                 ),
               ),
-              _buildListTile(
-                icon: Icons.edit,
-                title: 'Giới thiệu',
-                iconColor: Colors.blue,
-              ),
-              _buildListTile(
-                icon: Icons.error,
-                title: 'Thông tin cá nhân',
-                iconColor: Colors.blue,
-              ),
-              _buildListTile(
-                icon: Icons.contacts_rounded,
-                title: 'Liên hệ',
-                iconColor: Colors.blue,
-              ),
-              _buildListTile(
-                icon: Icons.public,
-                title: 'Mạng xã hội',
-                iconColor: Colors.blue,
-              ),
-              _buildListTile(
-                icon: Icons.favorite,
-                title: 'Sở thích',
-                iconColor: Colors.blue,
-              ),
-              _buildListTile(
-                icon: Icons.lightbulb,
-                title: 'Kỹ năng',
-                iconColor: Colors.blue,
-              ),
-              _buildListTile(
-                icon: Icons.lock,
-                title: 'Đổi mật khẩu',
-                iconColor: Colors.blue,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: listItems.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = listItems[index];
+                  return _buildListTile(item['icon'], item['title'], () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => item['screen']));
+                  });
+                },
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                 child: ElevatedButton.icon(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -164,62 +179,15 @@ class _ProfileState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildListTile({
-    required IconData icon,
-    required String title,
-    required Color iconColor,
-  }) {
+  Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
-      leading: Icon(icon, color: iconColor),
+      leading: Icon(icon, color: Colors.blue),
       title: Text(title),
-      trailing: const Icon(Icons.arrow_forward_ios),
-      onTap: () {
-        switch (title) {
-          case 'Giới thiệu':
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => IntroductionScreen(title: title),
-              ),
-            );
-          case 'Thông tin cá nhân':
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => IndividualInformationScreen(title: title),
-              ),
-            );
-          case 'Liên hệ':
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => ContactsScreen(title: title),
-              ),
-            );
-          case 'Mạng xã hội':
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => IntroductionScreen(title: title),
-              ),
-            );
-          case 'Sở thích':
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => FavoritesScreen(title: title),
-              ),
-            );
-          case 'Kỹ năng':
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => SkillsScreen(title: title),
-              ),
-            );
-          case 'Đổi mật khẩu':
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => ChangePasswordScreen(title: title),
-              ),
-            );
-          default:
-        }
-      },
+      trailing: const Icon(
+        Icons.arrow_forward_ios,
+        color: Colors.blue,
+      ),
+      onTap: onTap,
     );
   }
 }

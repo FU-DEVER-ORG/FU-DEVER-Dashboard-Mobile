@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/models/member.dart';
-import 'package:fudever_dashboard/modules/screens/filters/filters.dart';
+import 'package:fudever_dashboard/modules/screens/filters/filter_screen.dart';
 import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
