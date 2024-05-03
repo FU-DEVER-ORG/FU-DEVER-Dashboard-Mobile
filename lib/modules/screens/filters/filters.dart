@@ -9,17 +9,33 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
+  List<String> list = ['Option 1', 'Option 2', 'Option 3'];
+  List<String> Khoa = ['Gen 5', 'Gen 6', 'Gen 7'];
+
+  late String dropdownValue = list[1];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> list = ['Option 1', 'Option 2', 'Option 3'];
-    String dropdownValue = list.first;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(1, 243, 249, 253),
       appBar: AppBar(
         title: const Text("Bộ lọc"),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: (){Navigator.pop(context);},
+          child: Icon(Icons.arrow_back_ios_new),
+        ),
       ),
       bottomNavigationBar: Container(
-        height: 89,
+        height: screenHeight/12,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -32,9 +48,9 @@ class _FilterScreenState extends State<FilterScreen> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(bottom: 10, top: 8),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
@@ -46,7 +62,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  fixedSize: const Size(160, 51),
+                  fixedSize: Size(screenWidth/2.3, screenHeight),
                 ),
                 child: const Text('Xóa bộ lọc'),
               ),
@@ -60,7 +76,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  fixedSize: const Size(160, 51),
+                  fixedSize: Size(screenWidth/2.3, screenHeight),
                 ),
                 child: const Text(
                   'Xác nhận',
@@ -70,78 +86,87 @@ class _FilterScreenState extends State<FilterScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListTile(
-              title: const Text('Khóa'),
-              subtitle: DropdownMenu<String>(
-                initialSelection: dropdownValue,
-                onSelected: (String? value) {
-                  if (value != null) {
-                    setState(() {
-                      dropdownValue = value;
-                    });
-                  }
-                },
-                dropdownMenuEntries:
-                    list.map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(value: value, label: value);
-                }).toList(),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                title: const Text('Khóa'),
+                subtitle: DropdownMenu<String>(
+                  width: screenWidth*0.9,
+                  initialSelection: dropdownValue,
+                  onSelected: (String? value) {
+                    if (value != null) {
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    }
+                  },
+                  dropdownMenuEntries:
+                      list.map<DropdownMenuEntry<String>>((String value) {
+                    return DropdownMenuEntry<String>(value: value, label: value);
+                  }).toList(),
+                ),
               ),
-            ),
-            ListTile(
-              title: const Text('Chức vụ CLB'),
-              subtitle: DropdownMenu<String>(
-                initialSelection: dropdownValue,
-                onSelected: (String? value) {
-                  if (value != null) {
-                    setState(() {
-                      dropdownValue = value;
-                    });
-                  }
-                },
-                dropdownMenuEntries:
-                    list.map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(value: value, label: value);
-                }).toList(),
+              ListTile(
+                title: const Text('Chức vụ CLB'),
+                subtitle: DropdownMenu<String>(
+                  width: screenWidth*0.9,
+                  initialSelection: dropdownValue,
+                  onSelected: (String? value) {
+                    if (value != null) {
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    }
+                  },
+                  dropdownMenuEntries:
+                      list.map<DropdownMenuEntry<String>>((String value) {
+                    return DropdownMenuEntry<String>(value: value, label: value);
+                  }).toList(),
+                ),
               ),
-            ),
-            ListTile(
-              title: const Text('Ban'),
-              subtitle: DropdownMenu<String>(
-                initialSelection: dropdownValue,
-                onSelected: (String? value) {
-                  if (value != null) {
-                    setState(() {
-                      dropdownValue = value;
-                    });
-                  }
-                },
-                dropdownMenuEntries:
-                    list.map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(value: value, label: value);
-                }).toList(),
+              ListTile(
+                title: const Text('Ban'),
+                subtitle: DropdownMenu<String>(
+                  width: screenWidth*0.9,
+                  initialSelection: dropdownValue,
+                  onSelected: (String? value) {
+                    if (value != null) {
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    }
+                  },
+                  dropdownMenuEntries:
+                      list.map<DropdownMenuEntry<String>>((String value) {
+                    return DropdownMenuEntry<String>(value: value, label: value);
+                  }).toList(),
+                ),
               ),
-            ),
-            ListTile(
-              title: const Text('Chuyên ngành'),
-              subtitle: DropdownMenu<String>(
-                initialSelection: dropdownValue,
-                onSelected: (String? value) {
-                  if (value != null) {
-                    setState(() {
-                      dropdownValue = value;
-                    });
-                  }
-                },
-                dropdownMenuEntries:
-                    list.map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(value: value, label: value);
-                }).toList(),
+              ListTile(
+                title: const Text('Chuyên ngành'),
+                subtitle: DropdownMenu<String>(
+                  width: screenWidth*0.9,
+                  initialSelection: dropdownValue,
+                  onSelected: (String? value) {
+                    if (value != null) {
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    }
+                  },
+                  dropdownMenuEntries:
+                      list.map<DropdownMenuEntry<String>>((String value) {
+                    return DropdownMenuEntry<String>(value: value, label: value);
+                  }).toList(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

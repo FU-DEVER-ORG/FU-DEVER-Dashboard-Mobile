@@ -52,9 +52,26 @@ class _LoginFormState extends State<LoginForm> {
 
   String email = '';
 
+  String? errorEmail;
+  TextStyle errorStyle = TextStyle(color: Colors.red);
+
+  String? validateEmail(value) {
+    if (value == null || value.isEmpty) {
+      return 'Enter a valid email';
+    } else if (!RegExp(
+        r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+        .hasMatch(value)) {
+      return 'Enter a valid email';
+    } else {
+      return null;
+    }
+  }
   void handleSubmission() async {
-    if (_formKey.currentState!.validate()) {
-      //forgotPassword(email);
+    setState(() {
+      errorEmail = validateEmail(email);
+    });
+    if(errorEmail==null){
+      //loginUser(email, password, rememberMe);
       Navigator.of(context).pushNamed('/');
     }
   }
@@ -95,6 +112,7 @@ class _LoginFormState extends State<LoginForm> {
         padding: EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: 30,
@@ -109,51 +127,49 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               height: 30,
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white, width: 2),
-                  borderRadius: BorderRadius.circular(10),
+            Material(
+              elevation: 5,
+              shadowColor: Colors.grey,
+              borderRadius: BorderRadius.circular(8),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: (errorEmail==null)?Colors.white:Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  label: const Row(
+                    children: [
+                      Icon(Icons.mail_outline),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text("Nhập email"),
+                    ],
+                  ),
+                  labelStyle: const TextStyle(color: Colors.black),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.red, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                label: Row(
-                  children: [
-                    Icon(Icons.mail_outline),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text("Nhập email"),
-                  ],
-                ),
-                labelStyle: TextStyle(color: Colors.black),
+                onChanged: (value) {
+                  setState(() {
+                    email = value!;
+                    errorEmail = null;
+                  });
+                },
+                keyboardType: TextInputType.emailAddress,
               ),
-              onChanged: (value) {
-                setState(() {
-                  email = value!;
-                });
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter a valid email';
-                } else if (!RegExp(
-                        r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                    .hasMatch(value)) {
-                  return 'Enter a valid email';
-                } else {
-                  return null;
-                }
-              },
             ),
-            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                (errorEmail==null) ? " " : errorEmail!,
+                style: errorStyle,
+              ),
+            ),
             Container(
               width: widget.screenWidth,
               height: 40,

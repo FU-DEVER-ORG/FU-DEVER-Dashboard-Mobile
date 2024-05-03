@@ -51,8 +51,38 @@ class _LoginFormState extends State<LoginForm> {
   String password = '';
   bool rememberMe = false;
 
+  String? errorEmail;
+  String? errorPassword;
+
+  TextStyle errorStyle = TextStyle(color: Colors.red);
+
+  String? validateEmail(value) {
+    if (value == null || value.isEmpty) {
+      return 'Enter a valid email';
+    } else if (!RegExp(
+    r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+        .hasMatch(value)) {
+      return 'Enter a valid email';
+    } else {
+      return null;
+    }
+  }
+  String? validatePassword(value) {
+    if (value == null || value.isEmpty) {
+      return 'Enter a valid password'; // Changed error message
+    } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
+      return 'Enter a valid password'; // Changed error message
+    }
+    return null;
+  }
+
   void handleSubmission() async {
-    if (_formKey.currentState!.validate()) {
+    setState(() {
+    errorEmail = validateEmail(email);
+    errorPassword = validatePassword(password);
+
+    });
+    if(errorEmail==null &&errorPassword==null){
       //loginUser(email, password, rememberMe);
       Navigator.of(context).pushNamed('/');
     }
@@ -97,111 +127,109 @@ class _LoginFormState extends State<LoginForm> {
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 30,
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  label: const Row(
-                    children: [
-                      Icon(Icons.mail_outline),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text("Nhập email"),
-                    ],
-                  ),
-                  labelStyle: const TextStyle(color: Colors.black),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    email = value!;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter a valid email';
-                  } else if (!RegExp(
-                          r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                      .hasMatch(value)) {
-                    return 'Enter a valid email';
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                obscureText: obscureText,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  label: const Row(
-                    children: [
-                      Icon(Icons.lock_open_rounded),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text("Nhập mật khẩu"),
-                    ],
-                  ),
-                  labelStyle: const TextStyle(color: Colors.black),
-                  suffixIcon: IconButton(
-                    icon: const Icon(
-                      Icons.visibility,
-                      color: Colors.grey, // Customize the eye icon color
+              Material(
+                elevation: 5,
+                shadowColor: Colors.grey,
+                borderRadius: BorderRadius.circular(8),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: (errorEmail==null)?Colors.white:Colors.red, width: 2),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    onPressed: () {
-                      // Toggle the obscureText value when the eye icon is pressed
-                      setState(() {
-                        obscureText = !obscureText;
-                      });
-                    },
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.white, width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    label: const Row(
+                      children: [
+                        Icon(Icons.mail_outline),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text("Nhập email"),
+                      ],
+                    ),
+                    labelStyle: const TextStyle(color: Colors.black),
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      email = value!;
+                      errorEmail = null;
+                    });
+                  },
+                  keyboardType: TextInputType.emailAddress,
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    password = value!;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter a valid password'; // Changed error message
-                  } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
-                    return 'Enter a valid password'; // Changed error message
-                  } else {
-                    return null;
-                  }
-                },
               ),
-              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  (errorEmail==null) ? " " : errorEmail!,
+                  style: errorStyle,
+                ),
+              ),
+              Material(
+                elevation: 5,
+                shadowColor: Colors.grey,
+                borderRadius: BorderRadius.circular(8),
+                child: TextFormField(
+                  obscureText: obscureText,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: (errorPassword==null)?Colors.white:Colors.red, width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.white, width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    label: const Row(
+                      children: [
+                        Icon(Icons.lock_open_rounded),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text("Nhập mật khẩu"),
+                      ],
+                    ),
+                    labelStyle: const TextStyle(color: Colors.black),
+                    suffixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.visibility,
+                        color: Colors.grey, // Customize the eye icon color
+                      ),
+                      onPressed: () {
+                        // Toggle the obscureText value when the eye icon is pressed
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      password = value!;
+                      errorPassword = null;
+                    });
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  (errorPassword==null) ? " " : errorPassword!,
+                  style: errorStyle,
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
