@@ -6,6 +6,7 @@ import 'package:fudever_dashboard/modules/screens/profile/introduction/introduct
 import 'package:fudever_dashboard/modules/screens/profile/individual_information/individual_information.dart';
 import 'package:fudever_dashboard/modules/screens/profile/password/change_password.dart';
 import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
+import 'package:fudever_dashboard/modules/screens/profile/social_media/social_media.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -34,7 +35,7 @@ class _ProfileState extends State<ProfileScreen> {
     {
       'icon': Icons.public,
       'title': 'Mạng xã hội',
-      'screen': const IntroductionScreen(title: 'Mạng xã hội')
+      'screen': const SocialMediaScreen(title: 'Mạng xã hội')
     },
     {
       'icon': Icons.favorite,
