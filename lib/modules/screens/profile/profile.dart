@@ -5,6 +5,7 @@ import 'package:fudever_dashboard/modules/screens/profile/favorites/favorites.da
 import 'package:fudever_dashboard/modules/screens/profile/introduction/introduction.dart';
 import 'package:fudever_dashboard/modules/screens/profile/individual_information/individual_information.dart';
 import 'package:fudever_dashboard/modules/screens/profile/password/change_password.dart';
+import 'package:fudever_dashboard/modules/screens/profile/qrcode_member_card/qrcode_member_card.dart';
 import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -62,7 +63,9 @@ class _ProfileState extends State<ProfileScreen> {
       ),
       actions: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context){
+            return QrCodeMember();
+          }));},
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: SvgPicture.asset('assets/images/QR.svg'),

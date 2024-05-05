@@ -32,24 +32,27 @@ class Routes {
           return const Splash();
         });
       case 'login':
-        return MaterialPageRoute(builder: (_) {
-          return const AuthLayout(
+        return MaterialPageRoute(builder: (context) {
+          return AuthLayout(
             body: Login(),
             title: "Đăng nhập",
+            trailing: Login.trailing(context),
           );
         });
       case 'signup':
-        return MaterialPageRoute(builder: (_) {
-          return const AuthLayout(
+        return MaterialPageRoute(builder: (context) {
+          return AuthLayout(
             body: Signup(),
             title: "Đăng ký tài khoản",
+            trailing: Signup.trailing(context),
           );
         });
       case 'forgot-password':
-        return MaterialPageRoute(builder: (_) {
-          return const AuthLayout(
+        return MaterialPageRoute(builder: (context) {
+          return AuthLayout(
             body: ForgotPassword(),
             title: "Quên mật khẩu",
+            trailing: ForgotPassword.trailing(context),
           );
         });
       // case 'change-password':

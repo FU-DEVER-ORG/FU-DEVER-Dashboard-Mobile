@@ -15,15 +15,32 @@ class _FilterScreenState extends State<FilterScreen> {
   String dropdownValue4 = 'Option 1';
 
   Widget buildDropdown(
-      String title, String dropdownValue, Function(String?) onChanged) {
+      String title, String dropdownValue, double width, Function(String?) onChanged) {
     return ListTile(
-      title: Text(title),
+      title: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Text(title),
+      ),
       subtitle: DropdownMenu<String>(
-        width: MediaQuery.of(context).size.width - 40,
+        width: width*0.9,
         initialSelection: dropdownValue,
-        onSelected: onChanged,
+        onSelected: (String? value) {
+          if (value != null) {
+            setState(() {
+              dropdownValue = value;
+            });
+          }
+        },
+        textStyle: TextStyle(color: Colors.grey.shade400),
+        inputDecorationTheme: InputDecorationTheme(
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade400)
+            )
+        ),
+        trailingIcon: Icon(Icons.expand_more,color: Colors.grey.shade400,),
+        selectedTrailingIcon: Icon(Icons.expand_less,color: Colors.grey.shade400,),
         dropdownMenuEntries:
-            list.map<DropdownMenuEntry<String>>((String value) {
+        list.map<DropdownMenuEntry<String>>((String value) {
           return DropdownMenuEntry<String>(value: value, label: value);
         }).toList(),
       ),
@@ -32,13 +49,21 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 243, 249, 253),
       appBar: AppBar(
         title: const Text("Bộ lọc"),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: (){Navigator.pop(context);},
+          child: const Icon(Icons.arrow_back_ios_new),
+        ),
       ),
       bottomNavigationBar: Container(
-        height: 89,
+        height: screenHeight/12,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -51,9 +76,9 @@ class _FilterScreenState extends State<FilterScreen> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(bottom: 10, top: 8),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
@@ -65,7 +90,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  fixedSize: const Size(160, 51),
+                  fixedSize: Size(screenWidth/2.3, screenHeight),
                 ),
                 child: const Text('Xóa bộ lọc'),
               ),
@@ -79,9 +104,11 @@ class _FilterScreenState extends State<FilterScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  fixedSize: const Size(160, 51),
+                  fixedSize: Size(screenWidth/2.3, screenHeight),
                 ),
-                child: const Text('Xác nhận'),
+                child: const Text(
+                  'Xác nhận',
+                ),
               ),
             ],
           ),
@@ -90,22 +117,22 @@ class _FilterScreenState extends State<FilterScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            buildDropdown('Khóa', dropdownValue1, (value) {
+            buildDropdown('Khóa', dropdownValue1, screenWidth, (value) {
               setState(() {
                 dropdownValue1 = value!;
               });
             }),
-            buildDropdown('Chức vụ CLB', dropdownValue2, (value) {
+            buildDropdown('Chức vụ CLB', dropdownValue2, screenWidth,(value) {
               setState(() {
                 dropdownValue2 = value!;
               });
             }),
-            buildDropdown('Ban', dropdownValue3, (value) {
+            buildDropdown('Ban', dropdownValue3, screenWidth,(value) {
               setState(() {
                 dropdownValue3 = value!;
               });
             }),
-            buildDropdown('Chuyên ngành', dropdownValue4, (value) {
+            buildDropdown('Chuyên ngành', dropdownValue4, screenWidth,(value) {
               setState(() {
                 dropdownValue4 = value!;
               });

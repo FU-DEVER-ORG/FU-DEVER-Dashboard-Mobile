@@ -71,6 +71,10 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
         centerTitle: true,
+        leading: GestureDetector(
+          onTap: (){Navigator.pop(context);},
+          child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+        ),
       ),
       body: Form(
         key: _formKey,
@@ -93,19 +97,18 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     filled: true,
                     fillColor: Colors.white,
                     enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.red, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
                     hintText: '*********',
                     suffixIcon: IconButton(
                       icon: const Icon(
@@ -146,13 +149,11 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     filled: true,
                     fillColor: Colors.white,
                     enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     errorBorder: OutlineInputBorder(
@@ -160,6 +161,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     hintText: 'Nhập mật khẩu mới',
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
                     suffixIcon: IconButton(
                       icon: const Icon(
                         Icons.visibility,
@@ -199,13 +201,11 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     filled: true,
                     fillColor: Colors.white,
                     enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.white, width: 2),
+                      borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     errorBorder: OutlineInputBorder(
@@ -213,6 +213,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     hintText: 'Nhập lại mật khẩu mới',
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
                     suffixIcon: IconButton(
                       icon: const Icon(
                         Icons.visibility,

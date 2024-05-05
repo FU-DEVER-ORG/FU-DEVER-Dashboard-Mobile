@@ -7,6 +7,23 @@ import 'package:http/http.dart' as http;
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({Key? key}) : super(key: key);
 
+  static Widget trailing(context) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10),
+      color: Theme.of(context).colorScheme.background,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Bạn đã có tài khoản?   ", style: Theme.of(context).textTheme.bodySmall,),
+          GestureDetector(
+            child: Text("Đăng nhập", style: Theme.of(context).textTheme.labelSmall),
+            onTap: () => Navigator.of(context).pushNamed('login'),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -20,16 +37,6 @@ class ForgotPassword extends StatelessWidget {
           screenHeight: screenHeight,
           screenWidth: screenWidth,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Bạn đã có tài khoản?   "),
-            GestureDetector(
-              child: Text("Đăng nhập"),
-              onTap: () => Navigator.of(context).pushNamed('login'),
-            )
-          ],
-        )
       ],
     );
   }
@@ -108,52 +115,67 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formKey,
       child: Container(
-        height: widget.screenHeight / 2.2,
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 30,
+              height: 10,
             ),
-            Container(
-              width: widget.screenWidth * 0.8,
-              child: Text(
-                "Đừng lo lắng! Chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn một mật mã để đặt lại mật khẩu của bạn!",
-                textAlign: TextAlign.center,
+            Center(
+              child: Container(
+                width: widget.screenWidth * 0.75,
+                child: Text(
+                  "Đừng lo lắng! Chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn một mật mã để đặt lại mật khẩu của bạn!",
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             SizedBox(
               height: 30,
             ),
             Material(
-              elevation: 5,
-              shadowColor: Colors.grey,
+              elevation: 4,
+              shadowColor: Colors.grey.shade100,
               borderRadius: BorderRadius.circular(8),
               child: TextFormField(
                 decoration: InputDecoration(
+                  isDense: true,
                   filled: true,
                   fillColor: Colors.white,
+                  contentPadding:
+                  EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: (errorEmail==null)?Colors.white:Colors.red, width: 2),
+                    borderSide: BorderSide(
+                        color: (errorEmail == null)
+                            ? Colors.white
+                            : Theme.of(context).colorScheme.error,
+                        width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.white, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  label: const Row(
+                  label: Row(
                     children: [
-                      Icon(Icons.mail_outline),
-                      SizedBox(
-                        width: 5,
+                      Icon(
+                        Icons.mail_outline,
+                        color: Theme.of(context).iconTheme.color,
                       ),
-                      Text("Nhập email"),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Nhập email",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
                     ],
                   ),
-                  labelStyle: const TextStyle(color: Colors.black),
                 ),
+                scrollPadding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 100),
                 onChanged: (value) {
                   setState(() {
                     email = value!;
@@ -164,18 +186,24 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5.0),
               child: Text(
-                (errorEmail==null) ? " " : errorEmail!,
-                style: errorStyle,
+                (errorEmail == null) ? " " : errorEmail!,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
             ),
-            Container(
+            SizedBox(
               width: widget.screenWidth,
               height: 40,
-              child: ElevatedButton(
+              child: MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                color: Colors.blue,
                 onPressed: handleSubmission,
-                child: Text("Lấy lại mật khẩu"),
+                child: Text(
+                  "Đăng nhập",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ],

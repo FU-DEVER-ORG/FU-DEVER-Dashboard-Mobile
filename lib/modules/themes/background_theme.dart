@@ -14,6 +14,7 @@ ThemeData getLightTheme() {
   return ThemeData(
     useMaterial3: true,
     colorScheme: kColorScheme,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
     appBarTheme: const AppBarTheme().copyWith(
       backgroundColor: Colors.blue,
       foregroundColor: kColorScheme.primaryContainer,
@@ -36,8 +37,18 @@ ThemeData getLightTheme() {
         color: Colors.white,
         fontSize: 18,
       ),
+      bodySmall: TextStyle(
+        color:Colors.grey.shade400,
+        fontSize: 12,
+      ),
+      labelSmall: TextStyle(
+        color:Colors.blue,
+        fontSize: 12,
+      ),
     ),
-
+    iconTheme: IconThemeData(
+      color: Colors.grey.shade400,
+    )
   );
 }
 

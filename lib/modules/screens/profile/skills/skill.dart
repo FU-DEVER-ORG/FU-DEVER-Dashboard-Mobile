@@ -28,6 +28,10 @@ class _SkillsState extends State<SkillsScreen> {
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
         centerTitle: true,
+        leading: GestureDetector(
+          onTap: (){Navigator.pop(context);},
+          child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+        ),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -59,12 +63,14 @@ class _SkillsState extends State<SkillsScreen> {
               TextField(
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 2),
+                      borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
                     hintText: "Nhập kỹ năng của bạn"),
               ),
               SizedBox(
@@ -101,30 +107,23 @@ class Skill extends StatefulWidget {
 class _SkillState extends State<Skill> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.white, // Set the background color to white
-        borderRadius: BorderRadius.circular(15), // Set the border radius
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black
-                .withOpacity(0.3), // Shadow color with some transparency
-            blurRadius: 10, // Blur effect
-            spreadRadius: 1, // Spread effect
-          ),
-        ],
-      ),
-      child: ListTile(
-        title: Text(widget.skill),
-        trailing: Transform.translate(
-          offset: Offset(0, -5),
-          child: GestureDetector(
-            onTap: () {},
-            child: Text(
-              "x",
-              style: TextStyle(
-                  color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(8),
+        elevation: 10,
+        shadowColor: Colors.grey.shade200,
+        child: ListTile(
+          title: Text(widget.skill),
+          trailing: Transform.translate(
+            offset: Offset(0, -5),
+            child: GestureDetector(
+              onTap: () {},
+              child: Text(
+                "x",
+                style: TextStyle(
+                    color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
+              ),
             ),
           ),
         ),
