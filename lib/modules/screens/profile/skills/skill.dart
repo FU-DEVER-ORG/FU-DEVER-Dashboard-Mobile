@@ -43,8 +43,8 @@ class _SkillsState extends State<SkillsScreen> {
       ),
       bottomSheet: Container(
           width: screenWidth,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          height: 175,
+          padding: EdgeInsets.fromLTRB(20, 8,20,24),
+          height: 180,
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.5), // Shadow color
@@ -56,12 +56,19 @@ class _SkillsState extends State<SkillsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Kỹ năng"),
+              Row(
+                children: [
+                  Text("Kỹ năng"),
+                  const Text("*", style: TextStyle(color: Colors.red),)
+                ],
+              ),
               SizedBox(
                 height: 10,
               ),
               TextField(
                 decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
@@ -74,7 +81,7 @@ class _SkillsState extends State<SkillsScreen> {
                     hintText: "Nhập kỹ năng của bạn"),
               ),
               SizedBox(
-                height: 10,
+                height: 16,
               ),
               Container(
                   width: screenWidth,
@@ -83,12 +90,15 @@ class _SkillsState extends State<SkillsScreen> {
                     onPressed: () {},
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          8.0), // Adjust the border radius
+                          10.0), // Adjust the border radius
                     ),
-                    child: Text(
-                      "Thêm kỹ năng",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.background),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        "Thêm kỹ năng",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.background),
+                      ),
                     ),
                   )),
             ],

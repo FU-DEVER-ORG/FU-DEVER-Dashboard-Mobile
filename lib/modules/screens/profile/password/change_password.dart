@@ -87,7 +87,12 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text("Mật khẩu hiện tại"),
+                Row(
+                  children: [
+                    const Text("Mật khẩu hiện tại"),
+                    const Text("*", style: TextStyle(color: Colors.red),)
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -96,6 +101,8 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
@@ -108,12 +115,17 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                       borderSide: const BorderSide(color: Colors.red, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    hintText: '**********',
                     hintStyle: TextStyle(color: Colors.grey.shade400),
-                    hintText: '*********',
                     suffixIcon: IconButton(
-                      icon: const Icon(
-                        Icons.visibility,
-                        color: Colors.grey, // Customize the eye icon color
+                      icon: obscureCurrentPassword
+                          ? Icon(
+                        Icons.visibility_off_outlined,
+                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
+                      )
+                          : Icon(
+                        Icons.visibility_outlined,
+                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
                       ),
                       onPressed: () {
                         // Toggle the obscureText value when the eye icon is pressed
@@ -139,7 +151,12 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-                const Text("Mật khẩu mới"),
+                Row(
+                  children: [
+                    const Text("Mật khẩu mới"),
+                    const Text("*", style: TextStyle(color: Colors.red),)
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -148,6 +165,8 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
@@ -163,9 +182,14 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     hintText: 'Nhập mật khẩu mới',
                     hintStyle: TextStyle(color: Colors.grey.shade400),
                     suffixIcon: IconButton(
-                      icon: const Icon(
-                        Icons.visibility,
-                        color: Colors.grey, // Customize the eye icon color
+                      icon: obscureNewPassword
+                          ? Icon(
+                        Icons.visibility_off_outlined,
+                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
+                      )
+                          : Icon(
+                        Icons.visibility_outlined,
+                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
                       ),
                       onPressed: () {
                         // Toggle the obscureText value when the eye icon is pressed
@@ -177,7 +201,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      newPassword = value!;
+                      newPassword= value!;
                     });
                   },
                   validator: (value) {
@@ -191,7 +215,12 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-                const Text("Xác nhận"),
+                Row(
+                  children: [
+                    const Text("Xác nhận"),
+                    const Text("*", style: TextStyle(color: Colors.red),)
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -200,6 +229,8 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(10),
@@ -215,9 +246,14 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     hintText: 'Nhập lại mật khẩu mới',
                     hintStyle: TextStyle(color: Colors.grey.shade400),
                     suffixIcon: IconButton(
-                      icon: const Icon(
-                        Icons.visibility,
-                        color: Colors.grey, // Customize the eye icon color
+                      icon: obscureVerifiedPassword
+                          ? Icon(
+                        Icons.visibility_off_outlined,
+                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
+                      )
+                          : Icon(
+                        Icons.visibility_outlined,
+                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
                       ),
                       onPressed: () {
                         // Toggle the obscureText value when the eye icon is pressed
@@ -249,6 +285,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
       ),
       bottomSheet: Container(
           width: screenWidth,
+          padding: EdgeInsets.only(bottom: 24, top: 8, left: 16, right: 16),
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.5), // Shadow color
@@ -259,7 +296,6 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
           ]),
           height: 75,
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: MaterialButton(
                 color: Colors.blue,
                 onPressed: () {},

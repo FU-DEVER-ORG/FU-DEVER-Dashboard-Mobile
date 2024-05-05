@@ -58,6 +58,11 @@ class _ProfileState extends State<ProfileScreen> {
   PreferredSizeWidget _buildProfileHeader(BuildContext context) {
     return AppBar(
       foregroundColor: Theme.of(context).colorScheme.onBackground,
+      centerTitle: true,
+      leading: GestureDetector(
+        onTap: (){Navigator.pop(context);},
+        child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+      ),
       title: Text(
         'Hồ sơ cá nhân',
         style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
@@ -93,21 +98,24 @@ class _ProfileState extends State<ProfileScreen> {
         Positioned(
           top: 0.0,
           right: 0.0,
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-            ),
-            child: IconButton(
-              onPressed: () {
-                print('Camera button pressed!');
-              },
-              icon: const Icon(
-                Icons.camera_alt,
-                color: Colors.blue,
-                size: 24.0,
+          child: CircleAvatar(
+            radius: 20,
+            backgroundColor: Colors.grey.shade300,
+            child: CircleAvatar(
+              radius: 15,
+              backgroundColor: Colors.white,
+              child: Transform.translate(
+                offset: Offset(-4.5, -5),
+                child: IconButton(
+                  onPressed: () {
+                    print('Camera button pressed!');
+                  },
+                  icon: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.blue,
+                    size: 24.0,
+                  ),
+                ),
               ),
             ),
           ),
@@ -120,78 +128,80 @@ class _ProfileState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildProfileHeader(context),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              _buildProfileImage(context),
-              const SizedBox(height: 20),
-              const Text(
-                'Name',
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            _buildProfileImage(context),
+            const SizedBox(height: 20),
+            const Text(
+              'Name',
+              style: TextStyle(
+                fontSize: 23,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Text(
+              'emaiil@gmail.com',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w200,
+              ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: listItems.length,
+              itemBuilder: (BuildContext context, int index) {
+                final item = listItems[index];
+                return _buildListTile(item['icon'], item['title'], () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (ctx) => item['screen']));
+                });
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.blue),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  fixedSize: const Size(double.maxFinite, 51),
+                ),
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+                label: const Text(
+                  'Đăng xuất',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-              const Text(
-                'emaiil@gmail.com',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w200,
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: listItems.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final item = listItems[index];
-                  return _buildListTile(item['icon'], item['title'], () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => item['screen']));
-                  });
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.blue),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    fixedSize: const Size(double.maxFinite, 51),
-                  ),
-                  icon: const Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                  ),
-                  label: const Text(
-                    'Đăng xuất',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.blue),
-      title: Text(title),
-      trailing: const Icon(
-        Icons.arrow_forward_ios,
-        color: Colors.blue,
+    return SizedBox(
+      height: 40,
+      child: ListTile(
+        leading: Icon(icon, color: Colors.blue),
+        title: Text(title),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.blue,
+        ),
+        onTap: onTap,
       ),
-      onTap: onTap,
     );
   }
 }

@@ -137,7 +137,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             Material(
               elevation: 4,
-              shadowColor: Colors.grey.shade100,
+              shadowColor: Theme.of(context).shadowColor,
               borderRadius: BorderRadius.circular(8),
               child: TextFormField(
                 decoration: InputDecoration(

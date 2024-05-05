@@ -71,8 +71,6 @@ class _LoginFormState extends State<LoginForm> {
   String? validatePassword(value) {
     if (value == null || value.isEmpty) {
       return 'Enter a valid password'; // Changed error message
-    } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
-      return 'Enter a valid password'; // Changed error message
     }
     return null;
   }
@@ -132,13 +130,13 @@ class _LoginFormState extends State<LoginForm> {
             ),
             Material(
               elevation: 4,
-              shadowColor: Colors.grey.shade100,
+              shadowColor: Theme.of(context).shadowColor,
               borderRadius: BorderRadius.circular(8),
               child: TextFormField(
                 decoration: InputDecoration(
-                  isDense: true,
                   filled: true,
                   fillColor: Colors.white,
+                  isDense: true,
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   enabledBorder: OutlineInputBorder(
@@ -189,7 +187,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             Material(
               elevation: 4,
-              shadowColor: Colors.grey.shade100,
+              shadowColor: Theme.of(context).shadowColor,
               borderRadius: BorderRadius.circular(8),
               child: TextFormField(
                 obscureText: obscureText,
@@ -262,7 +260,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             Transform.translate(
-              offset: Offset(-10, -20),
+              offset: Offset(-5, -20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

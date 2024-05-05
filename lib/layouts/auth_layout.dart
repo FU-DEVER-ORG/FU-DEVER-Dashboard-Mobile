@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,16 +17,22 @@ class AuthLayout extends StatefulWidget {
 
 class _AuthLayoutState extends State<AuthLayout> {
 
-  Color handleStatusBar(){
-    if (Platform.isIOS) {
+  Color handleStatusBar() {
+    if (kIsWeb) {
+      // Specific code for web
+      return Colors.transparent;
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+      // Specific code for iOS
       return Colors.transparent;
     } else {
+      // Default code for other platforms (e.g., Android)
       return Color.fromARGB(255, 0, 123, 255);
     }
   }
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    print(screenHeight);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: handleStatusBar(),
@@ -37,11 +42,11 @@ class _AuthLayoutState extends State<AuthLayout> {
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
-          // resizeToAvoidBottomInset: false,
+          //resizeToAvoidBottomInset: false,
           body: ListView(
               children: <Widget>[
                 Container(
-                  height: screenHeight*0.55,
+                  height: screenHeight*((screenHeight>720)?0.50:0.42),
                   child: Stack(
                     children: [
                       Positioned.fill(

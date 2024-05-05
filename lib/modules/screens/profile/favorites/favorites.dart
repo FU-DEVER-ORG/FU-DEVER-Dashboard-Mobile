@@ -28,6 +28,10 @@ class _SkillsState extends State<FavoritesScreen> {
             widget.title,
             style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
           ),
+          leading: GestureDetector(
+            onTap: (){Navigator.pop(context);},
+            child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+          ),
           backgroundColor: Theme.of(context).colorScheme.background,
           centerTitle: true,
         ),
@@ -54,12 +58,19 @@ class _SkillsState extends State<FavoritesScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Sở thích"),
+                Row(
+                  children: [
+                    const Text("Sở thích"),
+                    const Text("*", style: TextStyle(color: Colors.red),)
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
                 TextField(
                   decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
                           color: Color.fromARGB(255, 215, 215, 215), width: 2),
@@ -85,7 +96,7 @@ class _SkillsState extends State<FavoritesScreen> {
                       onPressed: () {},
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            8.0), // Adjust the border radius
+                            10.0), // Adjust the border radius
                       ),
                       child: Text(
                         "Thêm sở thích",
@@ -110,34 +121,27 @@ class Skill extends StatefulWidget {
 class _SkillState extends State<Skill> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.white, // Set the background color to white
-        borderRadius: BorderRadius.circular(15), // Set the border radius
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black
-                .withOpacity(0.3), // Shadow color with some transparency
-            blurRadius: 10, // Blur effect
-            spreadRadius: 1, // Spread effect
-          ),
-        ],
-      ),
-      child: ListTile(
-        title: Text(widget.skill),
-        trailing: Transform.translate(
-          offset: const Offset(0, -5),
-          child: GestureDetector(
-            onTap: () {},
-            child: const Text(
-              "x",
-              style: TextStyle(
-                  color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Material(
+          borderRadius: BorderRadius.circular(8),
+          elevation: 10,
+          shadowColor: Colors.grey.shade200,
+          child: ListTile(
+            title: Text(widget.skill),
+            trailing: Transform.translate(
+              offset: const Offset(0, -5),
+              child: GestureDetector(
+              onTap: () {},
+              child: const Text(
+                "x",
+                style: TextStyle(
+                    color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
+              ),
             ),
           ),
         ),
-      ),
+      )
     );
   }
 }

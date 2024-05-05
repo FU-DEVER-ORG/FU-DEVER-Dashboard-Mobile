@@ -46,6 +46,7 @@ ThemeData getLightTheme() {
         fontSize: 12,
       ),
     ),
+    shadowColor: Colors.grey.shade100,
     iconTheme: IconThemeData(
       color: Colors.grey.shade400,
     )

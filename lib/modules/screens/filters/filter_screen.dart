@@ -31,14 +31,17 @@ class _FilterScreenState extends State<FilterScreen> {
             });
           }
         },
-        textStyle: TextStyle(color: Colors.grey.shade400),
+        textStyle: Theme.of(context).textTheme.bodySmall,
         inputDecorationTheme: InputDecorationTheme(
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400)
-            )
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 11),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Theme.of(context).textTheme.bodySmall!.color!),
+            borderRadius: BorderRadius.circular(10)
+          )
         ),
-        trailingIcon: Icon(Icons.expand_more,color: Colors.grey.shade400,),
-        selectedTrailingIcon: Icon(Icons.expand_less,color: Colors.grey.shade400,),
+        trailingIcon: Icon(Icons.expand_more,color: Theme.of(context).iconTheme.color,),
+        selectedTrailingIcon: Icon(Icons.expand_less,color: Theme.of(context).iconTheme.color,),
         dropdownMenuEntries:
         list.map<DropdownMenuEntry<String>>((String value) {
           return DropdownMenuEntry<String>(value: value, label: value);
@@ -63,7 +66,7 @@ class _FilterScreenState extends State<FilterScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: screenHeight/12,
+        height: screenHeight/10,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -76,7 +79,7 @@ class _FilterScreenState extends State<FilterScreen> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 10, top: 8),
+          padding: const EdgeInsets.only(bottom: 24, top: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
