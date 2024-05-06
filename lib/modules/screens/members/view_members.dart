@@ -22,12 +22,17 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 243, 249, 253),
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'Xem thành viên',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.normal,
           ),
+        ),
+        leading: GestureDetector(
+          onTap: (){Navigator.pop(context);},
+          child: const Icon(Icons.arrow_back_ios_new),
         ),
       ),
       body: SingleChildScrollView(

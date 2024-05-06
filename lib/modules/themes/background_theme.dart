@@ -39,11 +39,11 @@ ThemeData getLightTheme() {
       ),
       bodySmall: TextStyle(
         color:Colors.grey.shade400,
-        fontSize: 12,
+        fontSize: 14,
       ),
       labelSmall: TextStyle(
         color:Colors.blue,
-        fontSize: 12,
+        fontSize: 14,
       ),
     ),
     shadowColor: Colors.grey.shade100,

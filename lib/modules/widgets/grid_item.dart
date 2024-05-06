@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fudever_dashboard/models/member.dart';
 
 class MemberGridItem extends StatelessWidget {
@@ -60,6 +61,77 @@ class MemberGridItem extends StatelessWidget {
             ),
             Text(member.role),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class Skill extends StatelessWidget {
+  const Skill({required this.skill, super.key});
+  final String skill;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(8),
+        elevation: 10,
+        shadowColor: Colors.grey.shade200,
+        child: ListTile(
+          title: Text(skill),
+          trailing: Transform.translate(
+            offset: Offset(0, -5),
+            child: GestureDetector(
+              onTap: () {},
+              child: Text(
+                "x",
+                style: TextStyle(
+                    color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Social extends StatelessWidget {
+  const Social({required this.socialTitle, required this.socialIcon, super.key});
+  final String socialTitle;
+  final String socialIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(8),
+        elevation: 10,
+        shadowColor: Colors.grey.shade200,
+        child: ListTile(
+          leading: CircleAvatar(
+            radius: 13,
+            backgroundColor: Colors.blue,
+            child:CircleAvatar(
+              radius: 11,
+              backgroundColor: Colors.white,
+              child: SvgPicture.asset(socialIcon),
+            ),
+          ),
+          title: Text(socialTitle),
+          trailing: Transform.translate(
+            offset: Offset(0, -5),
+            child: GestureDetector(
+              onTap: () {},
+              child: Text(
+                "x",
+                style: TextStyle(
+                    color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
+              ),
+            ),
+          ),
         ),
       ),
     );

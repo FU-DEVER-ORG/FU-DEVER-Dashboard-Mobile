@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({
@@ -107,41 +108,6 @@ class _SkillsState extends State<FavoritesScreen> {
               ],
             )),
       ),
-    );
-  }
-}
-
-class Skill extends StatefulWidget {
-  const Skill({required this.skill, super.key});
-  final String skill;
-  @override
-  State<Skill> createState() => _SkillState();
-}
-
-class _SkillState extends State<Skill> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Material(
-          borderRadius: BorderRadius.circular(8),
-          elevation: 10,
-          shadowColor: Colors.grey.shade200,
-          child: ListTile(
-            title: Text(widget.skill),
-            trailing: Transform.translate(
-              offset: const Offset(0, -5),
-              child: GestureDetector(
-              onTap: () {},
-              child: const Text(
-                "x",
-                style: TextStyle(
-                    color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
-              ),
-            ),
-          ),
-        ),
-      )
     );
   }
 }

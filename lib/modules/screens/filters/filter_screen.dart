@@ -47,7 +47,9 @@ class _FilterScreenState extends State<FilterScreen> {
         ),
         inputDecorationTheme: const InputDecorationTheme(
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Color.fromARGB(255, 243, 249, 253),
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           enabledBorder: OutlineInputBorder(
             borderSide:
                 BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),

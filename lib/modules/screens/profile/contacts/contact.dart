@@ -18,16 +18,32 @@ class _IntroductionScreenState extends State<ContactsScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          centerTitle: true,
+          leading: GestureDetector(
+            onTap: (){Navigator.pop(context);},
+            child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+          ),
         ),
         body: Column(
           children: [
             ListTile(
-              title: Text('Tên'),
+              title: Row(
+                children: [
+                  Text('Email'),
+                  const Text("*", style: TextStyle(color: Colors.red),)
+                ],
+              ),
               subtitle: TextField(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 215, 215, 215), width: 2),
@@ -42,14 +58,19 @@ class _IntroductionScreenState extends State<ContactsScreen> {
                     borderSide: const BorderSide(color: Colors.red, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  labelText: 'Nhập tên của bạn',
+                  labelText: 'Email của bạn',
                   labelStyle: const TextStyle(
                       color: Color.fromARGB(255, 215, 215, 215)),
                 ),
               ),
             ),
             ListTile(
-              title: Text('Số điện thoại'),
+              title: Row(
+                children: [
+                  Text('Số điện thoại'),
+                  const Text("*", style: TextStyle(color: Colors.red),)
+                ],
+              ),
               subtitle: TextField(
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
@@ -58,6 +79,8 @@ class _IntroductionScreenState extends State<ContactsScreen> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 215, 215, 215), width: 2),
