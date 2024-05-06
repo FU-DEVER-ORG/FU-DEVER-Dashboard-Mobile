@@ -4,6 +4,7 @@ import 'package:fudever_dashboard/models/member.dart';
 import 'package:fudever_dashboard/modules/screens/filters/filter_screen.dart';
 import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
+import 'package:fudever_dashboard/modules/widgets/search_and_filter.dart';
 
 import '../../../data/dummy_data.dart';
 import '../members/view_members.dart';
@@ -16,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late List<Member>? data = null;
+  late List<Member>? data;
 
   void onSelectMember(BuildContext context, Member member) {
     Navigator.of(context).push(
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void onSelectAvatar() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ProfileScreen(),
+        builder: (context) => const ProfileScreen(),
       ),
     );
   }
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 243, 249, 253),
+      backgroundColor: const Color.fromARGB(255, 243, 249, 253),
       appBar: AppBar(
         centerTitle: true,
         leading: Padding(
@@ -81,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        backgroundColor: Color.fromARGB(255, 243, 249, 253),
+        backgroundColor: const Color.fromARGB(255, 243, 249, 253),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -96,74 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: SearchAnchor.bar(
-                      barHintText: 'Tìm thành viên',
-                      viewBackgroundColor: Colors.white,
-                      barBackgroundColor:
-                          MaterialStateColor.resolveWith((states) {
-                        if (states.contains(MaterialState.pressed)) {
-                          return Colors.white;
-                        }
-                        return Colors.white;
-                      }),
-                      suggestionsBuilder:
-                          (BuildContext context, SearchController controller) {
-                        return List<Widget>.generate(
-                          5,
-                          (int index) {
-                            return ListTile(
-                              titleAlignment: ListTileTitleAlignment.center,
-                              title: Text('Initial list item $index'),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (ctx) => FilterScreen(),
-                          ),
-                        );
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2.0,
-                            blurRadius: 5.0,
-                            offset: const Offset(2.0, 4.0),
-                          ),
-                        ],
-                      ),
-                      height: 55,
-                      width: 55,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: SvgPicture.asset(
-                          'assets/images/filter.svg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const SearchAndFilter(),
             const SizedBox(height: 10),
             (data != null)
                 ? Expanded(
@@ -186,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )
                 : Padding(
-                    padding: EdgeInsets.only(top: 100),
+                    padding: const EdgeInsets.only(top: 100),
                     child: SvgPicture.asset(
                       'assets/images/filter-no-members.svg',
                       fit: BoxFit.cover,
