@@ -24,7 +24,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: const Color.fromARGB(255, 200, 86, 77),
       appBar: AppBar(
         title: Text(widget.title),
       ),
