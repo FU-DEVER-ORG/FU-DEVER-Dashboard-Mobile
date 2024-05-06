@@ -145,8 +145,8 @@ class _IndividualInformationScreenState
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                onPrimary: Colors.white,
+                // primary: Colors.blue,
+                // onPrimary: Colors.white,
                 side: const BorderSide(color: Colors.blue),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
