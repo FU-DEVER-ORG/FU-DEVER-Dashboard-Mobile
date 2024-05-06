@@ -92,55 +92,69 @@ class _IndividualInformationScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildTextField('Họ', 'Nhập họ'),
-            buildTextField('Tên', 'Nhập tên của bạn'),
-            buildTextField('Ngày sinh', 'Chọn ngày sinh'),
-            buildTextField('Nơi ở', 'Nơi ở hiện tại'),
-            buildDropdown('Chức vụ CLB', clubPositionList),
-            buildDropdown('Ban hoạt động', boardList),
-            buildTextField('Nghề nghiệp', 'Công việc hiện tại'),
-            buildTextField('Nơi làm việc', 'Nơi làm việc hiện tại'),
-            buildTextField(
-                'Trường học', 'Trường học gần nhất đang/đã từng học'),
-            buildTextField('Chuyên ngành', 'Chuyên ngành của bạn'),
-            buildTextField('Ngày tham gia CLB', 'Ngày tham gia (Gen)'),
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          centerTitle: true,
+          leading: GestureDetector(
+            onTap: (){Navigator.pop(context);},
+            child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+          ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        height: 89,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3.0,
-              blurRadius: 5.0,
-              offset: const Offset(2.0, 4.0),
-            ),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              buildTextField('Họ', 'Nhập họ'),
+              buildTextField('Tên', 'Nhập tên của bạn'),
+              buildTextField('Ngày sinh', 'Chọn ngày sinh'),
+              buildTextField('Nơi ở', 'Nơi ở hiện tại'),
+              buildDropdown('Chức vụ CLB', clubPositionList),
+              buildDropdown('Ban hoạt động', boardList),
+              buildTextField('Nghề nghiệp', 'Công việc hiện tại'),
+              buildTextField('Nơi làm việc', 'Nơi làm việc hiện tại'),
+              buildTextField(
+                  'Trường học', 'Trường học gần nhất đang/đã từng học'),
+              buildTextField('Chuyên ngành', 'Chuyên ngành của bạn'),
+              buildTextField('Ngày tham gia CLB', 'Ngày tham gia (Gen)'),
+            ],
+          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 30),
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              primary: Colors.blue,
-              onPrimary: Colors.white,
-              side: const BorderSide(color: Colors.blue),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
+        bottomNavigationBar: Container(
+          height: 89,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3.0,
+                blurRadius: 5.0,
+                offset: const Offset(2.0, 4.0),
               ),
-              minimumSize: const Size(160, 20),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 30),
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                onPrimary: Colors.white,
+                side: const BorderSide(color: Colors.blue),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                minimumSize: const Size(160, 20),
+              ),
+              child: const Text('Xác nhận'),
             ),
-            child: const Text('Xác nhận'),
           ),
         ),
       ),

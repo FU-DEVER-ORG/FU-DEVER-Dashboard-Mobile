@@ -163,7 +163,7 @@ class _FilterScreenState extends State<FilterScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            buildDropdown('Khóa', dropdownValue1, studentYearList, (value) {
+              buildDropdown('Khóa', dropdownValue1, studentYearList, (value) {
               setState(() {
                 dropdownValue1 = value!;
               });

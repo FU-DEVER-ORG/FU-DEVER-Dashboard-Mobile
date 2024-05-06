@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 class ContactsScreen extends StatefulWidget {
   const ContactsScreen({super.key, required this.title});
+
   final String title;
 
   @override
@@ -25,25 +26,37 @@ class _IntroductionScreenState extends State<ContactsScreen> {
           backgroundColor: Theme.of(context).colorScheme.background,
           centerTitle: true,
           leading: GestureDetector(
-            onTap: (){Navigator.pop(context);},
-            child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
           ),
         ),
         body: Column(
           children: [
             ListTile(
-              title: Row(
-                children: [
-                  Text('Email'),
-                  const Text("*", style: TextStyle(color: Colors.red),)
-                ],
+              title: Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Row(
+                  children: [
+                    Text('Email'),
+                    const Text(
+                      "*",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
               ),
               subtitle: TextField(
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
                   isDense: true,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 215, 215, 215), width: 2),
@@ -65,11 +78,17 @@ class _IntroductionScreenState extends State<ContactsScreen> {
               ),
             ),
             ListTile(
-              title: Row(
-                children: [
-                  Text('Số điện thoại'),
-                  const Text("*", style: TextStyle(color: Colors.red),)
-                ],
+              title: Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Row(
+                  children: [
+                    Text('Số điện thoại'),
+                    const Text(
+                      "*",
+                      style: TextStyle(color: Colors.red),
+                    )
+                  ],
+                ),
               ),
               subtitle: TextField(
                 keyboardType: TextInputType.number,
@@ -80,7 +99,8 @@ class _IntroductionScreenState extends State<ContactsScreen> {
                   filled: true,
                   fillColor: Colors.white,
                   isDense: true,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 215, 215, 215), width: 2),
