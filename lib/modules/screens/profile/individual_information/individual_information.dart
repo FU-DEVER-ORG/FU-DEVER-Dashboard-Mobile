@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class IndividualInformationScreen extends StatefulWidget {
   const IndividualInformationScreen({
-    super.key,
+    Key? key,
     required this.title,
-  });
+  }) : super(key: key);
 
   final String title;
+
   @override
   State<IndividualInformationScreen> createState() =>
       _IndividualInformationScreenState();
@@ -14,19 +15,83 @@ class IndividualInformationScreen extends StatefulWidget {
 
 class _IndividualInformationScreenState
     extends State<IndividualInformationScreen> {
+  String dropdownValue = '';
+  final List<String> clubPositionList = ['Trưởng ban', 'Phó ban', 'Thành viên'];
+  final List<String> boardList = ['Học thuật', 'Truyền thông', 'Sự kiện'];
+
+  InputDecoration buildInputDecoration(String labelText) {
+    return InputDecoration(
+      filled: true,
+      fillColor: Colors.white,
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+            color: Color.fromARGB(255, 215, 215, 215), width: 2),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+            color: Color.fromARGB(255, 215, 215, 215), width: 2),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      labelText: labelText,
+      labelStyle: const TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
+    );
+  }
+
+  Widget buildTextField(String title, String hintText) {
+    return ListTile(
+      title: Text(title),
+      subtitle: TextField(
+        decoration: buildInputDecoration(hintText),
+      ),
+    );
+  }
+
+  Widget buildDropdown(String title, List<String> itemList) {
+    return ListTile(
+      title: Text(title),
+      subtitle: DropdownMenu<String>(
+        trailingIcon: const Icon(
+          Icons.keyboard_arrow_down_outlined,
+          color: Colors.grey,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          labelStyle: TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
+        ),
+        hintText: dropdownValue,
+        width: MediaQuery.of(context).size.width - 40,
+        initialSelection: dropdownValue,
+        onSelected: (value) {
+          setState(() {
+            dropdownValue = value!;
+          });
+        },
+        dropdownMenuEntries:
+            itemList.map<DropdownMenuEntry<String>>((String value) {
+          return DropdownMenuEntry<String>(value: value, label: value);
+        }).toList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> clubPositionList = [
-      'Trưởng ban',
-      'Phó ban',
-      'Thành viên',
-    ];
-    List<String> boardList = [
-      'Học thuật',
-      'Truyền thông',
-      'Sự kiện',
-    ];
-    String dropdownValue = '';
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -34,277 +99,18 @@ class _IndividualInformationScreenState
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ListTile(
-              title: Text('Họ'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Nhập họ',
-                  labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Tên'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Nhập tên của bạn',
-                  labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Ngày sinh'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Chọn ngày sinh',
-                  labelStyle: const TextStyle(
-                    color: Color.fromARGB(255, 215, 215, 215),
-                  ),
-                  suffixIcon: const Icon(
-                    Icons.calendar_today_outlined,
-                    color: Color.fromARGB(255, 215, 215, 215),
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Nơi ở'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Nơi ở hiện tại',
-                  labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Chức vụ CLB'),
-              subtitle: DropdownMenu<String>(
-                width: MediaQuery.of(context).size.width - 40,
-                initialSelection: dropdownValue,
-                onSelected: (value) {
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-                dropdownMenuEntries: clubPositionList
-                    .map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(value: value, label: value);
-                }).toList(),
-              ),
-            ),
-            ListTile(
-              title: Text('Ban hoạt động'),
-              subtitle: DropdownMenu<String>(
-                width: MediaQuery.of(context).size.width - 40,
-                initialSelection: dropdownValue,
-                onSelected: (value) {
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-                dropdownMenuEntries:
-                    boardList.map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(value: value, label: value);
-                }).toList(),
-              ),
-            ),
-            ListTile(
-              title: Text('Nghề nghiệp'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Công việc hiện tại',
-                  labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Nơi làm việc'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Nơi làm việc hiện tại',
-                  labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Trường học'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Trường học gần nhất đang/đã từng học',
-                  labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Chuyên ngành'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Chuyên ngành của bạn',
-                  labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Ngày tham gia CLB'),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Ngày tham gia (Gen)',
-                  labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
+            buildTextField('Họ', 'Nhập họ'),
+            buildTextField('Tên', 'Nhập tên của bạn'),
+            buildTextField('Ngày sinh', 'Chọn ngày sinh'),
+            buildTextField('Nơi ở', 'Nơi ở hiện tại'),
+            buildDropdown('Chức vụ CLB', clubPositionList),
+            buildDropdown('Ban hoạt động', boardList),
+            buildTextField('Nghề nghiệp', 'Công việc hiện tại'),
+            buildTextField('Nơi làm việc', 'Nơi làm việc hiện tại'),
+            buildTextField(
+                'Trường học', 'Trường học gần nhất đang/đã từng học'),
+            buildTextField('Chuyên ngành', 'Chuyên ngành của bạn'),
+            buildTextField('Ngày tham gia CLB', 'Ngày tham gia (Gen)'),
           ],
         ),
       ),
@@ -314,7 +120,7 @@ class _IndividualInformationScreenState
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(1),
+              color: Colors.grey.withOpacity(0.5),
               spreadRadius: 3.0,
               blurRadius: 5.0,
               offset: const Offset(2.0, 4.0),
@@ -322,17 +128,17 @@ class _IndividualInformationScreenState
           ],
         ),
         child: Padding(
-          padding: EdgeInsets.fromLTRB(16, 8, 16, 30),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 30),
           child: ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              primary: Colors.blue,
+              onPrimary: Colors.white,
               side: const BorderSide(color: Colors.blue),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              fixedSize: const Size(160, 20),
+              minimumSize: const Size(160, 20),
             ),
             child: const Text('Xác nhận'),
           ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/modules/screens/profile/contacts/contact.dart';
@@ -8,6 +10,7 @@ import 'package:fudever_dashboard/modules/screens/profile/password/change_passwo
 import 'package:fudever_dashboard/modules/screens/profile/qrcode_member_card/qrcode_member_card.dart';
 import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 import 'package:fudever_dashboard/modules/screens/profile/social_media/social_media.dart';
+import 'package:fudever_dashboard/modules/widgets/image_input.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileState extends State<ProfileScreen> {
+  File? _selectedImage;
   List<Map<String, dynamic>> listItems = [
     {
       'icon': Icons.edit,
@@ -83,44 +87,10 @@ class _ProfileState extends State<ProfileScreen> {
   }
 
   Widget _buildProfileImage(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        ClipOval(
-          child: SizedBox(
-            height: 120,
-            width: 120,
-            child: Image.asset(
-              'assets/images/demo-image.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        Positioned(
-          top: 0.0,
-          right: 0.0,
-          child: CircleAvatar(
-            radius: 20,
-            backgroundColor: Colors.grey.shade300,
-            child: CircleAvatar(
-              radius: 15,
-              backgroundColor: Colors.white,
-              child: Transform.translate(
-                offset: Offset(-4.5, -5),
-                child: IconButton(
-                  onPressed: () {
-                    print('Camera button pressed!');
-                  },
-                  icon: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.blue,
-                    size: 24.0,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
+    return ImageInput(
+      onPickImage: (image) {
+        _selectedImage = image;
+      },
     );
   }
 
