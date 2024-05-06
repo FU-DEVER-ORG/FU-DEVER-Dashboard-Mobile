@@ -49,9 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         centerTitle: true,
         leading: Padding(
-          padding: const EdgeInsets.only(
-            left: 20.0,
-          ), // Khoảng cách lề phải là 20px
+          padding: const EdgeInsets.only(left: 20.0),
           child: FloatingActionButton(
             onPressed: () {},
             backgroundColor: Colors.white,
@@ -176,23 +174,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         childAspectRatio: 0.53,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
-                          ),
+                      ),
                       itemCount: data!.length,
                       itemBuilder: (context, index) {
                         return MemberGridItem(
                           member: data![index],
-                          onSelectMember: () => onSelectMember(context, data![index]),
+                          onSelectMember: () =>
+                              onSelectMember(context, data![index]),
                         );
                       },
                     ),
                   )
                 : Padding(
-                  padding: EdgeInsets.only(top: 100),
-                  child: SvgPicture.asset(
+                    padding: EdgeInsets.only(top: 100),
+                    child: SvgPicture.asset(
                       'assets/images/filter-no-members.svg',
                       fit: BoxFit.cover,
                     ),
-                ),
+                  ),
           ],
         ),
       ),

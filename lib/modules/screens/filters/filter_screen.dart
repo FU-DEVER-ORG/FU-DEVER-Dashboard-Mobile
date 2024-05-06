@@ -1,28 +1,69 @@
 import 'package:flutter/material.dart';
 
 class FilterScreen extends StatefulWidget {
-  const FilterScreen({super.key});
+  const FilterScreen({Key? key}) : super(key: key);
 
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  List<String> list = ['Option 1', 'Option 2', 'Option 3'];
-  String dropdownValue1 = 'Option 1';
-  String dropdownValue2 = 'Option 1';
-  String dropdownValue3 = 'Option 1';
-  String dropdownValue4 = 'Option 1';
+  final List<String> studentYearList = ['Gen 5', 'Gen 6', 'Gen 7'];
+  final List<String> clubPositionList = [
+    'Chủ nhiệm',
+    'Phó chủ nhiệm',
+    'Thư ký',
+    'Trưởng ban',
+    'Phó ban',
+    'Thành viên'
+  ];
+  final List<String> boardList = [
+    'Ban học thuật',
+    'Ban truyền thông',
+    'Ban sự kiện'
+  ];
+  final List<String> majorList = [
+    'Kĩ thuật phần mềm',
+    'An toàn thông tin',
+    'Trí tuệ nhân tạo',
+    'Thiết kế mỹ thuật số'
+  ];
+  String dropdownValue1 = 'Gen 5';
+  String dropdownValue2 = 'Chủ nhiệm';
+  String dropdownValue3 = 'Ban học thuật';
+  String dropdownValue4 = 'Kĩ thuật phần mềm';
 
-  Widget buildDropdown(
-      String title, String dropdownValue, double width, Function(String?) onChanged) {
+  Widget buildDropdown(String title, String dropdownValue,
+      List<String> filterList, Function(String?) onChanged) {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Text(title),
       ),
       subtitle: DropdownMenu<String>(
-        width: width*0.9,
+        trailingIcon: const Icon(
+          Icons.keyboard_arrow_down_outlined,
+          color: Colors.grey,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          labelStyle: TextStyle(
+            color: Color.fromARGB(255, 215, 215, 215),
+          ),
+        ),
+        hintText: dropdownValue,
+        width: MediaQuery.of(context).size.width - 40,
         initialSelection: dropdownValue,
         onSelected: (String? value) {
           if (value != null) {
@@ -32,18 +73,18 @@ class _FilterScreenState extends State<FilterScreen> {
           }
         },
         textStyle: Theme.of(context).textTheme.bodySmall,
-        inputDecorationTheme: InputDecorationTheme(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 11),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).textTheme.bodySmall!.color!),
-            borderRadius: BorderRadius.circular(10)
-          )
-        ),
-        trailingIcon: Icon(Icons.expand_more,color: Theme.of(context).iconTheme.color,),
+        // inputDecorationTheme: InputDecorationTheme(
+        //   isDense: true,
+        //   contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 11),
+        //   enabledBorder: OutlineInputBorder(
+        //     borderSide: BorderSide(color: Theme.of(context).textTheme.bodySmall!.color!),
+        //     borderRadius: BorderRadius.circular(10)
+        //   )
+        // ),
+        // trailingIcon: Icon(Icons.expand_more,color: Theme.of(context).iconTheme.color,),
         selectedTrailingIcon: Icon(Icons.expand_less,color: Theme.of(context).iconTheme.color,),
         dropdownMenuEntries:
-        list.map<DropdownMenuEntry<String>>((String value) {
+            filterList.map<DropdownMenuEntry<String>>((String value) {
           return DropdownMenuEntry<String>(value: value, label: value);
         }).toList(),
       ),
@@ -120,22 +161,23 @@ class _FilterScreenState extends State<FilterScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            buildDropdown('Khóa', dropdownValue1, screenWidth, (value) {
+            buildDropdown('Khóa', dropdownValue1, studentYearList, (value) {
               setState(() {
                 dropdownValue1 = value!;
               });
             }),
-            buildDropdown('Chức vụ CLB', dropdownValue2, screenWidth,(value) {
+            buildDropdown('Chức vụ CLB', dropdownValue2, clubPositionList,
+                (value) {
               setState(() {
                 dropdownValue2 = value!;
               });
             }),
-            buildDropdown('Ban', dropdownValue3, screenWidth,(value) {
+            buildDropdown('Ban', dropdownValue3, boardList, (value) {
               setState(() {
                 dropdownValue3 = value!;
               });
             }),
-            buildDropdown('Chuyên ngành', dropdownValue4, screenWidth,(value) {
+            buildDropdown('Chuyên ngành', dropdownValue4, majorList, (value) {
               setState(() {
                 dropdownValue4 = value!;
               });
