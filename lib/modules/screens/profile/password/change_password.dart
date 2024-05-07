@@ -7,7 +7,9 @@ class ChangePasswordScreen extends StatefulWidget {
     super.key,
     required this.title,
   });
+
   final String title;
+
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordState();
 }
@@ -76,8 +78,13 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
           backgroundColor: Theme.of(context).colorScheme.background,
           centerTitle: true,
           leading: GestureDetector(
-            onTap: (){Navigator.pop(context);},
-            child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
           ),
         ),
         body: Form(
@@ -94,7 +101,10 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   Row(
                     children: [
                       const Text("Mật khẩu hiện tại"),
-                      const Text("*", style: TextStyle(color: Colors.red),)
+                      const Text(
+                        " *",
+                        style: TextStyle(color: Colors.red),
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -106,31 +116,42 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                       filled: true,
                       fillColor: Colors.white,
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 215, 215, 215),
+                            width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 215, 215, 215),
+                            width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 215, 215, 215)),
                       hintText: '**********',
-                      hintStyle: TextStyle(color: Colors.grey.shade400),
                       suffixIcon: IconButton(
                         icon: obscureCurrentPassword
                             ? Icon(
-                          Icons.visibility_off_outlined,
-                          color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                        )
+                                Icons.visibility_off_outlined,
+                                color: Theme.of(context)
+                                    .iconTheme
+                                    .color, // Customize the eye icon color
+                              )
                             : Icon(
-                          Icons.visibility_outlined,
-                          color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                        ),
+                                Icons.visibility_outlined,
+                                color: Theme.of(context)
+                                    .iconTheme
+                                    .color, // Customize the eye icon color
+                              ),
                         onPressed: () {
                           // Toggle the obscureText value when the eye icon is pressed
                           setState(() {
@@ -158,7 +179,10 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   Row(
                     children: [
                       const Text("Mật khẩu mới"),
-                      const Text("*", style: TextStyle(color: Colors.red),)
+                      const Text(
+                        " *",
+                        style: TextStyle(color: Colors.red),
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -170,31 +194,42 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                       filled: true,
                       fillColor: Colors.white,
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 215, 215, 215),
+                            width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 215, 215, 215),
+                            width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 215, 215, 215)),
                       hintText: 'Nhập mật khẩu mới',
-                      hintStyle: TextStyle(color: Colors.grey.shade400),
                       suffixIcon: IconButton(
                         icon: obscureNewPassword
                             ? Icon(
-                          Icons.visibility_off_outlined,
-                          color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                        )
+                                Icons.visibility_off_outlined,
+                                color: Theme.of(context)
+                                    .iconTheme
+                                    .color, // Customize the eye icon color
+                              )
                             : Icon(
-                          Icons.visibility_outlined,
-                          color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                        ),
+                                Icons.visibility_outlined,
+                                color: Theme.of(context)
+                                    .iconTheme
+                                    .color, // Customize the eye icon color
+                              ),
                         onPressed: () {
                           // Toggle the obscureText value when the eye icon is pressed
                           setState(() {
@@ -205,7 +240,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        newPassword= value!;
+                        newPassword = value!;
                       });
                     },
                     validator: (value) {
@@ -222,7 +257,10 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   Row(
                     children: [
                       const Text("Xác nhận"),
-                      const Text("*", style: TextStyle(color: Colors.red),)
+                      const Text(
+                        " *",
+                        style: TextStyle(color: Colors.red),
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -234,31 +272,42 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                       filled: true,
                       fillColor: Colors.white,
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 215, 215, 215),
+                            width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 215, 215, 215),
+                            width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red, width: 2),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      hintStyle: const TextStyle(
+                          color: Color.fromARGB(255, 215, 215, 215)),
                       hintText: 'Nhập lại mật khẩu mới',
-                      hintStyle: TextStyle(color: Colors.grey.shade400),
                       suffixIcon: IconButton(
                         icon: obscureVerifiedPassword
                             ? Icon(
-                          Icons.visibility_off_outlined,
-                          color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                        )
+                                Icons.visibility_off_outlined,
+                                color: Theme.of(context)
+                                    .iconTheme
+                                    .color, // Customize the eye icon color
+                              )
                             : Icon(
-                          Icons.visibility_outlined,
-                          color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                        ),
+                                Icons.visibility_outlined,
+                                color: Theme.of(context)
+                                    .iconTheme
+                                    .color, // Customize the eye icon color
+                              ),
                         onPressed: () {
                           // Toggle the obscureText value when the eye icon is pressed
                           setState(() {
@@ -287,32 +336,34 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                 ]),
           ),
         ),
-        bottomSheet: Container(
-            width: screenWidth,
-            padding: EdgeInsets.only(bottom: 24, top: 8, left: 16, right: 16),
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.5), // Shadow color
-                spreadRadius: 0,
-                blurRadius: 10, // Shadow blur radius
-                offset: Offset(0, -1),
-              )
-            ]),
-            height: 75,
-            child: Container(
-                child: MaterialButton(
-                  color: Colors.blue,
-                  onPressed: () {},
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(8.0), // Adjust the border radius
-                  ),
-                  child: Text(
-                    "Xác nhận",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.background),
-                  ),
-                ))),
+        bottomSheet: Wrap(children: [
+          Container(
+              width: screenWidth,
+              padding: EdgeInsets.only(bottom: 24, top: 8, left: 16, right: 16),
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha(51), // Shadow color
+                  spreadRadius: 0,
+                  blurRadius: 24, // Shadow blur radius
+                  offset: Offset(0, -1),
+                )
+              ]),
+              child: Container(
+                  child: MaterialButton(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                color: Theme.of(context).buttonTheme.colorScheme!.primary,
+                onPressed: () {},
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(8.0), // Adjust the border radius
+                ),
+                child: Text(
+                  "Xác nhận",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.background),
+                ),
+              ))),
+        ]),
       ),
     );
   }

@@ -76,8 +76,8 @@ class Skill extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Material(
         borderRadius: BorderRadius.circular(8),
-        elevation: 10,
-        shadowColor: Colors.grey.shade200,
+        elevation: 16,
+        shadowColor: Color.fromARGB(77, 149, 157, 165),
         child: ListTile(
           title: Text(skill),
           trailing: Transform.translate(
@@ -108,8 +108,8 @@ class Social extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Material(
         borderRadius: BorderRadius.circular(8),
-        elevation: 10,
-        shadowColor: Colors.grey.shade200,
+        elevation: 16,
+        shadowColor: Color.fromARGB(77, 149, 157, 165),
         child: ListTile(
           leading: CircleAvatar(
             radius: 13,

@@ -16,7 +16,11 @@ class SocialMediaScreen extends StatefulWidget {
 class _SocialMediaState extends State<SocialMediaScreen> {
   String dropdownValue = '';
   final List<String> internetPlatform = ['Facebook', 'Github', 'Youtube'];
-  final List<List<String>> socials = [['Facebook', 'assets/images/facebook.svg'], ['Github','assets/images/github.svg'], ['Youtube','assets/images/youtube.svg']];
+  final List<List<String>> socials = [
+    ['Facebook', 'assets/images/facebook.svg'],
+    ['Github', 'assets/images/github.svg'],
+    ['Youtube', 'assets/images/youtube.svg']
+  ];
 
   InputDecoration buildInputDecoration(String hintText) {
     return InputDecoration(
@@ -48,25 +52,34 @@ class _SocialMediaState extends State<SocialMediaScreen> {
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         enabledBorder: OutlineInputBorder(
           borderSide:
-              BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+          BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide:
-              BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+          BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         labelStyle: TextStyle(
           color: Color.fromARGB(255, 215, 215, 215),
         ),
       ),
-      textStyle: Theme.of(context).textTheme.bodySmall,
+      textStyle: Theme
+          .of(context)
+          .textTheme
+          .bodySmall,
       selectedTrailingIcon: Icon(
         Icons.expand_less,
-        color: Theme.of(context).iconTheme.color,
+        color: Theme
+            .of(context)
+            .iconTheme
+            .color,
       ),
       hintText: 'Chọn nền tảng',
-      width: MediaQuery.of(context).size.width - 40,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width - 40,
       initialSelection: dropdownValue,
       onSelected: (value) {
         setState(() {
@@ -74,7 +87,7 @@ class _SocialMediaState extends State<SocialMediaScreen> {
         });
       },
       dropdownMenuEntries:
-          internetPlatform.map<DropdownMenuEntry<String>>((String value) {
+      internetPlatform.map<DropdownMenuEntry<String>>((String value) {
         return DropdownMenuEntry<String>(value: value, label: value);
       }).toList(),
     );
@@ -82,7 +95,10 @@ class _SocialMediaState extends State<SocialMediaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return GestureDetector(
       onTap: () {
@@ -92,9 +108,15 @@ class _SocialMediaState extends State<SocialMediaScreen> {
         appBar: AppBar(
           title: Text(
             widget.title,
-            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+            style: TextStyle(color: Theme
+                .of(context)
+                .colorScheme
+                .onBackground),
           ),
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme
+              .of(context)
+              .colorScheme
+              .background,
           centerTitle: true,
           leading: GestureDetector(
             onTap: () {
@@ -102,7 +124,10 @@ class _SocialMediaState extends State<SocialMediaScreen> {
             },
             child: Icon(
               Icons.arrow_back_ios_new,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .onBackground,
             ),
           ),
         ),
@@ -111,19 +136,21 @@ class _SocialMediaState extends State<SocialMediaScreen> {
           child: ListView.builder(
               itemCount: internetPlatform.length,
               itemBuilder: (context, index) {
-                return Social(socialTitle: socials[index][0], socialIcon: socials[index][1],);
+                return Social(socialTitle: socials[index][0],
+                  socialIcon: socials[index][1],);
               }),
         ),
-        bottomSheet: Container(
+        bottomSheet: Wrap(
+          children: [
+          Container(
           width: screenWidth,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          height: 300,
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withAlpha(51), // Shadow color
               spreadRadius: 0,
-              blurRadius: 10,
-              offset: const Offset(0, -1),
+              blurRadius: 24, // Shadow blur radius
+              offset: Offset(0, -1),
             )
           ]),
           child: Column(
@@ -133,7 +160,7 @@ class _SocialMediaState extends State<SocialMediaScreen> {
                 children: [
                   const Text("Nền tảng"),
                   const Text(
-                    "*",
+                    " *",
                     style: TextStyle(color: Colors.red),
                   )
                 ],
@@ -145,7 +172,7 @@ class _SocialMediaState extends State<SocialMediaScreen> {
                 children: [
                   const Text("Link"),
                   const Text(
-                    "*",
+                    " *",
                     style: TextStyle(color: Colors.red),
                   )
                 ],
@@ -155,10 +182,11 @@ class _SocialMediaState extends State<SocialMediaScreen> {
                 decoration: buildInputDecoration("Nhập URL"),
               ),
               const SizedBox(height: 10),
-              SizedBox(
+              Container(
                 width: screenWidth,
                 child: MaterialButton(
-                  color: Colors.blue,
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  color: Theme.of(context).buttonTheme.colorScheme!.primary,
                   onPressed: () {},
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
@@ -166,7 +194,10 @@ class _SocialMediaState extends State<SocialMediaScreen> {
                   child: Text(
                     "Thêm liên kết",
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.background,
+                      color: Theme
+                          .of(context)
+                          .colorScheme
+                          .background,
                     ),
                   ),
                 ),
@@ -174,7 +205,7 @@ class _SocialMediaState extends State<SocialMediaScreen> {
             ],
           ),
         ),
-      ),
-    );
+      ]),
+    ),);
   }
 }

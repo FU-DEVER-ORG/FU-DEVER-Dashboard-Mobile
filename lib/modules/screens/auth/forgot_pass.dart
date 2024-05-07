@@ -9,7 +9,7 @@ class ForgotPassword extends StatelessWidget {
 
   static Widget trailing(context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 24),
       color: Theme.of(context).colorScheme.background,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

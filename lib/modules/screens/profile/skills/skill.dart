@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,6 +18,9 @@ class SkillsScreen extends StatefulWidget {
 
 class _SkillsState extends State<SkillsScreen> {
   List<String> skills = ["Java", "Figma", "Flutter"];
+
+  TextEditingController skillController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -49,65 +53,41 @@ class _SkillsState extends State<SkillsScreen> {
         bottomSheet: Container(
             width: screenWidth,
             padding: EdgeInsets.fromLTRB(20, 8,20,24),
-            height: 180,
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.5), // Shadow color
+                color: Colors.black.withAlpha(51), // Shadow color
                 spreadRadius: 0,
-                blurRadius: 10, // Shadow blur radius
+                blurRadius: 24, // Shadow blur radius
                 offset: Offset(0, -1),
               )
             ]),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text("Kỹ năng"),
-                    const Text("*", style: TextStyle(color: Colors.red),)
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintStyle: TextStyle(color: Colors.grey.shade400),
-                      hintText: "Nhập kỹ năng của bạn"),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Container(
-                    width: screenWidth,
-                    child: MaterialButton(
-                      color: Colors.blue,
-                      onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust the border radius
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Text(
-                          "Thêm kỹ năng",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.background),
+            child: Wrap(
+              spacing: 8,
+                children: [
+                  CustomField(title: "Kỹ năng", hintText: "Nhập kỹ năng của bạn", controller: skillController, isCompulsory: true),
+                  Container(
+                      padding: EdgeInsets.only(top:16),
+                      width: screenWidth,
+                      child: MaterialButton(
+                        color: Theme.of(context).buttonTheme.colorScheme!.primary,
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Adjust the border radius
                         ),
-                      ),
-                    )),
-              ],
-            )),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Text(
+                            "Thêm kỹ năng",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.background),
+                          ),
+                        ),
+                      )
+                  ),
+                ],
+              ),
+        ),
       ),
     );
   }

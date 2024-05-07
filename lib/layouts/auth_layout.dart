@@ -46,12 +46,12 @@ class _AuthLayoutState extends State<AuthLayout> {
           body: ListView(
               children: <Widget>[
                 Container(
-                  height: screenHeight*((screenHeight>720)?0.50:0.42),
+                  height: screenHeight*((screenHeight>720)?0.49:0.42),
                   child: Stack(
                     children: [
                       Positioned.fill(
-                        child: SvgPicture.asset(
-                          'assets/images/plane-background.svg',
+                        child: Image.asset(
+                          'assets/images/plane-background.png',
                           fit: BoxFit.cover,
                           alignment: Alignment.bottomCenter,
                         ),

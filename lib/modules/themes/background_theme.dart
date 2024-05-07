@@ -46,6 +46,11 @@ ThemeData getLightTheme() {
         fontSize: 14,
       ),
     ),
+    buttonTheme: ButtonThemeData(
+      colorScheme: ColorScheme.light().copyWith(
+        primary: Color.fromARGB(255,0, 152, 255), // Use this as your button color
+      ),
+    ),
     shadowColor: Colors.grey.shade100,
     iconTheme: IconThemeData(
       color: Colors.grey.shade400,

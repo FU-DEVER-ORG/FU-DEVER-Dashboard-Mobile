@@ -13,6 +13,7 @@ class ContactsScreen extends StatefulWidget {
 class _IntroductionScreenState extends State<ContactsScreen> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -44,7 +45,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
                   children: [
                     Text('Email'),
                     const Text(
-                      "*",
+                      " *",
                       style: TextStyle(color: Colors.red),
                     ),
                   ],
@@ -59,20 +60,20 @@ class _IntroductionScreenState extends State<ContactsScreen> {
                       EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
+                        color: Color.fromARGB(255, 215, 215, 215), width: 1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
+                        color: Color.fromARGB(255, 215, 215, 215), width: 1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
+                    borderSide: const BorderSide(color: Colors.red, width: 1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  labelText: 'Email của bạn',
-                  labelStyle: const TextStyle(
+                  hintText: 'Email của bạn',
+                  hintStyle: const TextStyle(
                       color: Color.fromARGB(255, 215, 215, 215)),
                 ),
               ),
@@ -84,7 +85,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
                   children: [
                     Text('Số điện thoại'),
                     const Text(
-                      "*",
+                      " *",
                       style: TextStyle(color: Colors.red),
                     )
                   ],
@@ -103,56 +104,58 @@ class _IntroductionScreenState extends State<ContactsScreen> {
                       EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
+                        color: Color.fromARGB(255, 215, 215, 215), width: 1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 2),
+                        color: Color.fromARGB(255, 215, 215, 215), width: 1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 2),
+                    borderSide: const BorderSide(color: Colors.red, width: 1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  labelText: 'Số điện thoại của bạn',
-                  labelStyle: const TextStyle(
+                  hintText: 'Số điện thoại của bạn',
+                  hintStyle: const TextStyle(
                       color: Color.fromARGB(255, 215, 215, 215)),
                 ),
               ),
             ),
           ],
         ),
-        bottomNavigationBar: Container(
-          height: 89,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
+        bottomSheet: Wrap(
+          children: [
+          Container(
+          width: screenWidth,
+          padding: const EdgeInsets.fromLTRB(20, 8,20,24),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(1),
-                spreadRadius: 3.0,
-                blurRadius: 5.0,
-                offset: const Offset(2.0, 4.0),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 8, 16, 30),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                side: const BorderSide(color: Colors.blue),
+                color: Colors.black.withAlpha(51), // Shadow color
+                spreadRadius: 0,
+                blurRadius: 24, // Shadow blur radius
+                offset: Offset(0, -1),
+              )
+            ]),
+            child: Container(
+              width: screenWidth,
+              child: MaterialButton(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                color: Theme.of(context).buttonTheme.colorScheme!.primary,
+                onPressed: () {},
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                fixedSize: const Size(160, 20),
+                child: Text(
+                  "Xác nhận",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.background,
+                  ),
+                ),
               ),
-              child: const Text('Xác nhận'),
             ),
           ),
-        ),
+        ]),
       ),
     );
   }

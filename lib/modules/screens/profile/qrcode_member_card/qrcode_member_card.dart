@@ -38,20 +38,15 @@ class _QrCodeMemberState extends State<QrCodeMember> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 28),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    child: SizedBox(
-                      height: screenWidth/9,
-                      width: screenWidth/9,
-                      child: Image.asset(
-                        'assets/images/demo-image.png',
-                        fit: BoxFit.cover,
-                      ),
+                    radius: screenWidth/17,
+                    backgroundImage: AssetImage(
+                      'assets/images/demo-image.png',
                     ),
                   ),
-
-                  SizedBox(width: 5,),
+                  SizedBox(width: 12,),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,

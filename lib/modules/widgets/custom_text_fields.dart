@@ -1,59 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CompulsoryTextField extends StatefulWidget {
-  const CompulsoryTextField({super.key});
+class CustomField extends StatefulWidget {
+  const CustomField({super.key, required this.title, required this.hintText, required this.controller, required this.isCompulsory, this.validation = _defaultValidation});
 
+  final String title;
+  final String hintText;
+  final TextEditingController controller;
+  final bool isCompulsory;
+  final String? Function(String?) validation;
+
+
+  static String? _defaultValidation(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Enter a valid password'; // Changed error message
+    } else {
+      return null;
+    }
+  }
   @override
-  State<CompulsoryTextField> createState() => _CompulsoryTextFieldState();
+  State<CustomField> createState() => _CustomFieldState();
 }
 
-class _CompulsoryTextFieldState extends State<CompulsoryTextField> {
+class _CustomFieldState extends State<CustomField> {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Padding(
-        padding: EdgeInsets.only(bottom: 10),
-        child: Row(
-          children: [
-            Text('Số điện thoại'),
-            const Text(
-              "*",
-              style: TextStyle(color: Colors.red),
-            )
-          ],
+    return Column(
+      children: [
+
+        Padding(
+          padding: EdgeInsets.only(bottom: 8),
+          child: Row(
+            children: [
+              Text(widget.title),
+              (widget.isCompulsory)?const Text(
+                " *",
+                style: TextStyle(color: Colors.red),
+              ):Container(),
+            ],
+          ),
         ),
-      ),
-      subtitle: TextField(
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          isDense: true,
-          contentPadding:
-          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 215, 215, 215), width: 2),
-            borderRadius: BorderRadius.circular(10),
+        TextFormField(
+          controller: widget.controller,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            isDense: true,
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 215, 215, 215), width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 215, 215, 215), width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            hintText: widget.hintText,
+            hintStyle: const TextStyle(
+                color: Color.fromARGB(255, 215, 215, 215)
+            ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 215, 215, 215), width: 2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.red, width: 2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: 'Số điện thoại của bạn',
-          labelStyle: const TextStyle(
-              color: Color.fromARGB(255, 215, 215, 215)),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Enter a valid password'; // Changed error message
+            } else {
+              return null;
+            }
+          },
         ),
-      ),
+      ],
     );
   }
 }

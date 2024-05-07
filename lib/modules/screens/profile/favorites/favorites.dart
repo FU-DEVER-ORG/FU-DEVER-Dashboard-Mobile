@@ -44,69 +44,71 @@ class _SkillsState extends State<FavoritesScreen> {
                 return Skill(skill: skills[index]);
               }),
         ),
-        bottomSheet: Container(
-            width: screenWidth,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            height: 185,
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.5), // Shadow color
-                spreadRadius: 0,
-                blurRadius: 10, // Shadow blur radius
-                offset: const Offset(0, -1),
-              )
-            ]),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Text("Sở thích"),
-                    const Text("*", style: TextStyle(color: Colors.red),)
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    hintText: "Nhập sở thích của bạn",
-                    hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215),
+        bottomSheet: Wrap(
+          children: [
+            Container(
+              width: screenWidth,
+              padding: const EdgeInsets.fromLTRB(20, 8,20,24),
+                decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(51), // Shadow color
+                    spreadRadius: 0,
+                    blurRadius: 24, // Shadow blur radius
+                    offset: Offset(0, -1),
+                  )
+                ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Text("Sở thích"),
+                      const Text(" *", style: TextStyle(color: Colors.red),)
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 215, 215, 215), width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Nhập sở thích của bạn",
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(255, 215, 215, 215),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                    width: screenWidth,
-                    height: 52,
-                    child: MaterialButton(
-                      color: Colors.blue,
-                      onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust the border radius
-                      ),
-                      child: Text(
-                        "Thêm sở thích",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.background),
-                      ),
-                    )),
-              ],
-            )),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                      width: screenWidth,
+                      height: 52,
+                      child: MaterialButton(
+                        color: Colors.blue,
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Adjust the border radius
+                        ),
+                        child: Text(
+                          "Thêm sở thích",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.background),
+                        ),
+                      )),
+                ],
+              )),
+        ]),
       ),
     );
   }
