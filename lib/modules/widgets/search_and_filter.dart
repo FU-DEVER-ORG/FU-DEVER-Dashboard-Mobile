@@ -20,7 +20,7 @@ class _SeachAndFilterState extends State<SearchAndFilter> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 8,
+            flex: 12,
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -29,9 +29,9 @@ class _SeachAndFilterState extends State<SearchAndFilter> {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(2.0, 4.0),
+                    spreadRadius: 0,
+                    blurRadius: 24,
+                    offset: Offset(0, 8),
                   ),
                 ],
               ),
@@ -63,42 +63,41 @@ class _SeachAndFilterState extends State<SearchAndFilter> {
               ),
             ),
           ),
-          Expanded(
+          const Expanded(
             flex: 1,
-            child: const SizedBox(width: 8)),
-          // Expanded(
-            // flex: 1,
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) => const FilterScreen(),
-                    ),
-                  );
-                });
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2.0,
-                      blurRadius: 5.0,
-                      offset: const Offset(2.0, 4.0),
-                    ),
-                  ],
-                ),
-                height: 44,
-                width: 52,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                  child: SvgPicture.asset(
-                    'assets/images/filter.svg',
-                    fit: BoxFit.cover,
+            child: SizedBox(width: 8),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => const FilterScreen(),
                   ),
+                );
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0,
+                    blurRadius: 20.0,
+                    offset: const Offset(0, 0),
+                  ),
+                ],
+              ),
+              height: 44,
+              width: 52,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                child: SvgPicture.asset(
+                  'assets/images/filter.svg',
+                  fit: BoxFit.cover,
+                ),
                 // ),
               ),
             ),

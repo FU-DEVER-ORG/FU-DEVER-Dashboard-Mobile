@@ -75,16 +75,10 @@ class _FilterScreenState extends State<FilterScreen> {
           }
         },
         textStyle: Theme.of(context).textTheme.bodySmall,
-        // inputDecorationTheme: InputDecorationTheme(
-        //   isDense: true,
-        //   contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 11),
-        //   enabledBorder: OutlineInputBorder(
-        //     borderSide: BorderSide(color: Theme.of(context).textTheme.bodySmall!.color!),
-        //     borderRadius: BorderRadius.circular(10)
-        //   )
-        // ),
-        // trailingIcon: Icon(Icons.expand_more,color: Theme.of(context).iconTheme.color,),
-        selectedTrailingIcon: Icon(Icons.expand_less,color: Theme.of(context).iconTheme.color,),
+        selectedTrailingIcon: Icon(
+          Icons.expand_less,
+          color: Theme.of(context).iconTheme.color,
+        ),
         dropdownMenuEntries:
             filterList.map<DropdownMenuEntry<String>>((String value) {
           return DropdownMenuEntry<String>(value: value, label: value);
@@ -104,12 +98,14 @@ class _FilterScreenState extends State<FilterScreen> {
         title: const Text("Bộ lọc"),
         centerTitle: true,
         leading: GestureDetector(
-          onTap: (){Navigator.pop(context);},
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: const Icon(Icons.arrow_back_ios_new),
         ),
       ),
       bottomNavigationBar: Container(
-        height: screenHeight/10,
+        height: screenHeight / 10,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -136,7 +132,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  fixedSize: Size(screenWidth/2.3, screenHeight),
+                  fixedSize: Size(screenWidth / 2.3, screenHeight),
                 ),
                 child: const Text('Xóa bộ lọc'),
               ),
@@ -150,7 +146,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  fixedSize: Size(screenWidth/2.3, screenHeight),
+                  fixedSize: Size(screenWidth / 2.3, screenHeight),
                 ),
                 child: const Text(
                   'Xác nhận',
@@ -163,7 +159,7 @@ class _FilterScreenState extends State<FilterScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-              buildDropdown('Khóa', dropdownValue1, studentYearList, (value) {
+            buildDropdown('Khóa', dropdownValue1, studentYearList, (value) {
               setState(() {
                 dropdownValue1 = value!;
               });
