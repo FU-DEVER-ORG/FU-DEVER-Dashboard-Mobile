@@ -112,101 +112,104 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Container(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: Container(
-                width: widget.screenWidth * 0.75,
+    return PopScope(
+      canPop: false,
+      child: Form(
+        key: _formKey,
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Container(
+                  width: widget.screenWidth * 0.75,
+                  child: Text(
+                    "Đừng lo lắng! Chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn một mật mã để đặt lại mật khẩu của bạn!",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Material(
+                elevation: 4,
+                shadowColor: Theme.of(context).shadowColor,
+                borderRadius: BorderRadius.circular(8),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    isDense: true,
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding:
+                    EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: (errorEmail == null)
+                              ? Colors.white
+                              : Theme.of(context).colorScheme.error,
+                          width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.white, width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    label: Row(
+                      children: [
+                        Icon(
+                          Icons.mail_outline,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "Nhập email",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                  ),
+                  scrollPadding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 100),
+                  onChanged: (value) {
+                    setState(() {
+                      email = value!;
+                      errorEmail = null;
+                    });
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
                 child: Text(
-                  "Đừng lo lắng! Chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn một mật mã để đặt lại mật khẩu của bạn!",
-                  textAlign: TextAlign.center,
+                  (errorEmail == null) ? " " : errorEmail!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Material(
-              elevation: 4,
-              shadowColor: Theme.of(context).shadowColor,
-              borderRadius: BorderRadius.circular(8),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  isDense: true,
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding:
-                  EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: (errorEmail == null)
-                            ? Colors.white
-                            : Theme.of(context).colorScheme.error,
-                        width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  label: Row(
-                    children: [
-                      Icon(
-                        Icons.mail_outline,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Nhập email",
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
+              SizedBox(
+                width: widget.screenWidth,
+                height: 40,
+                child: MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  color: Colors.blue,
+                  onPressed: handleSubmission,
+                  child: Text(
+                    "Đăng nhập",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-                scrollPadding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom + 100),
-                onChanged: (value) {
-                  setState(() {
-                    email = value!;
-                    errorEmail = null;
-                  });
-                },
-                keyboardType: TextInputType.emailAddress,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Text(
-                (errorEmail == null) ? " " : errorEmail!,
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
-            ),
-            SizedBox(
-              width: widget.screenWidth,
-              height: 40,
-              child: MaterialButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                color: Colors.blue,
-                onPressed: handleSubmission,
-                child: Text(
-                  "Đăng nhập",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

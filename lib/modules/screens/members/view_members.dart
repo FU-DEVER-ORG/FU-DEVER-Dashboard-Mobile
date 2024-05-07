@@ -31,7 +31,9 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
           ),
         ),
         leading: GestureDetector(
-          onTap: (){Navigator.pop(context);},
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: const Icon(Icons.arrow_back_ios_new),
         ),
       ),
@@ -114,12 +116,14 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             Row(
                               children: [
                                 const Icon(Icons.work),
+                                const SizedBox(width: 8),
                                 Text(widget.member.career),
                               ],
                             ),
                             Row(
                               children: [
                                 const Icon(Icons.calendar_month),
+                                const SizedBox(width: 8),
                                 Text(
                                     '${widget.member.birthday.day}/${widget.member.birthday.month}/${widget.member.birthday.year}')
                               ],

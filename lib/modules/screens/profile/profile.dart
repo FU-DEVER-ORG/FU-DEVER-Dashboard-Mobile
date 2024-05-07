@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fudever_dashboard/layouts/auth_layout.dart';
+import 'package:fudever_dashboard/modules/screens/auth/login.dart';
 import 'package:fudever_dashboard/modules/screens/profile/contacts/contact.dart';
 import 'package:fudever_dashboard/modules/screens/profile/favorites/favorites.dart';
 import 'package:fudever_dashboard/modules/screens/profile/introduction/introduction.dart';
@@ -64,8 +66,13 @@ class _ProfileState extends State<ProfileScreen> {
       foregroundColor: Theme.of(context).colorScheme.onBackground,
       centerTitle: true,
       leading: GestureDetector(
-        onTap: (){Navigator.pop(context);},
-        child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Icon(
+          Icons.arrow_back_ios_new,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
       ),
       title: Text(
         'Hồ sơ cá nhân',
@@ -73,9 +80,11 @@ class _ProfileState extends State<ProfileScreen> {
       ),
       actions: [
         GestureDetector(
-          onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context){
-            return QrCodeMember();
-          }));},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return QrCodeMember();
+            }));
+          },
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: SvgPicture.asset('assets/images/QR.svg'),
@@ -134,7 +143,19 @@ class _ProfileState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AuthLayout(
+                        body: Login(),
+                        title: "Đăng nhập",
+                        trailing: Login.trailing(context),
+                      ),
+                    ),
+                    (route) => true,
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
