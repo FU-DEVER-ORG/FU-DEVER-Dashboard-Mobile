@@ -31,7 +31,8 @@ class MemberGridItem extends StatelessWidget {
                 children: [
                   Image.asset(
                     member.imageAssetPath,
-                    height: 250,
+                    height: 246,
+                    width: 168,
                     fit: BoxFit.cover,
                   ),
                   Padding(
@@ -81,13 +82,15 @@ class Skill extends StatelessWidget {
         child: ListTile(
           title: Text(skill),
           trailing: Transform.translate(
-            offset: Offset(0, -5),
+            offset: const Offset(0, -5),
             child: GestureDetector(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "x",
                 style: TextStyle(
-                    color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
+                    color: Colors.red,
+                    fontSize: 32,
+                    fontWeight: FontWeight.w300),
               ),
             ),
           ),
@@ -98,7 +101,8 @@ class Skill extends StatelessWidget {
 }
 
 class Social extends StatelessWidget {
-  const Social({required this.socialTitle, required this.socialIcon, super.key});
+  const Social(
+      {required this.socialTitle, required this.socialIcon, super.key});
   final String socialTitle;
   final String socialIcon;
 
@@ -114,7 +118,7 @@ class Social extends StatelessWidget {
           leading: CircleAvatar(
             radius: 13,
             backgroundColor: Colors.blue,
-            child:CircleAvatar(
+            child: CircleAvatar(
               radius: 11,
               backgroundColor: Colors.white,
               child: SvgPicture.asset(socialIcon),
@@ -122,13 +126,15 @@ class Social extends StatelessWidget {
           ),
           title: Text(socialTitle),
           trailing: Transform.translate(
-            offset: Offset(0, -5),
+            offset: const Offset(0, -5),
             child: GestureDetector(
               onTap: () {},
-              child: Text(
+              child: const Text(
                 "x",
                 style: TextStyle(
-                    color: Colors.red, fontSize: 32, fontWeight: FontWeight.w300),
+                    color: Colors.red,
+                    fontSize: 32,
+                    fontWeight: FontWeight.w300),
               ),
             ),
           ),
