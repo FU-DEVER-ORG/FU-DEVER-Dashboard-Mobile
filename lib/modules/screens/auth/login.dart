@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fudever_dashboard/api/api_repository.dart';
+import 'package:fudever_dashboard/api/auth_api.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 // import 'package:your_app_name/api/api_repository.dart'; // Import your ApiRepository
 
 class Login extends StatelessWidget {
@@ -90,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
       try {
         await EasyLoading.show();
         // ignore: use_build_context_synchronously
-        await ApiRepository.loginUser(email, password, rememberMe, context);
+        await AuthController.loginUser(email, password, rememberMe, context);
         await EasyLoading.dismiss();
       } catch (e) {
         // await EasyLoading.dismiss();

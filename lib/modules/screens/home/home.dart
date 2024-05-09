@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
 import 'package:fudever_dashboard/models/member.dart';
 import 'package:fudever_dashboard/modules/screens/filters/filter_screen.dart';
 import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
@@ -37,8 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  dynamic df;
+  void getData()async{
+    df = await UserController.getUsers();
+    print(df);
+  }
   @override
   void initState() {
+    getData();
     data = memberList;
     super.initState();
   }
