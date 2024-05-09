@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/modules/screens/home/home.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class Signup extends StatelessWidget {
   const Signup({Key? key}) : super(key: key);
@@ -13,9 +9,13 @@ class Signup extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Bạn đã có tài khoản?   ", style: Theme.of(context).textTheme.bodySmall,),
+          Text(
+            "Bạn đã có tài khoản?   ",
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
           GestureDetector(
-            child: Text("Đăng nhập", style: Theme.of(context).textTheme.labelSmall),
+            child: Text("Đăng nhập",
+                style: Theme.of(context).textTheme.labelSmall),
             onTap: () => Navigator.of(context).pushNamed('login'),
           )
         ],
@@ -55,32 +55,32 @@ class _LoginFormState extends State<LoginForm> {
   String password = '';
   String vpassword = '';
 
-
   String? errorEmail;
   String? errorPassword;
   String? errorVpassword;
 
-  TextStyle errorStyle = TextStyle(color: Colors.red);
+  TextStyle errorStyle = const TextStyle(color: Colors.red);
 
   String? validateEmail(value) {
     if (value == null || value.isEmpty) {
       return 'Enter a valid email';
-    } else if (!RegExp(
-        r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+    } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
         .hasMatch(value)) {
       return 'Enter a valid email';
     } else {
       return null;
     }
   }
+
   String? validatePassword(value) {
     if (value == null || value.isEmpty) {
-      return 'Enter a valid password'; // Changed error message
+      return 'Enter a valid password';
     }
     return null;
   }
+
   String? verifyPasswords() {
-    if (password!=vpassword){
+    if (password != vpassword) {
       return 'Passwords are not the same';
     }
     return null;
@@ -93,34 +93,33 @@ class _LoginFormState extends State<LoginForm> {
       errorVpassword = validatePassword(vpassword);
       errorVpassword = verifyPasswords();
     });
-    if(errorEmail==null &&errorPassword==null && errorVpassword==null){
+    if (errorEmail == null && errorPassword == null && errorVpassword == null) {
       //loginUser(email, password, rememberMe);
       Navigator.of(context).pushNamed('/');
     }
   }
 
-  Future<void> signUp(String email, String password) async {
-    final url = 'http://api/Auth/sign-up';
+  // Future<void> signUp(String email, String password) async {
+  //   final url = 'http://api/Auth/sign-up';
 
-    final response = await http.post(
-      Uri.parse(url),
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
-      headers: {'Content-Type': 'application/json'},
-    );
+  //   final response = await http.post(
+  //     Uri.parse(url),
+  //     body: jsonEncode({
+  //       'email': email,
+  //       'password': password,
+  //     }),
+  //     headers: {'Content-Type': 'application/json'},
+  //   );
 
-    if (response.statusCode == 200) {
-      // Successful login
-      final responseData = jsonDecode(response.body);
-      print(responseData);
-    } else {
-      // Error handling
-      print('Login failed. Status code: ${response.statusCode}');
-    }
-  }
-
+  //   if (response.statusCode == 200) {
+  //     // Successful login
+  //     final responseData = jsonDecode(response.body);
+  //     print(responseData);
+  //   } else {
+  //     // Error handling
+  //     print('Login failed. Status code: ${response.statusCode}');
+  //   }
+  // }
 
   @override
   void initState() {
@@ -135,7 +134,6 @@ class _LoginFormState extends State<LoginForm> {
       canPop: false,
       child: Container(
         padding: const EdgeInsets.all(20),
-      
         child: Form(
           key: _formKey,
           child: Column(
@@ -154,8 +152,8 @@ class _LoginFormState extends State<LoginForm> {
                     isDense: true,
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding:
-                    EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           color: (errorEmail == null)
@@ -165,7 +163,8 @@ class _LoginFormState extends State<LoginForm> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white, width: 2),
+                      borderSide:
+                          const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     label: Row(
@@ -174,7 +173,7 @@ class _LoginFormState extends State<LoginForm> {
                           Icons.mail_outline,
                           color: Theme.of(context).iconTheme.color,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         Text(
@@ -212,8 +211,8 @@ class _LoginFormState extends State<LoginForm> {
                     isDense: true,
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding:
-                    EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           color: (errorPassword == null)
@@ -223,7 +222,8 @@ class _LoginFormState extends State<LoginForm> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white, width: 2),
+                      borderSide:
+                          const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     label: Row(
@@ -232,9 +232,7 @@ class _LoginFormState extends State<LoginForm> {
                           Icons.lock_open_rounded,
                           color: Theme.of(context).iconTheme.color,
                         ),
-                        SizedBox(
-                          width: 8,
-                        ),
+                        const SizedBox(width: 8),
                         Text(
                           "Nhập mật khẩu",
                           style: Theme.of(context).textTheme.bodySmall,
@@ -244,13 +242,17 @@ class _LoginFormState extends State<LoginForm> {
                     suffixIcon: IconButton(
                       icon: obscureText
                           ? Icon(
-                        Icons.visibility_off_outlined,
-                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                      )
+                              Icons.visibility_off_outlined,
+                              color: Theme.of(context)
+                                  .iconTheme
+                                  .color, // Customize the eye icon color
+                            )
                           : Icon(
-                        Icons.visibility_outlined,
-                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                      ),
+                              Icons.visibility_outlined,
+                              color: Theme.of(context)
+                                  .iconTheme
+                                  .color, // Customize the eye icon color
+                            ),
                       onPressed: () {
                         // Toggle the obscureText value when the eye icon is pressed
                         setState(() {
@@ -286,8 +288,8 @@ class _LoginFormState extends State<LoginForm> {
                     isDense: true,
                     filled: true,
                     fillColor: Colors.white,
-                    contentPadding:
-                    EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           color: (errorVpassword == null)
@@ -297,7 +299,8 @@ class _LoginFormState extends State<LoginForm> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.white, width: 2),
+                      borderSide:
+                          const BorderSide(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     label: Row(
@@ -306,7 +309,7 @@ class _LoginFormState extends State<LoginForm> {
                           Icons.lock_open_rounded,
                           color: Theme.of(context).iconTheme.color,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         Text(
@@ -318,13 +321,17 @@ class _LoginFormState extends State<LoginForm> {
                     suffixIcon: IconButton(
                       icon: obscureVerification
                           ? Icon(
-                        Icons.visibility_off_outlined,
-                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                      )
+                              Icons.visibility_off_outlined,
+                              color: Theme.of(context)
+                                  .iconTheme
+                                  .color, // Customize the eye icon color
+                            )
                           : Icon(
-                        Icons.visibility_outlined,
-                        color: Theme.of(context).iconTheme.color, // Customize the eye icon color
-                      ),
+                              Icons.visibility_outlined,
+                              color: Theme.of(context)
+                                  .iconTheme
+                                  .color, // Customize the eye icon color
+                            ),
                       onPressed: () {
                         // Toggle the obscureText value when the eye icon is pressed
                         setState(() {
@@ -358,7 +365,7 @@ class _LoginFormState extends State<LoginForm> {
                       borderRadius: BorderRadius.circular(10)),
                   color: Colors.blue,
                   onPressed: handleSubmission,
-                  child: Text(
+                  child: const Text(
                     "Đăng ký",
                     style: TextStyle(color: Colors.white),
                   ),
