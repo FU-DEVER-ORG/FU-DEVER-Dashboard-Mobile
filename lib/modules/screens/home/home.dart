@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   dynamic df;
   void getData()async{
     df = await UserController.getUsers();
-    print(df);
+    print(df["body"]);
   }
   @override
   void initState() {

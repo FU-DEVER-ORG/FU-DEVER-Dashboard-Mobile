@@ -16,7 +16,7 @@ void main() async {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) =>
           Routes.generateRoutes(settings, token ?? ''),
-      initialRoute: 'splash',
+      initialRoute: '/',
       builder: EasyLoading.init(),
     ),
   );
