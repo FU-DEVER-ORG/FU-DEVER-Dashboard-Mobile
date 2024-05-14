@@ -4,25 +4,26 @@ class Member {
   late String? phone;
   late String? firstname;
   late String? lastname;
-  late String? dob;
+  late DateTime? dob; // Date of birth is typically a DateTime
   late String? hometown;
-  late String? positionId;
-  late String? departmentId;
+  late Map<String, dynamic>? positionId; // This is an object in the provided data
+  late Map<String, dynamic>? departmentId; // This is an object in the provided data
   late String? job;
   late String? workplace;
   late String? school;
-  late String? majorId;
-  late String? dateJoin;
-  late List<String?> favourites;
-  late List<String?> skills;
+  late Map<String, dynamic>? majorId; // This is an object in the provided data
+  late DateTime? dateJoin; // Join date is typically a DateTime
+  late List<String>? favourites; // These are lists of strings in the provided data
+  late List<String>? skills; // These are lists of strings in the provided data
   late bool? isExcellent;
   late bool? isAdmin;
   late String? id;
   late String? email;
   late String? avatar;
-  late DateTime? createdAt;
-  late DateTime? updatedAt;
-  late String? v;
+  late DateTime? createdAt; // Created at is typically a DateTime
+  late DateTime? updatedAt; // Updated at is typically a DateTime
+  late int? v; // "__v" is typically an integer
+
 
   Member(
       {required this.description,
@@ -57,7 +58,7 @@ class Member {
       phone: item['phone'],
       firstname: item['firstname'],
       lastname: item['lastname'],
-      dob: item['dob'],
+      dob: item['dob'] != null ? DateTime.parse(item['dob']) : null,
       hometown: item['hometown'],
       positionId: item['positionId'],
       departmentId: item['departmentId'],
@@ -65,16 +66,16 @@ class Member {
       workplace: item['workplace'],
       school: item['school'],
       majorId: item['majorId'],
-      dateJoin: item['dateJoin'],
-      favourites: item['favourites'],
-      skills: item['skills'],
+      dateJoin: item['dateJoin'] != null ? DateTime.parse(item['dateJoin']) : null,
+      favourites: List<String>.from(item['favourites']),
+      skills: List<String>.from(item['skills']),
       isExcellent: item['isExcellent'],
       isAdmin: item['isAdmin'],
       id: item['_id'],
       email: item['email'],
       avatar: item['avatar'],
-      createdAt: item['createdAt'],
-      updatedAt: item['updatedAt'],
+      createdAt: item['createdAt'] != null ? DateTime.parse(item['createdAt']) : null,
+      updatedAt: item['updatedAt'] != null ? DateTime.parse(item['updatedAt']) : null,
       v: item['__v'],
     );
   }

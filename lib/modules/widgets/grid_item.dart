@@ -29,7 +29,7 @@ class MemberGridItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Stack(
                 children: [
-                  Image.asset(
+                  Image.network(
                     member.avatar!,
                     height: 246,
                     width: 168,
@@ -57,10 +57,10 @@ class MemberGridItem extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              member.firstname! + member.lastname!,
+              member.firstname! + " " + member.lastname!,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text("member"),
+            Text(member.positionId!['name']),
           ],
         ),
       ),

@@ -10,4 +10,9 @@ class UserController extends ApiRepository{
     final response = await ApiRepository.get(path: "users");
     return response;
   }
+  static Future<dynamic> get() async {
+    final response = await ApiRepository.get(path: "");
+    return response;
+  }
+
 }

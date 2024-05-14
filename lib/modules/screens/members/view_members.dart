@@ -60,8 +60,8 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                       ),
                     ],
                   ),
-                  child: Image.asset(
-                    'assets/images/demo-image.png',
+                  child: Image.network(
+                    widget.member.avatar!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               ),
                             ),
                             Text(
-                              widget.member.positionId!,
+                              widget.member.positionId!['name'],
                               style: const TextStyle(color: Colors.blue),
                             ),
                           ],
@@ -124,7 +124,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               children: [
                                 const Icon(Icons.calendar_month),
                                 const SizedBox(width: 8),
-                                // Text('${widget.member.dob!.day}/${widget.member.dob!.month}/${widget.member.dob!.year}')
+                                Text('${widget.member.dob!.day}/${widget.member.dob!.month}/${widget.member.dob!.year}')
                               ],
                             ),
                           ],
@@ -220,12 +220,12 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           children: [
                             const Text('Tham gia'),
                             const Spacer(),
-                            // Text(
-                            //   '${widget.member.dateJoin!.year}/${widget.member.dateJoin!.month}/${widget.member.dateJoin!.day}',
-                            //   style: const TextStyle(
-                            //     fontWeight: FontWeight.bold,
-                            //   ),
-                            // ),
+                            Text(
+                              '${widget.member.dateJoin!.year}/${widget.member.dateJoin!.month}/${widget.member.dateJoin!.day}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ],
                         ),
                         Row(
@@ -233,7 +233,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Chức vụ'),
                             const Spacer(),
                             Text(
-                              widget.member.positionId!,
+                              widget.member.positionId!['name'],
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -257,7 +257,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Chuyên ngành'),
                             const Spacer(),
                             Text(
-                              widget.member.majorId!,
+                              widget.member.majorId!['name'],
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),

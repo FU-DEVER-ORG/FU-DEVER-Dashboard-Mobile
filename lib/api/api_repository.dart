@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiRepository {
-  // static const _url = 'https://dashboard.fudeverwebapi.io.vn/api/';
-  static const _url = 'http://localhost:8088/api/v1/';
+  static const _url = 'https://dever-dashboard-api.onrender.com/api/v1/';
 
   static Future<dynamic> post(
       {required String path,Map<String, dynamic> options = const {}}) async {
