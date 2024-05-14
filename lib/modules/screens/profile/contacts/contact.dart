@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 
 class ContactsScreen extends StatefulWidget {
   const ContactsScreen({super.key, required this.title});
@@ -11,8 +12,21 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _IntroductionScreenState extends State<ContactsScreen> {
+  final TextEditingController emailController = TextEditingController();
+
+  late String email = "";
+  @override
+  void initState() {
+    emailController.addListener(() {
+      setState(() {
+        email = emailController.text;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    print(email);
     double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
@@ -38,46 +52,48 @@ class _IntroductionScreenState extends State<ContactsScreen> {
         ),
         body: Column(
           children: [
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Row(
-                  children: [
-                    Text('Email'),
-                    const Text(
-                      " *",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ],
-                ),
-              ),
-              subtitle: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  isDense: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: 'Email của bạn',
-                  hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
-            ),
+            CustomField(title: "Email",hintText: "Email của bạn",controller: emailController,isCompulsory: true,),
+            // ListTile(
+            //   title: Padding(
+            //     padding: EdgeInsets.only(bottom: 10),
+            //     child: Row(
+            //       children: [
+            //         Text('Email'),
+            //         const Text(
+            //           " *",
+            //           style: TextStyle(color: Colors.red),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            //   subtitle: TextField(
+            //     controller: emailController,
+            //     decoration: InputDecoration(
+            //       filled: true,
+            //       fillColor: Colors.white,
+            //       isDense: true,
+            //       contentPadding:
+            //           EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            //       enabledBorder: OutlineInputBorder(
+            //         borderSide: const BorderSide(
+            //             color: Color.fromARGB(255, 215, 215, 215), width: 1),
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderSide: const BorderSide(
+            //             color: Color.fromARGB(255, 215, 215, 215), width: 1),
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //       errorBorder: OutlineInputBorder(
+            //         borderSide: const BorderSide(color: Colors.red, width: 1),
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //       hintText: 'Email của bạn',
+            //       hintStyle: const TextStyle(
+            //           color: Color.fromARGB(255, 215, 215, 215)),
+            //     ),
+            //   ),
+            // ),
             ListTile(
               title: Padding(
                 padding: EdgeInsets.only(bottom: 10),

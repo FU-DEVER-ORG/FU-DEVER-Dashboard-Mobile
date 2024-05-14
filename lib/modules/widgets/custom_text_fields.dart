@@ -13,7 +13,7 @@ class CustomField extends StatefulWidget {
 
   static String? _defaultValidation(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Enter a valid password'; // Changed error message
+      return 'The field is empty';
     } else {
       return null;
     }
@@ -25,56 +25,53 @@ class CustomField extends StatefulWidget {
 class _CustomFieldState extends State<CustomField> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
 
-        Padding(
-          padding: EdgeInsets.only(bottom: 8),
-          child: Row(
-            children: [
-              Text(widget.title),
-              (widget.isCompulsory)?const Text(
-                " *",
-                style: TextStyle(color: Colors.red),
-              ):Container(),
-            ],
-          ),
-        ),
-        TextFormField(
-          controller: widget.controller,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.white,
-            isDense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Color.fromARGB(255, 215, 215, 215), width: 1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: Color.fromARGB(255, 215, 215, 215), width: 1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.red, width: 1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            hintText: widget.hintText,
-            hintStyle: const TextStyle(
-                color: Color.fromARGB(255, 215, 215, 215)
+          Padding(
+            padding: EdgeInsets.only(bottom: 8),
+            child: Row(
+              children: [
+                Text(widget.title),
+                (widget.isCompulsory)?const Text(
+                  " *",
+                  style: TextStyle(color: Colors.red),
+                ):Container(),
+              ],
             ),
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Enter a valid password'; // Changed error message
-            } else {
-              return null;
-            }
-          },
-        ),
-      ],
+          TextFormField(
+            controller: widget.controller,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              isDense: true,
+              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 215, 215, 215), width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 215, 215, 215), width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(
+                  color: Color.fromARGB(255, 215, 215, 215)
+              ),
+            ),
+            validator: widget.validation
+          ),
+        ],
+      ),
     );
   }
 }

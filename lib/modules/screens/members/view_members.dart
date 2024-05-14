@@ -76,7 +76,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.member.name,
+                              widget.member.firstname!+widget.member.lastname!,
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               ),
                             ),
                             Text(
-                              widget.member.role,
+                              widget.member.positionId!,
                               style: const TextStyle(color: Colors.blue),
                             ),
                           ],
@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(15, 6, 15, 6),
                             child: Text(
-                              widget.member.generation,
+                              "gen 5",
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
@@ -117,15 +117,14 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               children: [
                                 const Icon(Icons.work),
                                 const SizedBox(width: 8),
-                                Text(widget.member.career),
+                                Text(widget.member.job!),
                               ],
                             ),
                             Row(
                               children: [
                                 const Icon(Icons.calendar_month),
                                 const SizedBox(width: 8),
-                                Text(
-                                    '${widget.member.birthday.day}/${widget.member.birthday.month}/${widget.member.birthday.year}')
+                                // Text('${widget.member.dob!.day}/${widget.member.dob!.month}/${widget.member.dob!.year}')
                               ],
                             ),
                           ],
@@ -142,7 +141,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Email'),
                             const Spacer(),
                             Text(
-                              widget.member.email,
+                              widget.member.email!,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -154,7 +153,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Quê quán'),
                             const Spacer(),
                             Text(
-                              widget.member.address,
+                              widget.member.hometown!,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -166,7 +165,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Số điện thoại'),
                             const Spacer(),
                             Text(
-                              widget.member.phoneNumber,
+                              widget.member.phone!,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -188,7 +187,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         ),
                         const SizedBox(height: 8),
                         Center(
-                          child: _buildHobbiesContainer(widget.member.hobbies),
+                          child: _buildHobbiesContainer(widget.member.favourites!),
                         ),
                         const Text(
                           'Kỹ năng',
@@ -199,7 +198,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         ),
                         const SizedBox(height: 8),
                         Center(
-                          child: _buildSkillsContainer(widget.member.skills),
+                          child: _buildSkillsContainer(widget.member.skills!),
                         ),
                       ],
                     ),
@@ -215,18 +214,18 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(widget.member.introduction),
+                        Text(widget.member.description!),
                         const SizedBox(height: 10),
                         Row(
                           children: [
                             const Text('Tham gia'),
                             const Spacer(),
-                            Text(
-                              '${widget.member.joiningDate.year}/${widget.member.joiningDate.month}/${widget.member.joiningDate.day}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            // Text(
+                            //   '${widget.member.dateJoin!.year}/${widget.member.dateJoin!.month}/${widget.member.dateJoin!.day}',
+                            //   style: const TextStyle(
+                            //     fontWeight: FontWeight.bold,
+                            //   ),
+                            // ),
                           ],
                         ),
                         Row(
@@ -234,7 +233,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Chức vụ'),
                             const Spacer(),
                             Text(
-                              widget.member.role,
+                              widget.member.positionId!,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -246,7 +245,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Ban'),
                             const Spacer(),
                             Text(
-                              widget.member.executiveBoard,
+                              widget.member.job!,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -258,7 +257,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Chuyên ngành'),
                             const Spacer(),
                             Text(
-                              widget.member.major,
+                              widget.member.majorId!,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -291,7 +290,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
   }
 }
 
-Widget _buildHobbiesContainer(List<String> hobbies) {
+Widget _buildHobbiesContainer(List<String?> hobbies) {
   return Wrap(
     spacing: 15,
     alignment: WrapAlignment.center,
@@ -305,7 +304,7 @@ Widget _buildHobbiesContainer(List<String> hobbies) {
         margin: const EdgeInsets.fromLTRB(0, 4, 0, 4),
         padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
         child: Text(
-          hobby,
+          hobby!,
           style: TextStyle(
             color: Colors.purple.shade800,
             fontWeight: FontWeight.normal,
@@ -316,7 +315,7 @@ Widget _buildHobbiesContainer(List<String> hobbies) {
   );
 }
 
-Widget _buildSkillsContainer(List<String> skills) {
+Widget _buildSkillsContainer(List<String?> skills) {
   return Wrap(
     spacing: 5,
     alignment: WrapAlignment.center,
@@ -330,7 +329,7 @@ Widget _buildSkillsContainer(List<String> skills) {
         margin: const EdgeInsets.all(5),
         padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
         child: Text(
-          skill,
+          skill!,
           style: TextStyle(
             color: Colors.green.shade800,
             fontWeight: FontWeight.bold,

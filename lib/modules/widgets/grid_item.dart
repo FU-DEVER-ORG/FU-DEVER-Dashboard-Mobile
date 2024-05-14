@@ -30,7 +30,7 @@ class MemberGridItem extends StatelessWidget {
               child: Stack(
                 children: [
                   Image.asset(
-                    member.imageAssetPath,
+                    member.avatar!,
                     height: 246,
                     width: 168,
                     fit: BoxFit.cover,
@@ -46,7 +46,7 @@ class MemberGridItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                         child: Text(
-                          member.generation,
+                          "5",
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),
@@ -57,10 +57,10 @@ class MemberGridItem extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              member.name,
+              member.firstname! + member.lastname!,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text(member.role),
+            Text("member"),
           ],
         ),
       ),

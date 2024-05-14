@@ -7,7 +7,6 @@ import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 import 'package:fudever_dashboard/modules/widgets/search_and_filter.dart';
 
-import '../../../data/dummy_data.dart';
 import '../members/view_members.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,15 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  dynamic df;
-  void getData()async{
-    df = await UserController.getUsers();
-    print(df["body"]);
+  void getData() async {
+    dynamic df = await UserController.getUsers();
+    setState(() {
+      data = (df['data']['users'] as List).map((item) => Member.fromJson(item)).toList();
+    });
+    print(data);
   }
+
   @override
   void initState() {
     getData();
-    data = memberList;
+    data = null;
     super.initState();
   }
 

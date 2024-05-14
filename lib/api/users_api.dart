@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class UserController extends ApiRepository{
   static Future<dynamic> getUsers() async {
-    final response = await ApiRepository.get(path: "User");
+    final response = await ApiRepository.get(path: "users");
     return response;
   }
 }
