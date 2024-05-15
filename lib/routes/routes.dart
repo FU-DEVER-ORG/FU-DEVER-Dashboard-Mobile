@@ -1,16 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fudever_dashboard/layouts/auth_layout.dart';
-import 'package:fudever_dashboard/layouts/default_layout.dart';
 import 'package:fudever_dashboard/modules/screens/auth/forgot_pass.dart';
 import 'package:fudever_dashboard/modules/screens/auth/login.dart';
 import 'package:fudever_dashboard/modules/screens/auth/signup.dart';
 import 'package:fudever_dashboard/modules/screens/home/home.dart';
 import 'package:fudever_dashboard/modules/screens/home/splash.dart';
-import 'package:fudever_dashboard/modules/screens/profile/password/change_password.dart';
-import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 import 'package:fudever_dashboard/modules/screens/members/test.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Routes {
   static Route<dynamic> generateRoutes(RouteSettings settings, String token) {
@@ -34,7 +29,7 @@ class Routes {
       case 'login':
         return MaterialPageRoute(builder: (context) {
           return AuthLayout(
-            body: Login(),
+            body: const Login(),
             title: "Đăng nhập",
             trailing: Login.trailing(context),
           );
@@ -42,7 +37,7 @@ class Routes {
       case 'signup':
         return MaterialPageRoute(builder: (context) {
           return AuthLayout(
-            body: Signup(),
+            body: const Signup(),
             title: "Đăng ký tài khoản",
             trailing: Signup.trailing(context),
           );
@@ -50,7 +45,7 @@ class Routes {
       case 'forgot-password':
         return MaterialPageRoute(builder: (context) {
           return AuthLayout(
-            body: ForgotPassword(),
+            body: const ForgotPassword(),
             title: "Quên mật khẩu",
             trailing: ForgotPassword.trailing(context),
           );

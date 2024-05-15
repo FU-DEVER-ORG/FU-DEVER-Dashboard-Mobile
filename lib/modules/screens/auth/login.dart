@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fudever_dashboard/api/api_repository.dart';
 import 'package:fudever_dashboard/api/auth_api.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
+
+import '../../../utils/dialog.dart';
 // import 'package:your_app_name/api/api_repository.dart'; // Import your ApiRepository
 
 class Login extends StatelessWidget {
@@ -91,12 +89,18 @@ class _LoginFormState extends State<LoginForm> {
     if (errorEmail == null && errorPassword == null) {
       try {
         await EasyLoading.show();
-        // ignore: use_build_context_synchronously
-        await AuthController.loginUser(email, password, rememberMe, context);
+        final res = await AuthController.loginUser(email, password, rememberMe);
+        if (res == 200) {
+          // ignore: use_build_context_synchronously
+          Navigator.of(context).pushNamed('/');
+        } else {
+          // ignore: use_build_context_synchronously
+          DialogUtils.showLoginErrorDialog(context);
+        }
         await EasyLoading.dismiss();
       } catch (e) {
-        // await EasyLoading.dismiss();
-        print('Login failed: $e');
+        await EasyLoading.dismiss();
+        // print('Login failed: $e');
       }
     }
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../modules/widgets/main_drawer.dart';
 
 class DefaultLayout extends StatefulWidget {
