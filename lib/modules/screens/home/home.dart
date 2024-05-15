@@ -7,17 +7,41 @@ import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 import 'package:fudever_dashboard/modules/widgets/search_and_filter.dart';
 
+import 'dart:async';
 import '../members/view_members.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({this.arguments=null, super.key});
 
+  final arguments;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late List<Member>? data;
+
+  late List<Member>? members;
+  late TextEditingController searchBarController = TextEditingController();
+  late Timer? _debounce = null;
+
+  late List<Member>? searchMembers;
+  void useDebounce(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(seconds: 3), () {
+      if (members != null) {
+        searchMembers = List<Member>.from(
+            members!.where((element) =>
+                element.getFullname().toLowerCase().contains(value.toLowerCase())
+            )
+        );
+        print(searchMembers);
+      } else {
+        searchMembers = [];
+      }
+    });
+  }
+
+
 
   void onSelectMember(BuildContext context, Member member) {
     Navigator.of(context).push(
@@ -40,16 +64,36 @@ class _HomeScreenState extends State<HomeScreen> {
   void getData() async {
     dynamic df = await UserController.getUsers();
     setState(() {
-      data = (df['data']['users'] as List).map((item) => Member.fromJson(item)).toList();
+      members = (df['data']['users'] as List).map((item) => Member.fromJson(item)).toList();
+      if(widget.arguments != null){
+        members = members!.where((element){
+          if(element.positionId!['name'] == widget.arguments['position']
+          && element.majorId!['name'] == widget.arguments['major']
+          && element.departmentId!['name'] == widget.arguments['department']
+          && element.getGen() == widget.arguments['gen']
+          ){
+            return true;
+          }
+          return false;
+        }).toList();
+      }
     });
-    print(data);
   }
 
   @override
   void initState() {
+    searchBarController.addListener(() {
+      useDebounce(searchBarController.text);
+    });
     getData();
-    data = null;
+    members = null;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
   }
 
   @override
@@ -130,9 +174,9 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              const SearchAndFilter(),
+              SearchAndFilter(searchBarController: searchBarController),
               const SizedBox(height: 10),
-              (data != null)
+              (members != null)
                   ? Expanded(
                       child: GridView.builder(
                         gridDelegate:
@@ -142,12 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                         ),
-                        itemCount: data!.length,
+                        itemCount: members!.length,
                         itemBuilder: (context, index) {
                           return MemberGridItem(
-                            member: data![index],
+                            member: members![index],
                             onSelectMember: () =>
-                                onSelectMember(context, data![index]),
+                                onSelectMember(context, members![index]),
                           );
                         },
                       ),

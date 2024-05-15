@@ -46,7 +46,7 @@ class MemberGridItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                         child: Text(
-                          "5",
+                          member.getGen(),
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),

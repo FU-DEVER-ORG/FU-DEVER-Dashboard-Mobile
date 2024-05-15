@@ -25,6 +25,23 @@ class Member {
   late int? v; // "__v" is typically an integer
 
 
+  String getGen(){
+    if (dateJoin == null) {
+      return 'Date not set';
+    }
+
+    int startYear = 2017;
+    int gen = 1;
+
+    while (DateTime(startYear + gen, 9).isBefore(dateJoin!)) {
+      gen++;
+    }
+
+    return 'Gen $gen';
+  }
+  String getFullname(){
+    return '${this.firstname} ${this.lastname}';
+  }
   Member(
       {required this.description,
       required this.nickname,

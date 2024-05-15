@@ -28,19 +28,29 @@ class _FilterScreenState extends State<FilterScreen> {
     'Trí tuệ nhân tạo',
     'Thiết kế mỹ thuật số'
   ];
-  String dropdownValue1 = 'Gen 5';
-  String dropdownValue2 = 'Chủ nhiệm';
-  String dropdownValue3 = 'Ban học thuật';
-  String dropdownValue4 = 'Kĩ thuật phần mềm';
+  String dropdownValueGen = 'Gen 5';
+  String dropdownValuePosition = 'Chủ nhiệm';
+  String dropdownValueDeparment = 'Ban học thuật';
+  String dropdownValueMajor = 'Kĩ thuật phần mềm';
 
-  Widget buildDropdown(String title, String dropdownValue,
-      List<String> filterList, Function(String?) onChanged) {
+  TextEditingController controllerGen = TextEditingController();
+  TextEditingController controllerPosition = TextEditingController();
+  TextEditingController controllerDepartment = TextEditingController();
+  TextEditingController controllerMajor = TextEditingController();
+
+
+  Widget buildDropdown(
+      {required String title,
+      required TextEditingController controller,
+      required String dropdownValue,
+      required List<String> filterList}) {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Text(title),
       ),
       subtitle: DropdownMenu<String>(
+        controller: controller,
         trailingIcon: const Icon(
           Icons.keyboard_arrow_down_outlined,
           color: Colors.grey,
@@ -67,13 +77,6 @@ class _FilterScreenState extends State<FilterScreen> {
         hintText: dropdownValue,
         width: MediaQuery.of(context).size.width - 40,
         initialSelection: dropdownValue,
-        onSelected: (String? value) {
-          if (value != null) {
-            setState(() {
-              dropdownValue = value;
-            });
-          }
-        },
         textStyle: Theme.of(context).textTheme.bodySmall,
         selectedTrailingIcon: Icon(
           Icons.expand_less,
@@ -124,21 +127,33 @@ class _FilterScreenState extends State<FilterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  controllerMajor.text= dropdownValueMajor;
+                  controllerGen.text = dropdownValueGen;
+                  controllerPosition.text = dropdownValuePosition;
+                  controllerDepartment.text = dropdownValueDeparment;
+                },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.blue,
-                  side: const BorderSide(color: Colors.blue),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.blue,
+                side: const BorderSide(color: Colors.blue),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
                   fixedSize: Size(screenWidth / 2.3, screenHeight),
                 ),
                 child: const Text('Xóa bộ lọc'),
               ),
               const SizedBox(width: 16),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/",arguments: {
+                    "major":controllerMajor.text,
+                    "gen":controllerGen.text,
+                    "position":controllerPosition.text,
+                    "department":controllerDepartment.text,
+                  });
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
@@ -159,27 +174,10 @@ class _FilterScreenState extends State<FilterScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            buildDropdown('Khóa', dropdownValue1, studentYearList, (value) {
-              setState(() {
-                dropdownValue1 = value!;
-              });
-            }),
-            buildDropdown('Chức vụ CLB', dropdownValue2, clubPositionList,
-                (value) {
-              setState(() {
-                dropdownValue2 = value!;
-              });
-            }),
-            buildDropdown('Ban', dropdownValue3, boardList, (value) {
-              setState(() {
-                dropdownValue3 = value!;
-              });
-            }),
-            buildDropdown('Chuyên ngành', dropdownValue4, majorList, (value) {
-              setState(() {
-                dropdownValue4 = value!;
-              });
-            }),
+            buildDropdown(title: 'Khóa', dropdownValue: dropdownValueGen, filterList: studentYearList, controller: controllerGen),
+            buildDropdown(title: 'Chức vụ CLB', dropdownValue:  dropdownValuePosition, filterList: clubPositionList,controller: controllerPosition),
+            buildDropdown(title: 'Ban', dropdownValue:  dropdownValueDeparment, filterList: boardList, controller: controllerDepartment),
+            buildDropdown(title: 'Chuyên ngành', dropdownValue:  dropdownValueMajor, filterList: majorList,controller: controllerMajor),
           ],
         ),
       ),

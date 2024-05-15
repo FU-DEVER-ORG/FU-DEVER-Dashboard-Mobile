@@ -19,8 +19,9 @@ class Routes {
     // }
     switch (settings.name) {
       case '/':
+        final args = settings.arguments;
         return MaterialPageRoute(builder: (_) {
-          return const HomeScreen();
+          return HomeScreen(arguments: args,);
         });
       case 'splash':
         return MaterialPageRoute(builder: (_) {

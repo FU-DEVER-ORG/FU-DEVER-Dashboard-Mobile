@@ -4,14 +4,19 @@ import 'package:flutter_svg/svg.dart';
 
 import '../screens/filters/filter_screen.dart';
 
-class SearchAndFilter extends StatefulWidget {
-  const SearchAndFilter({super.key});
+import 'dart:async';
 
+class SearchAndFilter extends StatefulWidget {
+  const SearchAndFilter({required this.searchBarController, super.key});
+
+  final TextEditingController searchBarController;
   @override
   State<SearchAndFilter> createState() => _SeachAndFilterState();
 }
 
 class _SeachAndFilterState extends State<SearchAndFilter> {
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,6 +43,7 @@ class _SeachAndFilterState extends State<SearchAndFilter> {
               child: SizedBox(
                 height: 44,
                 child: TextField(
+                  controller: widget.searchBarController,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(0),
                     icon: const Padding(
@@ -56,9 +62,6 @@ class _SeachAndFilterState extends State<SearchAndFilter> {
                       borderSide: BorderSide.none,
                     ),
                   ),
-                  onChanged: (value) {
-                    // Xử lý khi giá trị tìm kiếm thay đổi
-                  },
                 ),
               ),
             ),
