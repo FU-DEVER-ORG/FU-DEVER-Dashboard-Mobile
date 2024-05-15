@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 
 class AuthLayout extends StatefulWidget {

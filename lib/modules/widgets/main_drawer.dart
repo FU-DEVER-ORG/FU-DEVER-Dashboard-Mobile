@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);

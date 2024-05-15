@@ -12,8 +12,8 @@ class ApiRepository {
       body: jsonEncode(options),
       headers: {'Content-Type': 'application/json'},
     );
-    final responseData = jsonDecode(response.body);
-    return responseData;
+    // final responseData = jsonDecode(response.body);
+    return response.statusCode;
   }
   static Future<dynamic> get(
       {required String path,Map<String, dynamic> options = const {}}) async {

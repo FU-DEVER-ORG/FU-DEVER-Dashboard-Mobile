@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class SkillsScreen extends StatefulWidget {
   const SkillsScreen({
@@ -24,7 +22,7 @@ class _SkillsState extends State<SkillsScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
+    // final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
