@@ -27,7 +27,7 @@ class Member {
 
   String getGen(){
     if (dateJoin == null) {
-      return 'Date not set';
+      return 'noGen';
     }
 
     int startYear = 2017;

@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  late dynamic data;
   late List<Member>? members;
   late TextEditingController searchBarController = TextEditingController();
   late Timer? _debounce = null;
@@ -27,16 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<Member>? searchMembers;
   void useDebounce(String value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(seconds: 3), () {
-      if (members != null) {
+    _debounce = Timer(const Duration(milliseconds: 1500), () {
+      if (data != null) {
         searchMembers = List<Member>.from(
-            members!.where((element) =>
+            data!.where((Member element) =>
                 element.getFullname().toLowerCase().contains(value.toLowerCase())
             )
         );
-        print(searchMembers);
-      } else {
-        searchMembers = [];
+        setState(() {
+          members = searchMembers;
+        });
       }
     });
   }
@@ -62,19 +63,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getData() async {
-    dynamic df = await UserController.getUsers();
+    data = await UserController.getUsers();
     setState(() {
-      members = (df['data']['users'] as List).map((item) => Member.fromJson(item)).toList();
+      data = (data['data']['users'] as List).map((item) => Member.fromJson(item)).toList();
+      members = [...data];
       if(widget.arguments != null){
-        members = members!.where((element){
-          if(element.positionId!['name'] == widget.arguments['position']
-          && element.majorId!['name'] == widget.arguments['major']
-          && element.departmentId!['name'] == widget.arguments['department']
-          && element.getGen() == widget.arguments['gen']
-          ){
-            return true;
+        members = members!.where((Member element){
+          // print('${element.positionId!['name']}, ${element.majorId!['name']}, ${element.departmentId!['name']}, ${element.getGen()}');
+          if(widget.arguments['position']!='Any'&&(element.positionId== null
+              || element.positionId!['name'] != widget.arguments['position'])){
+              return false;
           }
-          return false;
+          if(widget.arguments['major']!='Any'&&(element.majorId== null
+              || element.majorId!['name'] != widget.arguments['major'])){
+              return false;
+          }
+          if(widget.arguments['department']!='Any'&&(element.departmentId== null
+              || element.departmentId!['name'] != widget.arguments['department'])){
+              return false;
+          }
+          if(widget.arguments['gen']!='Any'&&(element.getGen()== "noGen"
+              || element.getGen() != widget.arguments['gen'])){
+              return false;
+          }
+          return true;
         }).toList();
       }
     });

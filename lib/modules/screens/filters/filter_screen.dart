@@ -8,25 +8,28 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  final List<String> studentYearList = ['Gen 5', 'Gen 6', 'Gen 7'];
+  final List<String> studentYearList = ['Gen 5', 'Gen 6', 'Gen 7', 'Any'];
   final List<String> clubPositionList = [
     'Chủ nhiệm',
     'Phó chủ nhiệm',
     'Thư ký',
     'Trưởng ban',
     'Phó ban',
-    'Thành viên'
+    'Thành viên',
+    'Any'
   ];
   final List<String> boardList = [
     'Ban học thuật',
     'Ban truyền thông',
-    'Ban sự kiện'
+    'Ban sự kiện',
+    'Any'
   ];
   final List<String> majorList = [
     'Kĩ thuật phần mềm',
     'An toàn thông tin',
     'Trí tuệ nhân tạo',
-    'Thiết kế mỹ thuật số'
+    'Thiết kế mỹ thuật số',
+    'Any'
   ];
   String dropdownValueGen = 'Gen 5';
   String dropdownValuePosition = 'Chủ nhiệm';
