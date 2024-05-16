@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/layouts/auth_layout.dart';
 import 'package:fudever_dashboard/modules/screens/auth/login.dart';
@@ -13,16 +14,20 @@ import 'package:fudever_dashboard/modules/screens/profile/qrcode_member_card/qrc
 import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 import 'package:fudever_dashboard/modules/screens/profile/social_media/social_media.dart';
 import 'package:fudever_dashboard/modules/widgets/image_input.dart';
+import 'package:fudever_dashboard/provider/image_provider.dart'; // Import the image provider
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileState();
+  ConsumerState<ProfileScreen> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<ProfileScreen> {
+class _ProfileState extends ConsumerState<ProfileScreen> {
   File? _selectedImage;
+  bool _isImageCaptured = false;
+  bool _isConfirmed = false;
+
   List<Map<String, dynamic>> listItems = [
     {
       'icon': Icons.edit,
@@ -60,6 +65,21 @@ class _ProfileState extends State<ProfileScreen> {
       'screen': const ChangePasswordScreen(title: 'Đổi mật khẩu')
     },
   ];
+void _saveImage(BuildContext context) async {
+  if (_selectedImage != null) {
+    ref.read(userImageProvider.notifier).changeProfileInfo(
+          'User Name',
+          _selectedImage!,
+        ); // Replace 'User Name' with the actual user name
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Image saved successfully'),
+      ),
+    );
+  }
+}
+
 
   PreferredSizeWidget _buildProfileHeader(BuildContext context) {
     return AppBar(
@@ -79,17 +99,42 @@ class _ProfileState extends State<ProfileScreen> {
         style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
       ),
       actions: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return QrCodeMember();
-            }));
-          },
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-            child: SvgPicture.asset('assets/images/QR.svg'),
+        if (_isImageCaptured && !_isConfirmed)
+          GestureDetector(
+            onTap: () {
+              _saveImage(context);
+              setState(() {
+                _isConfirmed = true;
+              });
+            },
+            child: const Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: Icon(Icons.check, color: Colors.blue),
+            ),
+          )
+        else
+          GestureDetector(
+            onTap: () {
+              // Navigate to QR code screen and set checkmark
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const QrCodeMember();
+                  },
+                ),
+              ).then((_) {
+                setState(() {
+                  _isImageCaptured = false;
+                  _isConfirmed = false;
+                });
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: SvgPicture.asset('assets/images/QR.svg'),
+            ),
           ),
-        ),
       ],
       backgroundColor: Theme.of(context).colorScheme.background,
     );
@@ -98,7 +143,12 @@ class _ProfileState extends State<ProfileScreen> {
   Widget _buildProfileImage(BuildContext context) {
     return ImageInput(
       onPickImage: (image) {
-        _selectedImage = image;
+        _saveImage(context);
+        setState(() {
+          _selectedImage = image;
+          _isImageCaptured = true;
+          _isConfirmed = false;
+        });
       },
     );
   }
@@ -122,7 +172,7 @@ class _ProfileState extends State<ProfileScreen> {
               ),
             ),
             const Text(
-              'emaiil@gmail.com',
+              'email@gmail.com',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w200,
@@ -148,7 +198,7 @@ class _ProfileState extends State<ProfileScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AuthLayout(
-                        body: Login(),
+                        body: const Login(),
                         title: "Đăng nhập",
                         trailing: Login.trailing(context),
                       ),

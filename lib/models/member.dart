@@ -4,7 +4,7 @@ class Member {
   late String? phone;
   late String? firstname;
   late String? lastname;
-  late DateTime? dob; // Date of birth is typically a DateTime
+  late DateTime? dateOfBirth;
   late String? hometown;
   late Map<String, dynamic>? positionId; // This is an object in the provided data
   late Map<String, dynamic>? departmentId; // This is an object in the provided data
@@ -48,7 +48,7 @@ class Member {
       required this.phone,
       required this.firstname,
       required this.lastname,
-      required this.dob,
+      required this.dateOfBirth,
       required this.hometown,
       required this.positionId,
       required this.departmentId,
@@ -75,7 +75,7 @@ class Member {
       phone: item['phone'],
       firstname: item['firstname'],
       lastname: item['lastname'],
-      dob: item['dob'] != null ? DateTime.parse(item['dob']) : null,
+      dateOfBirth: item['dateOfBirth'] != null ? DateTime.parse(item['dateOfBirth']) : null,
       hometown: item['hometown'],
       positionId: item['positionId'],
       departmentId: item['departmentId'],

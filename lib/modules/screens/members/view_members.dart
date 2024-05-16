@@ -124,7 +124,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               children: [
                                 const Icon(Icons.calendar_month),
                                 const SizedBox(width: 8),
-                                Text('${widget.member.dob!.day}/${widget.member.dob!.month}/${widget.member.dob!.year}')
+                                Text('${widget.member.dateOfBirth!.day}/${widget.member.dateOfBirth!.month}/${widget.member.dateOfBirth!.year}')
                               ],
                             ),
                           ],
