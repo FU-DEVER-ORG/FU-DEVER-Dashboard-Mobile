@@ -63,23 +63,21 @@ class _SkillsState extends State<SkillsScreen> {
               spacing: 8,
                 children: [
                   CustomField(title: "Kỹ năng", hintText: "Nhập kỹ năng của bạn", controller: skillController, isCompulsory: true),
+                  SizedBox(height: 10,),
                   Container(
-                      padding: EdgeInsets.only(top:16),
                       width: screenWidth,
                       child: MaterialButton(
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         color: Theme.of(context).buttonTheme.colorScheme!.primary,
                         onPressed: () {},
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust the border radius
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            "Thêm kỹ năng",
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.background),
-                          ),
+                        child: Text(
+                          "Thêm kỹ năng",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.background),
                         ),
                       )
                   ),

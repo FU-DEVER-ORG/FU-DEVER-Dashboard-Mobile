@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
 class SocialMediaScreen extends StatefulWidget {
@@ -22,24 +24,9 @@ class _SocialMediaState extends State<SocialMediaScreen> {
     ['Youtube', 'assets/images/youtube.svg']
   ];
 
-  InputDecoration buildInputDecoration(String hintText) {
-    return InputDecoration(
-      isDense: true,
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey.shade400),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey.shade400),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      hintStyle: TextStyle(color: Colors.grey.shade400),
-      hintText: hintText,
-    );
-  }
+  TextEditingController urlController = TextEditingController();
 
-  Widget buildDropdown() {
+  Widget buildDropdown(sheetcontext) {
     return DropdownMenu<String>(
       trailingIcon: const Icon(
         Icons.keyboard_arrow_down_outlined,
@@ -49,20 +36,21 @@ class _SocialMediaState extends State<SocialMediaScreen> {
         filled: true,
         fillColor: Colors.white,
         isDense: true,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         enabledBorder: OutlineInputBorder(
           borderSide:
-          BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+          BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 1),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide:
-          BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+          BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 1),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         labelStyle: TextStyle(
           color: Color.fromARGB(255, 215, 215, 215),
         ),
+        hintStyle: TextStyle(color: Color.fromARGB(255, 215, 215, 215))
       ),
       textStyle: Theme
           .of(context)
@@ -76,8 +64,9 @@ class _SocialMediaState extends State<SocialMediaScreen> {
             .color,
       ),
       hintText: 'Chọn nền tảng',
+
       width: MediaQuery
-          .of(context)
+          .of(sheetcontext)
           .size
           .width - 40,
       initialSelection: dropdownValue,
@@ -166,26 +155,14 @@ class _SocialMediaState extends State<SocialMediaScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              buildDropdown(),
+              buildDropdown(context),
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  const Text("Link"),
-                  const Text(
-                    " *",
-                    style: TextStyle(color: Colors.red),
-                  )
-                ],
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: buildInputDecoration("Nhập URL"),
-              ),
+              CustomField(title: "Link", hintText: "Nhập URl", controller: urlController, isCompulsory: true),
               const SizedBox(height: 10),
               Container(
                 width: screenWidth,
                 child: MaterialButton(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   color: Theme.of(context).buttonTheme.colorScheme!.primary,
                   onPressed: () {},
                   shape: RoundedRectangleBorder(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
 class FavoritesScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class FavoritesScreen extends StatefulWidget {
 
 class _SkillsState extends State<FavoritesScreen> {
   List<String> skills = ["Đá bóng", "Lập trình", "Chơi game"];
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -60,40 +62,14 @@ class _SkillsState extends State<FavoritesScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const Text("Sở thích"),
-                      const Text(" *", style: TextStyle(color: Colors.red),)
-                    ],
-                  ),
+                  CustomField(title: "Sở thích", hintText: "Nhập sở thích của bạn", controller: controller, isCompulsory: true),
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 215, 215, 215), width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: "Nhập sở thích của bạn",
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 215, 215, 215),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                      width: screenWidth,
-                      height: 52,
+                  Container(
+                    width: screenWidth,
                       child: MaterialButton(
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         color: Colors.blue,
                         onPressed: () {},
                         shape: RoundedRectangleBorder(

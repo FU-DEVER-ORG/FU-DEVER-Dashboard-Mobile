@@ -90,14 +90,11 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
         body: Form(
           key: _formKey,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(vertical:20, horizontal: 20),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Row(
                     children: [
                       const Text("Mật khẩu hiện tại"),
@@ -350,19 +347,21 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
               ]),
               child: Container(
                   child: MaterialButton(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                color: Theme.of(context).buttonTheme.colorScheme!.primary,
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(8.0), // Adjust the border radius
-                ),
-                child: Text(
-                  "Xác nhận",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.background),
-                ),
-              ))),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    color: Theme.of(context).buttonTheme.colorScheme!.primary,
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(8.0), // Adjust the border radius
+                    ),
+                    child: Text(
+                      "Xác nhận",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.background),
+                    ),
+                  )
+              )
+          ),
         ]),
       ),
     );

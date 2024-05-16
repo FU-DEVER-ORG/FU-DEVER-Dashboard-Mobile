@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 
 class IndividualInformationScreen extends StatefulWidget {
   const IndividualInformationScreen({
@@ -20,6 +21,17 @@ class _IndividualInformationScreenState
   final List<String> boardList = ['Học thuật', 'Truyền thông', 'Sự kiện'];
   final List<String> majorList = ['Kĩ thuật phần mềm', 'An toàn thông tin', 'Trí tuệ nhân tạo', 'Thiết kế mỹ thuật số'];
 
+  final TextEditingController firstnameController = TextEditingController();
+  final TextEditingController lastnameController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
+  final TextEditingController hometownController = TextEditingController();
+  final TextEditingController positionController = TextEditingController();
+  final TextEditingController boardController = TextEditingController();
+  final TextEditingController jobController = TextEditingController();
+  final TextEditingController workplaceController = TextEditingController();
+  final TextEditingController schoolController = TextEditingController();
+  final TextEditingController majorController = TextEditingController();
+  final TextEditingController dateJoinController = TextEditingController();
   InputDecoration buildInputDecoration(String labelText) {
     return InputDecoration(
       filled: true,
@@ -139,65 +151,6 @@ class _IndividualInformationScreenState
     );
   }
 
-  Widget buildDropdown(String title, String hintText, List<String> itemList) {
-    return ListTile(
-      title: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: Row(
-          children: [
-            Text(title),
-            const Text(" *", style: TextStyle(color: Colors.red),)
-          ],
-        ),
-      ),
-      subtitle: DropdownMenu<String>(
-        trailingIcon: const Icon(
-          Icons.keyboard_arrow_down_outlined,
-          color: Color.fromARGB(255, 215, 215, 215),
-          size: 30,
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 215, 215, 215), width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 215, 215, 215), width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.red, width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          hintStyle: const TextStyle(
-              fontSize: 16,
-              color: Color.fromARGB(255, 215, 215, 215)
-          ),
-        ),
-        hintText: hintText,
-        width: MediaQuery.of(context).size.width - 40,
-        initialSelection: dropdownValue,
-        onSelected: (String? value) {
-          if (value != null) {
-            setState(() {
-              dropdownValue = value;
-            });
-          }
-        },
-        textStyle: Theme.of(context).textTheme.bodySmall,
-        selectedTrailingIcon: Icon(Icons.expand_less,color: Theme.of(context).iconTheme.color,),
-        dropdownMenuEntries:
-        itemList.map<DropdownMenuEntry<String>>((String value) {
-          return DropdownMenuEntry<String>(value: value, label: value);
-        }).toList(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -223,17 +176,17 @@ class _IndividualInformationScreenState
             padding: EdgeInsets.only(bottom: 12),
             child: Column(
               children: [
-                buildTextField('Họ', 'Nhập họ'),
-                buildTextField('Tên', 'Nhập tên của bạn'),
-                builDateField('Ngày sinh', 'Chọn ngày sinh'),
-                buildTextField('Nơi ở', 'Nơi ở hiện tại'),
-                buildDropdown('Chức vụ CLB', "Chọn chức vụ", clubPositionList),
-                buildDropdown('Ban hoạt động', "Chọn ban của bạn", boardList),
-                buildTextField('Nghề nghiệp', 'Công việc hiện tại', isCompulsory: false),
-                buildTextField('Nơi làm việc', 'Nơi làm việc hiện tại', isCompulsory: false),
-                buildTextField('Trường học', 'Trường học gần nhất đang/đã từng học'),
-                buildDropdown('Chuyên ngành', "Chuyên ngành của bạn", majorList),
-                builDateField('Ngày tham gia CLB', 'Ngày tham gia (Gen)'),
+                CustomField(title: 'Họ',hintText: 'Nhập họ', controller: firstnameController, isCompulsory: true,),
+                CustomField(title: 'Tên',hintText:  'Nhập tên của bạn', controller: lastnameController, isCompulsory: true,),
+                CustomDateField(title: 'Ngày sinh',hintText:  'Chọn ngày sinh', controller: dobController, isCompulsory: false,),
+                CustomField(title: 'Nơi ở',hintText:  'Nơi ở hiện tại', controller: hometownController, isCompulsory: true,),
+                CustomDropdown(title: 'Chức vụ CLB',dropdownValue:  "Chọn chức vụ", context: context, controller: positionController, filterList: clubPositionList),
+                CustomDropdown(title: 'Ban hoạt động',dropdownValue:  "Chọn ban của bạn", context: context, controller: boardController, filterList: boardList),
+                CustomField(title: 'Nghề nghiệp',hintText:  'Công việc hiện tại',controller: jobController, isCompulsory: false),
+                CustomField(title: 'Nơi làm việc',hintText:  'Nơi làm việc hiện tại',controller: workplaceController, isCompulsory: false),
+                CustomField(title: 'Trường học',hintText:  'Trường học gần nhất đang/đã từng học', controller: schoolController, isCompulsory: true,),
+                CustomDropdown(title: 'Chuyên ngành',dropdownValue:  "Chuyên ngành của bạn", context: context, controller: majorController, filterList: majorList),
+                CustomDateField(title: 'Ngày tham gia CLB',hintText:  'Ngày tham gia (Gen)', controller: dateJoinController, isCompulsory: false,),
               ],
             ),
           ),

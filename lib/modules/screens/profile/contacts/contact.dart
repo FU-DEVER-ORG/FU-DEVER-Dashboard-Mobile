@@ -13,7 +13,8 @@ class ContactsScreen extends StatefulWidget {
 
 class _IntroductionScreenState extends State<ContactsScreen> {
   final TextEditingController emailController = TextEditingController();
-
+  final TextEditingController phoneController = TextEditingController();
+  final formKey =GlobalKey<FormState>();
   late String email = "";
   @override
   void initState() {
@@ -50,95 +51,17 @@ class _IntroductionScreenState extends State<ContactsScreen> {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            CustomField(title: "Email",hintText: "Email của bạn",controller: emailController,isCompulsory: true,),
-            // ListTile(
-            //   title: Padding(
-            //     padding: EdgeInsets.only(bottom: 10),
-            //     child: Row(
-            //       children: [
-            //         Text('Email'),
-            //         const Text(
-            //           " *",
-            //           style: TextStyle(color: Colors.red),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            //   subtitle: TextField(
-            //     controller: emailController,
-            //     decoration: InputDecoration(
-            //       filled: true,
-            //       fillColor: Colors.white,
-            //       isDense: true,
-            //       contentPadding:
-            //           EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            //       enabledBorder: OutlineInputBorder(
-            //         borderSide: const BorderSide(
-            //             color: Color.fromARGB(255, 215, 215, 215), width: 1),
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //       focusedBorder: OutlineInputBorder(
-            //         borderSide: const BorderSide(
-            //             color: Color.fromARGB(255, 215, 215, 215), width: 1),
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //       errorBorder: OutlineInputBorder(
-            //         borderSide: const BorderSide(color: Colors.red, width: 1),
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //       hintText: 'Email của bạn',
-            //       hintStyle: const TextStyle(
-            //           color: Color.fromARGB(255, 215, 215, 215)),
-            //     ),
-            //   ),
-            // ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Row(
-                  children: [
-                    Text('Số điện thoại'),
-                    const Text(
-                      " *",
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
-                ),
-              ),
-              subtitle: TextField(
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  isDense: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 215, 215, 215), width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: 'Số điện thoại của bạn',
-                  hintStyle: const TextStyle(
-                      color: Color.fromARGB(255, 215, 215, 215)),
-                ),
-              ),
+        body: Form(
+          key: formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical:20, horizontal: 20.0),
+            child: Column(
+              children: [
+                CustomField(title: "Email",hintText: "Email của bạn",controller: emailController,isCompulsory: true,),
+                CustomField(title: "Số điện thoại",hintText: "Số điện thoại của bạn",controller: phoneController,isCompulsory: true,),
+              ]
             ),
-          ],
+          ),
         ),
         bottomSheet: Wrap(
           children: [
@@ -156,7 +79,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
             child: Container(
               width: screenWidth,
               child: MaterialButton(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: EdgeInsets.symmetric(vertical: 16),
                 color: Theme.of(context).buttonTheme.colorScheme!.primary,
                 onPressed: () {},
                 shape: RoundedRectangleBorder(
