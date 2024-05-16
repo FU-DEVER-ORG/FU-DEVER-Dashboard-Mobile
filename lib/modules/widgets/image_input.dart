@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImageInput extends StatefulWidget {
+import '../../provider/image_provider.dart';
+
+class ImageInput extends ConsumerStatefulWidget {
   const ImageInput({
     Key? key,
     required this.onPickImage,
@@ -12,10 +15,10 @@ class ImageInput extends StatefulWidget {
   final void Function(File image) onPickImage;
 
   @override
-  State<ImageInput> createState() => _ImageInputState();
+  ConsumerState<ImageInput> createState() => _ImageInputState();
 }
 
-class _ImageInputState extends State<ImageInput> {
+class _ImageInputState extends ConsumerState<ImageInput> {
   File? _selectedImage;
 
   void _openCamera() async {
@@ -24,12 +27,14 @@ class _ImageInputState extends State<ImageInput> {
       setState(() {
         _selectedImage = pickedImage;
       });
-      widget.onPickImage(pickedImage);
+      widget.onPickImage(_selectedImage!);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final File? userAvatar = ref.watch(userImageProvider);
+
     Widget content = IconButton(
       onPressed: _openCamera,
       icon: const Icon(
@@ -45,9 +50,9 @@ class _ImageInputState extends State<ImageInput> {
           child: SizedBox(
             height: 120,
             width: 120,
-            child: _selectedImage != null
+            child: userAvatar != null
                 ? Image.file(
-                    _selectedImage!,
+                    userAvatar,
                     fit: BoxFit.cover,
                   )
                 : Image.asset(
@@ -85,7 +90,7 @@ class CameraHelper {
       if (pickedImage == null) return null;
       return File(pickedImage.path);
     } catch (e) {
-      print('Error opening camera: $e');
+      // print('Error opening camera: $e');
       return null;
     }
   }

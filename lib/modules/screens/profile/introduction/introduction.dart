@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -135,7 +133,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 30),
             child: ElevatedButton(
               onPressed: () {
-                _showVerificationDialog(context);
+                // _showVerificationDialog(context);
               },
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(color: Colors.blue),
