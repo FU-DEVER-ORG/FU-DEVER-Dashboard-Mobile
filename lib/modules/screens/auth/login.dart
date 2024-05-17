@@ -90,10 +90,10 @@ class _LoginFormState extends State<LoginForm> {
       try {
         await EasyLoading.show();
         final res = await AuthController.loginUser(email, password, rememberMe);
-        if (res == 200) {
-          // ignore: use_build_context_synchronously
+        if(res['status'] == 'success'){
+          print(res);
           Navigator.of(context).pushNamed('/');
-        } else {
+        }else {
           // ignore: use_build_context_synchronously
           DialogUtils.showLoginErrorDialog(context);
         }
