@@ -22,7 +22,7 @@ class Login extends StatelessWidget {
           GestureDetector(
             child:
                 Text("Đăng ký", style: Theme.of(context).textTheme.labelSmall),
-            onTap: () => Navigator.of(context).pushNamed('signup'),
+            // onTap: () => Navigator.of(context).pushNamed('signup'),
           )
         ],
       ),
@@ -154,8 +154,8 @@ class _LoginFormState extends State<LoginForm> {
                       ],
                     ),
                     GestureDetector(
-                      onTap: () =>
-                          Navigator.of(context).pushNamed('forgot-password'),
+                      // onTap: () =>
+                      //     Navigator.of(context).pushNamed('forgot-password'),
                       child: Text(
                         "Quên mật khẩu?",
                         style: Theme.of(context).textTheme.bodySmall,

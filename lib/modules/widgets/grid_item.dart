@@ -57,7 +57,7 @@ class MemberGridItem extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              member.firstname! + " " + member.lastname!,
+              "${member.firstname!} ${member.lastname!}",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(member.positionId!['name']),

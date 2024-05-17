@@ -1,25 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
 import 'package:fudever_dashboard/models/member.dart';
 import 'package:fudever_dashboard/modules/screens/filters/filter_screen.dart';
-import 'package:fudever_dashboard/modules/screens/profile/profile.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 import 'package:fudever_dashboard/modules/widgets/search_and_filter.dart';
 
 import 'dart:async';
+import '../../../provider/image_provider.dart';
 import '../members/view_members.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({this.arguments=null, super.key});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({this.arguments = null, super.key});
 
   final arguments;
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   late dynamic data;
   late List<Member>? members;
   late TextEditingController searchBarController = TextEditingController();
@@ -30,19 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 1500), () {
       if (data != null) {
-        searchMembers = List<Member>.from(
-            data!.where((Member element) =>
-                element.getFullname().toLowerCase().contains(value.toLowerCase())
-            )
-        );
+        searchMembers = List<Member>.from(data!.where((Member element) =>
+            element.getFullname().toLowerCase().contains(value.toLowerCase())));
         setState(() {
           members = searchMembers;
         });
       }
     });
   }
-
-
 
   void onSelectMember(BuildContext context, Member member) {
     Navigator.of(context).push(
@@ -65,26 +63,34 @@ class _HomeScreenState extends State<HomeScreen> {
   void getData() async {
     data = await UserController.getUsers();
     setState(() {
-      data = (data['data']['users'] as List).map((item) => Member.fromJson(item)).toList();
+      data = (data['data']['users'] as List)
+          .map((item) => Member.fromJson(item))
+          .toList();
       members = [...data];
-      if(widget.arguments != null){
-        members = members!.where((Member element){
+      if (widget.arguments != null) {
+        members = members!.where((Member element) {
           // print('${element.positionId!['name']}, ${element.majorId!['name']}, ${element.departmentId!['name']}, ${element.getGen()}');
-          if(widget.arguments['position']!='Any'&&(element.positionId== null
-              || element.positionId!['name'] != widget.arguments['position'])){
-              return false;
+          if (widget.arguments['position'] != 'Any' &&
+              (element.positionId == null ||
+                  element.positionId!['name'] !=
+                      widget.arguments['position'])) {
+            return false;
           }
-          if(widget.arguments['major']!='Any'&&(element.majorId== null
-              || element.majorId!['name'] != widget.arguments['major'])){
-              return false;
+          if (widget.arguments['major'] != 'Any' &&
+              (element.majorId == null ||
+                  element.majorId!['name'] != widget.arguments['major'])) {
+            return false;
           }
-          if(widget.arguments['department']!='Any'&&(element.departmentId== null
-              || element.departmentId!['name'] != widget.arguments['department'])){
-              return false;
+          if (widget.arguments['department'] != 'Any' &&
+              (element.departmentId == null ||
+                  element.departmentId!['name'] !=
+                      widget.arguments['department'])) {
+            return false;
           }
-          if(widget.arguments['gen']!='Any'&&(element.getGen()== "noGen"
-              || element.getGen() != widget.arguments['gen'])){
-              return false;
+          if (widget.arguments['gen'] != 'Any' &&
+              (element.getGen() == "noGen" ||
+                  element.getGen() != widget.arguments['gen'])) {
+            return false;
           }
           return true;
         }).toList();
@@ -110,6 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final File? userAvatar = ref.watch(userImageProvider);
+
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -177,7 +185,11 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: onSelectAvatar,
-                child: Image.asset('assets/images/Avatar.png'),
+                child: userAvatar != null
+                    ? CircleAvatar(
+                        backgroundImage: FileImage(userAvatar),
+                      )
+                    : Image.asset('assets/images/Avatar.png'),
               ),
             ),
           ],
@@ -210,10 +222,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   : Padding(
                       padding: const EdgeInsets.only(top: 100),
-                      child: SvgPicture.asset(
-                        'assets/images/filter-no-members.svg',
-                        fit: BoxFit.cover,
-                      ),
+                      child: (userAvatar != null)
+                          ? Image.file(userAvatar)
+                          : SvgPicture.asset(
+                              'assets/images/filter-no-members.svg',
+                              fit: BoxFit.cover,
+                            ),
                     ),
             ],
           ),

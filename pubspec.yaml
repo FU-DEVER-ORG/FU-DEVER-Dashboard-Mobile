@@ -40,7 +40,7 @@ dependencies:
   http: ^1.1.0
   jwt_decoder: ^2.0.1
   flutter_quill: ^9.3.7
-  image_picker: ^1.0.7
+  image_picker: ^1.1.1
   flutter_riverpod: ^2.5.1
   flutter_easyloading: ^3.0.5
   get: ^4.6.6
