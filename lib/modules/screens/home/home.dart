@@ -43,6 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void onSelectMember(BuildContext context, Member member) {
+    print(member);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ViewMemberScreen(
@@ -62,6 +63,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void getData() async {
     data = await UserController.getUsers();
+
     setState(() {
       data = (data['data']['users'] as List)
           .map((item) => Member.fromJson(item))
@@ -69,7 +71,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       members = [...data];
       if (widget.arguments != null) {
         members = members!.where((Member element) {
-          // print('${element.positionId!['name']}, ${element.majorId!['name']}, ${element.departmentId!['name']}, ${element.getGen()}');
           if (widget.arguments['position'] != 'Any' &&
               (element.positionId == null ||
                   element.positionId!['name'] !=
@@ -81,11 +82,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   element.majorId!['name'] != widget.arguments['major'])) {
             return false;
           }
-          if (widget.arguments['department'] != 'Any' &&
-              (element.departmentId == null ||
-                  element.departmentId!['name'] !=
-                      widget.arguments['department'])) {
-            return false;
+          if (widget.arguments['department'] != 'Any'){
+              bool departmentExists = element.departments!.any(
+                (department) => department['name'] == widget.arguments['department']
+              );
+              if (!departmentExists) {
+              return false;
+              }
           }
           if (widget.arguments['gen'] != 'Any' &&
               (element.getGen() == "noGen" ||

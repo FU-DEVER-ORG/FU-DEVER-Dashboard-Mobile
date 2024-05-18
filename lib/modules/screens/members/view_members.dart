@@ -17,6 +17,12 @@ class ViewMemberScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ViewMemberScreen> {
+
+  @override
+  void initState() {
+    print(widget.member);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +130,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               children: [
                                 const Icon(Icons.calendar_month),
                                 const SizedBox(width: 8),
-                                Text('${widget.member.dateOfBirth!.day}/${widget.member.dateOfBirth!.month}/${widget.member.dateOfBirth!.year}')
+                                // Text('${widget.member.dateOfBirth!.day}/${widget.member.dateOfBirth!.month}/${widget.member.dateOfBirth!.year}')
                               ],
                             ),
                           ],

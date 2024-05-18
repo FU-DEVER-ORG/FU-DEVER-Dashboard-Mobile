@@ -12,9 +12,20 @@ class IntroductionScreen extends StatefulWidget {
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
   final _editorFocusNode = FocusNode();
-  final _controller = QuillController.basic();
+  final _controller = QuillController(
+    document: Document.fromJson([{'insert':'Your initial text here\n'}]),
+    selection: TextSelection.collapsed(offset: 0),
+  );
   bool _verificationSuccess = false;
 
+  @override
+  void initState() {
+    _controller.addListener(() {
+      String value = _controller.document.toPlainText();
+      print(value);
+    });
+    super.initState();
+  }
   @override
   void dispose() {
     _editorFocusNode.dispose();

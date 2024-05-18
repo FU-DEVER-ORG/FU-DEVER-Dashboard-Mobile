@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
 import 'package:fudever_dashboard/layouts/auth_layout.dart';
 import 'package:fudever_dashboard/modules/screens/auth/login.dart';
 import 'package:fudever_dashboard/modules/screens/profile/contacts/contact.dart';
@@ -28,7 +29,9 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
   bool _isImageCaptured = false;
   bool _isConfirmed = false;
 
-  List<Map<String, dynamic>> listItems = [
+
+
+  List<Map<String, dynamic>>? listItems = [
     {
       'icon': Icons.edit,
       'title': 'Giới thiệu',
@@ -65,20 +68,33 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
       'screen': const ChangePasswordScreen(title: 'Đổi mật khẩu')
     },
   ];
-void _saveImage(BuildContext context) async {
-  if (_selectedImage != null) {
-    ref.read(userImageProvider.notifier).changeProfileInfo(
-          'User Name',
-          _selectedImage!,
-        ); // Replace 'User Name' with the actual user name
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Image saved successfully'),
-      ),
-    );
+  void getUserDetail() async {
+    String userId = "6642250b819ebad4f576e43f";
+    dynamic data = await UserController.getUserDetail(userId: userId);
+    print(data);
   }
-}
+
+  @override
+  void initState() {
+    getUserDetail();
+    super.initState();
+  }
+
+  void _saveImage(BuildContext context) async {
+    if (_selectedImage != null) {
+      ref.read(userImageProvider.notifier).changeProfileInfo(
+            'User Name',
+            _selectedImage!,
+          ); // Replace 'User Name' with the actual user name
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Image saved successfully'),
+        ),
+      );
+    }
+  }
 
 
   PreferredSizeWidget _buildProfileHeader(BuildContext context) {
@@ -153,6 +169,25 @@ void _saveImage(BuildContext context) async {
     );
   }
 
+
+  Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
+    return SizedBox(
+      height: 40,
+      child: ListTile(
+        leading: Icon(icon, color: Colors.blue),
+        title: Text(title),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.blue,
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,9 +216,9 @@ void _saveImage(BuildContext context) async {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: listItems.length,
+              itemCount: listItems!.length,
               itemBuilder: (BuildContext context, int index) {
-                final item = listItems[index];
+                final item = listItems![index];
                 return _buildListTile(item['icon'], item['title'], () {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (ctx) => item['screen']));
@@ -227,21 +262,6 @@ void _saveImage(BuildContext context) async {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
-    return SizedBox(
-      height: 40,
-      child: ListTile(
-        leading: Icon(icon, color: Colors.blue),
-        title: Text(title),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          color: Colors.blue,
-        ),
-        onTap: onTap,
       ),
     );
   }

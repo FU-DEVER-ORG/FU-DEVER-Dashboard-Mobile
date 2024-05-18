@@ -18,7 +18,8 @@ class ApiRepository {
   static Future<Map<String, dynamic>> get(
       {required String path,Map<String, dynamic> options = const {}}) async {
     final response = await http.get(
-      Uri.parse(_url+path));
+      Uri.parse(_url+path),
+    );
     final responseData = jsonDecode(response.body);
     return responseData;
   }

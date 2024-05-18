@@ -7,7 +7,7 @@ class Member {
   late DateTime? dateOfBirth;
   late String? hometown;
   late Map<String, dynamic>? positionId; // This is an object in the provided data
-  late Map<String, dynamic>? departmentId; // This is an object in the provided data
+  late List<dynamic>? departments; // This is an object in the provided data
   late String? job;
   late String? workplace;
   late String? school;
@@ -51,7 +51,7 @@ class Member {
       required this.dateOfBirth,
       required this.hometown,
       required this.positionId,
-      required this.departmentId,
+      required this.departments,
       required this.job,
       required this.workplace,
       required this.school,
@@ -78,7 +78,7 @@ class Member {
       dateOfBirth: item['dateOfBirth'] != null ? DateTime.parse(item['dateOfBirth']) : null,
       hometown: item['hometown'],
       positionId: item['positionId'],
-      departmentId: item['departmentId'],
+      departments: item['departments'],
       job: item['job'],
       workplace: item['workplace'],
       school: item['school'],
@@ -95,5 +95,10 @@ class Member {
       updatedAt: item['updatedAt'] != null ? DateTime.parse(item['updatedAt']) : null,
       v: item['__v'],
     );
+  }
+
+  @override
+  String toString() {
+    return 'Member{description: $description, nickname: $nickname, phone: $phone, firstname: $firstname, lastname: $lastname, dateOfBirth: $dateOfBirth, hometown: $hometown, positionId: $positionId, departments: $departments, job: $job, workplace: $workplace, school: $school, majorId: $majorId, dateJoin: $dateJoin, favourites: $favourites, skills: $skills, isExcellent: $isExcellent, isAdmin: $isAdmin, id: $id, email: $email, avatar: $avatar, createdAt: $createdAt, updatedAt: $updatedAt, v: $v}';
   }
 }
