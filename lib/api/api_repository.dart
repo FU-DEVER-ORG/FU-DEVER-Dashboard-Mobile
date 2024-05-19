@@ -42,8 +42,9 @@ class ApiRepository {
       },
       body: jsonEncode(options),
     );
-    final responseData = jsonDecode(response.body);
-    return responseData;
+    print(response.body);
+    // final responseData = jsonDecode(response.body);
+    // return responseData;
   }
 
   static Future<Map<String, dynamic>> test() async {

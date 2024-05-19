@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
+import 'package:get/get.dart';
 
 class SkillsScreen extends StatefulWidget {
   const SkillsScreen({
@@ -21,6 +23,15 @@ class _SkillsState extends State<SkillsScreen> {
 
   TextEditingController skillController = TextEditingController();
 
+  void handleSubmit()async{
+    if(skillController.text.isNotEmpty){
+      Map<String, dynamic> updatedSkills = {
+        "skills" : [...skills, skillController.text],
+      };
+      dynamic response = await UserController.editUsers(options: updatedSkills);
+      print(response);
+    }
+  }
   @override
   void initState() {
     skills = widget.data.map((e) => e.toString()).toList();
@@ -77,7 +88,7 @@ class _SkillsState extends State<SkillsScreen> {
                       child: MaterialButton(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         color: Theme.of(context).buttonTheme.colorScheme!.primary,
-                        onPressed: () {},
+                        onPressed: handleSubmit,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust the border radius

@@ -101,52 +101,65 @@ class _IndividualInformationScreenState
                   controller: firstnameController,
                   isCompulsory: true,
                 ),
+                SizedBox(height: 10,),
                 CustomField(
                   title: 'Tên',
                   hintText: 'Nhập tên của bạn',
                   controller: lastnameController,
                   isCompulsory: true,
                 ),
+                SizedBox(height: 10,),
                 CustomDateField(
                   title: 'Ngày sinh',
                   hintText: 'Chọn ngày sinh',
                   controller: dobController,
                   isCompulsory: false,
                 ),
+                SizedBox(height: 10,),
                 CustomField(
                   title: 'Nơi ở',
                   hintText: 'Nơi ở hiện tại',
                   controller: hometownController,
                   isCompulsory: true,
                 ),
+                SizedBox(height: 10,),
                 CustomReadOnlyDropdown(
                     title: 'Chức vụ CLB',
                     dropdownValue: "Chọn chức vụ",
                     // context: context,
                     controller: positionController,
-                    filterList: clubPositionList),
+                    filterList: clubPositionList
+                ),
+                SizedBox(height: 10,),
                 CustomDropdown(
                     title: 'Ban hoạt động',
                     dropdownValue: "Chọn ban của bạn",
                     // context: context,
                     controller: boardController,
-                    filterList: boardList),
+                    filterList: boardList
+                ),
+                SizedBox(height: 10,),
                 CustomField(
                     title: 'Nghề nghiệp',
                     hintText: 'Công việc hiện tại',
                     controller: jobController,
-                    isCompulsory: false),
+                    isCompulsory: false
+                ),
+                SizedBox(height: 10,),
                 CustomField(
                     title: 'Nơi làm việc',
                     hintText: 'Nơi làm việc hiện tại',
                     controller: workplaceController,
-                    isCompulsory: false),
+                    isCompulsory: false
+                ),
+                SizedBox(height: 10,),
                 CustomField(
                   title: 'Trường học',
                   hintText: 'Trường học gần nhất đang/đã từng học',
                   controller: schoolController,
                   isCompulsory: true,
                 ),
+                SizedBox(height: 10,),
                 CustomDropdown(
                     title: 'Chuyên ngành',
                     dropdownValue: "Chuyên ngành của bạn",

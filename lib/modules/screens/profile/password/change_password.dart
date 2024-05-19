@@ -172,7 +172,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       const Text("Mật khẩu mới"),
@@ -250,7 +250,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       const Text("Xác nhận"),
@@ -306,7 +306,6 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                                     .color, // Customize the eye icon color
                               ),
                         onPressed: () {
-                          // Toggle the obscureText value when the eye icon is pressed
                           setState(() {
                             obscureVerifiedPassword = !obscureVerifiedPassword;
                           });

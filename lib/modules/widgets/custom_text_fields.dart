@@ -196,7 +196,6 @@ class _CustomDropdownState extends State<CustomDropdown> {
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width - 40,
-        margin: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -282,7 +281,6 @@ class _CustomReadOnlyDropdownState extends State<CustomReadOnlyDropdown> {
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width - 40,
-        margin: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

@@ -1,4 +1,5 @@
 import 'package:fudever_dashboard/api/api_repository.dart';
+import 'package:fudever_dashboard/provider/token_provider.dart';
 
 class UserController extends ApiRepository{
   static Future<dynamic> getUsers() async {
@@ -6,9 +7,10 @@ class UserController extends ApiRepository{
     return response;
   }
 
-  static Future<dynamic> editUsers() async {
-    final String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQ4YmY5NThmMGM5MDEwN2ZlMDU2NWQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3MTYwOTA1OTcsImV4cCI6MTcxNjY5NTM5N30.fto_y0ZPRV6m9yYgggsJgE5smZAnZT0ocF84OhV_3Uk";
-    final response = await ApiRepository.put(path: "users/edit-profile", accessToken:token );
+  static Future<dynamic> editUsers({required Map<String, dynamic> options}) async {
+    final TokenManager _tokenManager = TokenManager();
+    final String? token = await _tokenManager.getToken();
+    final response = await ApiRepository.put(path: "edit-profile", accessToken:token!, options: options);
     return response;
   }
 

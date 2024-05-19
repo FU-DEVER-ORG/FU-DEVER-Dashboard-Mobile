@@ -66,6 +66,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
             child: Column(
               children: [
                 CustomField(title: "Email",hintText: "Email của bạn",controller: emailController,isCompulsory: true,readOnly: true,),
+                SizedBox(height: 10,),
                 CustomField(title: "Số điện thoại",hintText: "Số điện thoại của bạn",controller: phoneController,isCompulsory: true,),
               ]
             ),
