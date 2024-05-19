@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/api/auth_api.dart';
 
+import '../../../main.dart';
+import '../../../provider/token_provider.dart';
 import '../../../utils/dialog.dart';
-// import 'package:your_app_name/api/api_repository.dart'; // Import your ApiRepository
 
-class Login extends StatelessWidget {
+class Login extends ConsumerWidget {
   const Login({Key? key}) : super(key: key);
 
   static Widget trailing(context) {
@@ -30,23 +32,31 @@ class Login extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return LoginForm(
       screenHeight: screenHeight,
       screenWidth: screenWidth,
+      onLoginSuccess: (token) {
+        // Update the token using the provider
+        ref.read(tokenProvider.notifier).state = token;
+      },
     );
   }
 }
 
 class LoginForm extends StatefulWidget {
-  const LoginForm(
-      {required this.screenWidth, required this.screenHeight, Key? key})
-      : super(key: key);
+  const LoginForm({
+    required this.screenWidth,
+    required this.screenHeight,
+    required this.onLoginSuccess,
+    Key? key,
+  }) : super(key: key);
   final double screenWidth;
   final double screenHeight;
+  final void Function(String?) onLoginSuccess;
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -62,6 +72,7 @@ class _LoginFormState extends State<LoginForm> {
 
   String? errorEmail;
   String? errorPassword;
+  final TokenManager _tokenManager = TokenManager();
 
   String? validateEmail(value) {
     if (value == null || value.isEmpty) {
@@ -76,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
 
   String? validatePassword(value) {
     if (value == null || value.isEmpty) {
-      return 'Enter a valid password'; // Changed error message
+      return 'Enter a valid password';
     }
     return null;
   }
@@ -90,17 +101,19 @@ class _LoginFormState extends State<LoginForm> {
       try {
         await EasyLoading.show();
         final res = await AuthController.loginUser(email, password, rememberMe);
-        if(res['status'] == 'success'){
-          print(res);
+        if (res['status'] == 'success') {
+          final token = res['data']['token'];
+          await _tokenManager.saveToken(token); // Lưu token ở đây
+          widget.onLoginSuccess(token);
+          // print(a);
           Navigator.of(context).pushNamed('/');
-        }else {
-          // ignore: use_build_context_synchronously
+          // return res['data']['user']['token'];
+        } else {
           DialogUtils.showLoginErrorDialog(context);
         }
         await EasyLoading.dismiss();
       } catch (e) {
         await EasyLoading.dismiss();
-        // print('Login failed: $e');
       }
     }
   }
