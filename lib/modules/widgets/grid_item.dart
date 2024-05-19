@@ -124,7 +124,10 @@ class Social extends StatelessWidget {
               child: SvgPicture.asset(socialIcon),
             ),
           ),
-          title: Text(socialTitle),
+          title: GestureDetector(
+            child: Text(socialTitle),
+            onTap: (){},
+          ),
           trailing: Transform.translate(
             offset: const Offset(0, -5),
             child: GestureDetector(

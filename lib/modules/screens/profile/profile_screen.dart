@@ -43,27 +43,30 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
       {
         'icon': Icons.error,
         'title': 'Thông tin cá nhân',
-        'screen': const IndividualInformationScreen(title: 'Thông tin cá nhân')
+        'screen': IndividualInformationScreen(title: 'Thông tin cá nhân', data: data)
       },
       {
         'icon': Icons.contacts_rounded,
         'title': 'Liên hệ',
-        'screen': const ContactsScreen(title: 'Liên hệ')
+        'screen': ContactsScreen(title: 'Liên hệ', data: {
+          "email": data['email'],
+          "phone": data['phone']
+        })
       },
       {
         'icon': Icons.public,
         'title': 'Mạng xã hội',
-        'screen': const SocialMediaScreen(title: 'Mạng xã hội')
+        'screen': SocialMediaScreen(title: 'Mạng xã hội',data: data['socials'])
       },
       {
         'icon': Icons.favorite,
         'title': 'Sở thích',
-        'screen': const FavoritesScreen(title: 'Sở thích')
+        'screen': FavoritesScreen(title: 'Sở thích',data: data['favourites'])
       },
       {
         'icon': Icons.lightbulb,
         'title': 'Kỹ năng',
-        'screen': const SkillsScreen(title: 'Kỹ năng')
+        'screen': SkillsScreen(title: 'Kỹ năng',data: data['skills'])
       },
       {
         'icon': Icons.lock,
@@ -82,7 +85,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
 
   @override
   void initState() {
-    getUserDetail();
     super.initState();
   }
 

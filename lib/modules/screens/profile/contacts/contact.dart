@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 
 class ContactsScreen extends StatefulWidget {
-  const ContactsScreen({super.key, required this.title});
+  const ContactsScreen({super.key,required this.data, required this.title});
 
   final String title;
+  final Map<String, String> data;
 
   @override
   State<ContactsScreen> createState() => _IntroductionScreenState();
@@ -16,18 +17,25 @@ class _IntroductionScreenState extends State<ContactsScreen> {
   final TextEditingController phoneController = TextEditingController();
   final formKey =GlobalKey<FormState>();
   late String email = "";
+  late String phone = "";
   @override
   void initState() {
+    emailController.text = widget.data['email']??"";
+    phoneController.text = widget.data['phone']??"";
     emailController.addListener(() {
       setState(() {
         email = emailController.text;
+      });
+    });
+    phoneController.addListener(() {
+      setState(() {
+        phone = phoneController.text;
       });
     });
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    print(email);
     double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
@@ -57,7 +65,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
             padding: const EdgeInsets.symmetric(vertical:20, horizontal: 20.0),
             child: Column(
               children: [
-                CustomField(title: "Email",hintText: "Email của bạn",controller: emailController,isCompulsory: true,),
+                CustomField(title: "Email",hintText: "Email của bạn",controller: emailController,isCompulsory: true,readOnly: true,),
                 CustomField(title: "Số điện thoại",hintText: "Số điện thoại của bạn",controller: phoneController,isCompulsory: true,),
               ]
             ),

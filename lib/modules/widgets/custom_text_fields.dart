@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CustomField extends StatefulWidget {
   const CustomField({
@@ -9,6 +10,7 @@ class CustomField extends StatefulWidget {
     required this.controller,
     required this.isCompulsory,
     this.validation = _defaultValidation,
+    this.readOnly = false,
   });
 
   final String title;
@@ -16,6 +18,7 @@ class CustomField extends StatefulWidget {
   final TextEditingController controller;
   final bool isCompulsory;
   final String? Function(String?) validation;
+  final bool readOnly;
 
   static String? _defaultValidation(String? value) {
     if (value == null || value.isEmpty) {
@@ -49,32 +52,34 @@ class _CustomFieldState extends State<CustomField> {
           ),
         ),
         TextFormField(
-            controller: widget.controller,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              isDense: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 215, 215, 215), width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 215, 215, 215), width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.red, width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              hintText: widget.hintText,
-              hintStyle:
-                  const TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
+          readOnly: widget.readOnly,
+          controller: widget.controller,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            isDense: true,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 215, 215, 215), width: 1),
+              borderRadius: BorderRadius.circular(10),
             ),
-            validator: widget.validation),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 215, 215, 215), width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            hintText: widget.hintText,
+            hintStyle:
+                const TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
+          ),
+          validator: widget.validation
+        ),
       ],
     );
   }
@@ -207,6 +212,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
               ),
             ),
             DropdownMenu<String>(
+
               controller: widget.controller,
               trailingIcon: const Icon(
                 Icons.keyboard_arrow_down_outlined,
@@ -244,6 +250,93 @@ class _CustomDropdownState extends State<CustomDropdown> {
                   .map<DropdownMenuEntry<String>>((String value) {
                 return DropdownMenuEntry<String>(value: value, label: value);
               }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomReadOnlyDropdown extends StatefulWidget {
+  const CustomReadOnlyDropdown({
+    required this.title,
+    required this.controller,
+    required this.dropdownValue,
+    required this.filterList,
+    super.key,
+  });
+
+  final String title;
+  final TextEditingController controller;
+  final String dropdownValue;
+  final List<String> filterList;
+
+  @override
+  State<CustomReadOnlyDropdown> createState() => _CustomReadOnlyDropdownState();
+}
+
+class _CustomReadOnlyDropdownState extends State<CustomReadOnlyDropdown> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width - 40,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(widget.title),
+                  ],
+                ),
+              ),
+            ),
+            IgnorePointer(
+              child: DropdownMenu<String>(
+                controller: widget.controller,
+                trailingIcon: const Icon(
+                  Icons.keyboard_arrow_down_outlined,
+                  color: Colors.grey,
+                ),
+                inputDecorationTheme: const InputDecorationTheme(
+                  filled: true,
+                  fillColor: Colors.white,
+                  isDense: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(255, 215, 215, 215),),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(255, 215, 215, 215),),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  labelStyle: TextStyle(
+                    color: Color.fromARGB(255, 215, 215, 215),
+                  ),
+                ),
+                hintText: widget.dropdownValue,
+                width: MediaQuery.of(context).size.width - 40,
+                initialSelection: widget.dropdownValue,
+                textStyle: Theme.of(context).textTheme.bodySmall,
+                selectedTrailingIcon: Icon(
+                  Icons.expand_less,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                dropdownMenuEntries: widget.filterList
+                    .map<DropdownMenuEntry<String>>((String value) {
+                  return DropdownMenuEntry<String>(value: value, label: value);
+                }).toList(),
+              ),
             ),
           ],
         ),

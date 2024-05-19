@@ -7,9 +7,12 @@ class SocialMediaScreen extends StatefulWidget {
   const SocialMediaScreen({
     Key? key,
     required this.title,
+    required this.data,
   }) : super(key: key);
 
   final String title;
+  final List<dynamic> data;
+
 
   @override
   State<SocialMediaScreen> createState() => _SocialMediaState();
@@ -17,14 +20,32 @@ class SocialMediaScreen extends StatefulWidget {
 
 class _SocialMediaState extends State<SocialMediaScreen> {
   String dropdownValue = '';
-  final List<String> internetPlatform = ['Facebook', 'Github', 'Youtube'];
-  final List<List<String>> socials = [
-    ['Facebook', 'assets/images/facebook.svg'],
-    ['Github', 'assets/images/github.svg'],
-    ['Youtube', 'assets/images/youtube.svg']
-  ];
-
   TextEditingController urlController = TextEditingController();
+  final List<String> internetPlatform = ['Facebook',
+      'Github',
+      'Youtube'];
+  late List<Map<String, String>> socials = [];
+  final Map<String, String> constants =
+  {'Facebook': 'assets/images/facebook.svg',
+  'Github': 'assets/images/github.svg',
+  'Youtube': 'assets/images/youtube.svg'};
+
+  @override
+  void initState() {
+    if(widget.data!=null){
+      socials = [
+        for (var social in widget.data)
+          {
+            "url": social['url'],
+            "name": social['socialId']['name'],
+          }
+      ];
+    }else {
+      socials = [];
+    }
+    super.initState();
+  }
+
 
   Widget buildDropdown(sheetcontext) {
     return DropdownMenu<String>(
@@ -123,10 +144,10 @@ class _SocialMediaState extends State<SocialMediaScreen> {
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: ListView.builder(
-              itemCount: internetPlatform.length,
+              itemCount: socials.length,
               itemBuilder: (context, index) {
-                return Social(socialTitle: socials[index][0],
-                  socialIcon: socials[index][1],);
+                return Social(socialTitle: socials[index]['name']!,
+                  socialIcon: constants[socials[index]['name']!]!,);
               }),
         ),
         bottomSheet: Wrap(

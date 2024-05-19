@@ -6,8 +6,10 @@ class SkillsScreen extends StatefulWidget {
   const SkillsScreen({
     super.key,
     required this.title,
+    required this.data,
   });
 
+  final List<dynamic> data;
   final String title;
 
   @override
@@ -15,9 +17,15 @@ class SkillsScreen extends StatefulWidget {
 }
 
 class _SkillsState extends State<SkillsScreen> {
-  List<String> skills = ["Java", "Figma", "Flutter"];
+  List<String> skills = [];
 
   TextEditingController skillController = TextEditingController();
+
+  @override
+  void initState() {
+    skills = widget.data.map((e) => e.toString()).toList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

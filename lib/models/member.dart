@@ -25,6 +25,7 @@ class Member {
   DateTime? updatedAt;
   int? v;
   DateTime? dateJoin;
+  List<dynamic>? socials;
 
   Member({
   this.description,
@@ -53,6 +54,7 @@ class Member {
   this.updatedAt,
   this.v,
   this.dateJoin,
+  this.socials
   });
 
   factory Member.fromJson(Map<String, dynamic> item) {
@@ -89,6 +91,7 @@ class Member {
       dateJoin: item['dateJoin'] != null
           ? DateTime.parse(item['dateJoin'])
           : null,
+      socials: item['socials']
     );
   }
 
@@ -99,6 +102,6 @@ class Member {
 
   @override
   String toString() {
-    return 'Member{description: $description, nickname: $nickname, phone: $phone, firstname: $firstname, lastname: $lastname, dateOfBirth: $dob, hometown: $hometown, positionId: $positionId, departments: $departments, job: $job, workplace: $workplace, school: $school, majorId: $majorId, dateJoin: $dateJoin, favourites: $favourites, skills: $skills, isExcellent: $isExcellent, isAdmin: $isAdmin, id: $id, email: $email, avatar: $avatar, createdAt: $createdAt, updatedAt: $updatedAt, v: $v}';
+    return 'Member{description: $description, nickname: $nickname, phone: $phone, firstname: $firstname, lastname: $lastname, dateOfBirth: $dob, hometown: $hometown, positionId: $positionId, departments: $departments, job: $job, workplace: $workplace, school: $school, majorId: $majorId, dateJoin: $dateJoin, favourites: $favourites, skills: $skills, isExcellent: $isExcellent, isAdmin: $isAdmin, id: $id, email: $email, avatar: $avatar, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, socials: $socials}';
   }
 }

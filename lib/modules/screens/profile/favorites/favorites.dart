@@ -6,21 +6,27 @@ class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({
     super.key,
     required this.title,
+    required this.data,
   });
 
+  final List<dynamic> data;
   final String title;
 
   @override
-  State<FavoritesScreen> createState() => _SkillsState();
+  State<FavoritesScreen> createState() => _FavouritesState();
 }
 
-class _SkillsState extends State<FavoritesScreen> {
-  List<String> skills = ["Đá bóng", "Lập trình", "Chơi game"];
+class _FavouritesState extends State<FavoritesScreen> {
+  List<String> favourites = [];
   TextEditingController controller = TextEditingController();
+  @override
+  void initState() {
+    favourites = widget.data.map((e) => e.toString()).toList();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -41,9 +47,9 @@ class _SkillsState extends State<FavoritesScreen> {
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ListView.builder(
-              itemCount: skills.length,
+              itemCount: favourites.length,
               itemBuilder: (context, index) {
-                return Skill(skill: skills[index]);
+                return Skill(skill: favourites[index]);
               }),
         ),
         bottomSheet: Wrap(

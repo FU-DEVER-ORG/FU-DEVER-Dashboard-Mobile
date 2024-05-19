@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/member.dart';
 
@@ -20,7 +21,6 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
 
   @override
   void initState() {
-    print(widget.member);
     super.initState();
   }
   @override
@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           ],
                         ),
                         const Spacer(),
-                        _buildSocialMediaContainer(),
+                        _buildSocialMediaContainer(socials: widget.member.socials!),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -358,56 +358,32 @@ Widget _buildSkillsContainer(List<String?> skills) {
   );
 }
 
-Widget _buildSocialMediaContainer() {
+Widget _buildSocialMediaContainer({required List<dynamic> socials}) {
   return Row(
-    children: [
-      Container(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: SvgPicture.asset(
-            'assets/images/facebook.svg',
-            fit: BoxFit.cover,
-            alignment: Alignment.bottomCenter,
-            height: 24,
+    children: socials.map((social) {
+    String name = social['socialId']['name'].toString().toLowerCase();
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GestureDetector(
+          onTap: (){launchUrl(Uri.parse(social['url']));} ,
+          child: Container(
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: SvgPicture.asset(
+                'assets/images/$name.svg',
+                fit: BoxFit.cover,
+                alignment: Alignment.bottomCenter,
+                height: 24,
+              ),
+            ),
           ),
         ),
-      ),
-      const SizedBox(width: 8),
-      Container(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: SvgPicture.asset(
-            'assets/images/github.svg',
-            fit: BoxFit.cover,
-            alignment: Alignment.bottomCenter,
-            height: 24,
-          ),
-        ),
-      ),
-      const SizedBox(width: 8),
-      Container(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: SvgPicture.asset(
-            'assets/images/youtube.svg',
-            fit: BoxFit.cover,
-            alignment: Alignment.bottomCenter,
-            height: 24,
-          ),
-        ),
-      ),
-    ],
+      );
+    }).toList(),
   );
 }
+

@@ -5,8 +5,10 @@ class IndividualInformationScreen extends StatefulWidget {
   const IndividualInformationScreen({
     Key? key,
     required this.title,
+    required this.data,
   }) : super(key: key);
 
+  final Map<String, dynamic> data;
   final String title;
 
   @override
@@ -44,127 +46,22 @@ class _IndividualInformationScreenState
   final TextEditingController workplaceController = TextEditingController();
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController majorController = TextEditingController();
-  final TextEditingController dateJoinController = TextEditingController();
-  InputDecoration buildInputDecoration(String labelText) {
-    return InputDecoration(
-      filled: true,
-      fillColor: Colors.white,
-      enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(
-            color: Color.fromARGB(255, 215, 215, 215), width: 2),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(
-            color: Color.fromARGB(255, 215, 215, 215), width: 2),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.red, width: 2),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      labelText: labelText,
-      labelStyle: const TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
-    );
-  }
 
-  Widget buildTextField(String title, String hintText,
-      {bool isCompulsory = true}) {
-    return ListTile(
-      title: Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Row(
-          children: [
-            Text(title),
-            (isCompulsory)
-                ? const Text(
-                    " *",
-                    style: TextStyle(color: Colors.red),
-                  )
-                : Container(),
-          ],
-        ),
-      ),
-      subtitle: TextField(
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          isDense: true,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 215, 215, 215), width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 215, 215, 215), width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.red, width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          hintText: hintText,
-          hintStyle: const TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
-        ),
-      ),
-    );
-  }
-
-  Widget builDateField(String title, String hintText,
-      {bool isCompulsory = true}) {
-    return ListTile(
-      title: Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Row(
-          children: [
-            Text(title),
-            (isCompulsory)
-                ? const Text(
-                    " *",
-                    style: TextStyle(color: Colors.red),
-                  )
-                : Container(),
-          ],
-        ),
-      ),
-      subtitle: TextField(
-        keyboardType: TextInputType.datetime,
-        decoration: InputDecoration(
-          suffixIcon: const Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: Icon(
-              Icons.date_range,
-              color: Color.fromARGB(255, 215, 215, 215),
-              size: 25,
-            ),
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          isDense: true,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 215, 215, 215), width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-                color: Color.fromARGB(255, 215, 215, 215), width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.red, width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          hintText: hintText,
-          hintStyle: const TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
-        ),
-      ),
-    );
+  @override
+  void initState() {
+    print(widget.data);
+    firstnameController.text=widget.data['firstname'];
+    lastnameController.text=widget.data['lastname'];
+    DateTime dob = DateTime.parse(widget.data['dob']);
+    dobController.text='${dob.year}/${dob.month}/${dob.day}';
+    hometownController.text=widget.data['hometown'];
+    positionController.text=widget.data['positionId']['name'];
+    boardController.text=widget.data['departments'][0]['name'];
+    jobController.text=widget.data['job'];
+    workplaceController.text=widget.data['workplace'];
+    schoolController.text=widget.data['school'];
+    majorController.text=widget.data['majorId']['name'];
+    super.initState();
   }
 
   @override
@@ -222,7 +119,7 @@ class _IndividualInformationScreenState
                   controller: hometownController,
                   isCompulsory: true,
                 ),
-                CustomDropdown(
+                CustomReadOnlyDropdown(
                     title: 'Chức vụ CLB',
                     dropdownValue: "Chọn chức vụ",
                     // context: context,
@@ -255,12 +152,7 @@ class _IndividualInformationScreenState
                     dropdownValue: "Chuyên ngành của bạn",
                     // context: context,
                     controller: majorController,
-                    filterList: majorList),
-                CustomDateField(
-                  title: 'Ngày tham gia CLB',
-                  hintText: 'Ngày tham gia (Gen)',
-                  controller: dateJoinController,
-                  isCompulsory: false,
+                    filterList: majorList
                 ),
               ],
             ),
