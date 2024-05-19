@@ -43,7 +43,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void onSelectMember(BuildContext context, Member member) {
-    print(member);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ViewMemberScreen(
@@ -91,8 +90,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               }
           }
           if (widget.arguments['gen'] != 'Any' &&
-              (element.getGen() == "noGen" ||
-                  element.getGen() != widget.arguments['gen'])) {
+              (element.gen == -1 ||
+                  element.gen != int.parse(widget.arguments['gen'].toString().characters.last))) {
             return false;
           }
           return true;

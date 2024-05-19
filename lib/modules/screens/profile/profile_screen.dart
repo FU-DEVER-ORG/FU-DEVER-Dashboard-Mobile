@@ -31,49 +31,54 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
 
 
 
-  List<Map<String, dynamic>>? listItems = [
-    {
-      'icon': Icons.edit,
-      'title': 'Giới thiệu',
-      'screen': const IntroductionScreen(title: 'Giới thiệu')
-    },
-    {
-      'icon': Icons.error,
-      'title': 'Thông tin cá nhân',
-      'screen': const IndividualInformationScreen(title: 'Thông tin cá nhân')
-    },
-    {
-      'icon': Icons.contacts_rounded,
-      'title': 'Liên hệ',
-      'screen': const ContactsScreen(title: 'Liên hệ')
-    },
-    {
-      'icon': Icons.public,
-      'title': 'Mạng xã hội',
-      'screen': const SocialMediaScreen(title: 'Mạng xã hội')
-    },
-    {
-      'icon': Icons.favorite,
-      'title': 'Sở thích',
-      'screen': const FavoritesScreen(title: 'Sở thích')
-    },
-    {
-      'icon': Icons.lightbulb,
-      'title': 'Kỹ năng',
-      'screen': const SkillsScreen(title: 'Kỹ năng')
-    },
-    {
-      'icon': Icons.lock,
-      'title': 'Đổi mật khẩu',
-      'screen': const ChangePasswordScreen(title: 'Đổi mật khẩu')
-    },
-  ];
+  List<Map<String, dynamic>>? listItems=[];
 
-  void getUserDetail() async {
-    String userId = "6642250b819ebad4f576e43f";
-    dynamic data = await UserController.getUserDetail(userId: userId);
-    print(data);
+  List<Map<String, dynamic>> getListItems(Map<String, dynamic> data) {
+    listItems = [
+      {
+        'icon': Icons.edit,
+        'title': 'Giới thiệu',
+        'screen': IntroductionScreen(title: 'Giới thiệu', data: data['description'])
+      },
+      {
+        'icon': Icons.error,
+        'title': 'Thông tin cá nhân',
+        'screen': const IndividualInformationScreen(title: 'Thông tin cá nhân')
+      },
+      {
+        'icon': Icons.contacts_rounded,
+        'title': 'Liên hệ',
+        'screen': const ContactsScreen(title: 'Liên hệ')
+      },
+      {
+        'icon': Icons.public,
+        'title': 'Mạng xã hội',
+        'screen': const SocialMediaScreen(title: 'Mạng xã hội')
+      },
+      {
+        'icon': Icons.favorite,
+        'title': 'Sở thích',
+        'screen': const FavoritesScreen(title: 'Sở thích')
+      },
+      {
+        'icon': Icons.lightbulb,
+        'title': 'Kỹ năng',
+        'screen': const SkillsScreen(title: 'Kỹ năng')
+      },
+      {
+        'icon': Icons.lock,
+        'title': 'Đổi mật khẩu',
+        'screen': const ChangePasswordScreen(title: 'Đổi mật khẩu')
+      },
+    ];
+    return listItems!;
   }
+  Future<Map<String, dynamic>> getUserDetail() async {
+    String userId = "6648bf958f0c90107fe0565d";
+    dynamic response = await UserController.getUserDetail(userId: userId);
+    return response['data'];
+  }
+
 
   @override
   void initState() {
@@ -213,16 +218,31 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                 fontWeight: FontWeight.w200,
               ),
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: listItems!.length,
-              itemBuilder: (BuildContext context, int index) {
-                final item = listItems![index];
-                return _buildListTile(item['icon'], item['title'], () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) => item['screen']));
-                });
+            const SizedBox(height: 20),
+            FutureBuilder<Map<String, dynamic>>(
+              future: getUserDetail(),
+              builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  Map<String, dynamic> data = snapshot.data!;
+                  List<Map<String, dynamic>> listItems = getListItems(data);
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: listItems.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = listItems[index];
+                      return _buildListTile(item['icon'], item['title'], () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (ctx) => item['screen']));
+                      });
+                    },
+                  );
+                }
               },
             ),
             Padding(

@@ -3,8 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 class IntroductionScreen extends StatefulWidget {
-  const IntroductionScreen({Key? key, required this.title}) : super(key: key);
+  const IntroductionScreen({Key? key, required this.title, required this.data}) : super(key: key);
   final String title;
+  final dynamic data;
 
   @override
   State<IntroductionScreen> createState() => _IntroductionScreenState();
@@ -12,16 +13,17 @@ class IntroductionScreen extends StatefulWidget {
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
   final _editorFocusNode = FocusNode();
-  final _controller = QuillController(
-    document: Document.fromJson([{'insert':'Your initial text here\n'}]),
-    selection: TextSelection.collapsed(offset: 0),
-  );
+  late QuillController? _controller = null;
   bool _verificationSuccess = false;
 
   @override
   void initState() {
-    _controller.addListener(() {
-      String value = _controller.document.toPlainText();
+    _controller = QuillController(
+      document: Document.fromJson([{'insert':'${widget.data}\n'}]),
+      selection: TextSelection.collapsed(offset: 0),
+    );
+    _controller!.addListener(() {
+      String value = _controller!.document.toPlainText();
       print(value);
     });
     super.initState();
@@ -95,7 +97,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     showListCheck: false,
                     showFontSize: false,
                     showInlineCode: false,
-                    controller: _controller,
+                    controller: _controller!,
                   ),
                 ),
               ),
@@ -115,7 +117,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   child: QuillEditor.basic(
                     focusNode: _editorFocusNode,
                     configurations: QuillEditorConfigurations(
-                      controller: _controller,
+                      controller: _controller!,
                       checkBoxReadOnly: false,
                       sharedConfigurations: const QuillSharedConfigurations(
                         locale: Locale('en'),

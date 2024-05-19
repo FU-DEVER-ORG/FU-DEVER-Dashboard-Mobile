@@ -82,7 +82,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.member.firstname!+widget.member.lastname!,
+                              widget.member.getFullname(),
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -105,7 +105,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(15, 6, 15, 6),
                             child: Text(
-                              "gen 5",
+                              "gen ${widget.member.gen}",
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
@@ -130,7 +130,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               children: [
                                 const Icon(Icons.calendar_month),
                                 const SizedBox(width: 8),
-                                // Text('${widget.member.dateOfBirth!.day}/${widget.member.dateOfBirth!.month}/${widget.member.dateOfBirth!.year}')
+                                Text('${widget.member.dob!.day}/${widget.member.dob!.month}/${widget.member.dob!.year}')
                               ],
                             ),
                           ],
@@ -208,7 +208,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -224,10 +224,10 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         const SizedBox(height: 10),
                         Row(
                           children: [
-                            const Text('Tham gia'),
+                            const Text('Gen'),
                             const Spacer(),
                             Text(
-                              '${widget.member.dateJoin!.year}/${widget.member.dateJoin!.month}/${widget.member.dateJoin!.day}',
+                              widget.member.gen.toString(),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -247,15 +247,27 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           ],
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text('Ban'),
                             const Spacer(),
-                            Text(
-                              widget.member.job!,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                            Expanded(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: widget.member.departments!.length,
+                                  itemBuilder: (BuildContext context, index){
+                                    return Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                      widget.member.departments![index]['name'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                                                        ),
+                                    );
+                                }
                               ),
-                            ),
+                            )
                           ],
                         ),
                         Row(
@@ -270,12 +282,12 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             ),
                           ],
                         ),
-                        const Row(
+                        Row(
                           children: [
                             Text('Nơi làm việc'),
                             Spacer(),
                             Text(
-                              '...',
+                              widget.member.workplace!,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),

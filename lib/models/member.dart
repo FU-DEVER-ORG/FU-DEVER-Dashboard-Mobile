@@ -1,81 +1,68 @@
 class Member {
-  late String? description;
-  late String? nickname;
-  late String? phone;
-  late String? firstname;
-  late String? lastname;
-  late DateTime? dateOfBirth;
-  late String? hometown;
-  late Map<String, dynamic>? positionId; // This is an object in the provided data
-  late List<dynamic>? departments; // This is an object in the provided data
-  late String? job;
-  late String? workplace;
-  late String? school;
-  late Map<String, dynamic>? majorId; // This is an object in the provided data
-  late DateTime? dateJoin; // Join date is typically a DateTime
-  late List<String>? favourites; // These are lists of strings in the provided data
-  late List<String>? skills; // These are lists of strings in the provided data
-  late bool? isExcellent;
-  late bool? isAdmin;
-  late String? id;
-  late String? email;
-  late String? avatar;
-  late DateTime? createdAt; // Created at is typically a DateTime
-  late DateTime? updatedAt; // Updated at is typically a DateTime
-  late int? v; // "__v" is typically an integer
+  String? description;
+  String? nickname;
+  String? phone;
+  String? firstname;
+  String? lastname;
+  DateTime? dob;
+  String? hometown;
+  Map<String, dynamic>? positionId;
+  List<dynamic>? departments;
+  String? job;
+  String? workplace;
+  String? school;
+  Map<String, dynamic>? majorId;
+  int? gen;
+  List<String>? favourites;
+  List<String>? skills;
+  bool? isExcellent;
+  bool? isAdmin;
+  String? MSSV;
+  String? id;
+  String? email;
+  String? avatar;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
+  DateTime? dateJoin;
 
+  Member({
+  this.description,
+  this.nickname,
+  this.phone,
+  this.firstname,
+  this.lastname,
+  this.dob,
+  this.hometown,
+  this.positionId,
+  this.departments,
+  this.job,
+  this.workplace,
+  this.school,
+  this.majorId,
+  this.gen,
+  this.favourites,
+  this.skills,
+  this.isExcellent,
+  this.isAdmin,
+  this.MSSV,
+  this.id,
+  this.email,
+  this.avatar,
+  this.createdAt,
+  this.updatedAt,
+  this.v,
+  this.dateJoin,
+  });
 
-  String getGen(){
-    if (dateJoin == null) {
-      return 'noGen';
-    }
-
-    int startYear = 2017;
-    int gen = 1;
-
-    while (DateTime(startYear + gen, 9).isBefore(dateJoin!)) {
-      gen++;
-    }
-
-    return 'Gen $gen';
-  }
-  String getFullname(){
-    return '${this.firstname} ${this.lastname}';
-  }
-  Member(
-      {required this.description,
-      required this.nickname,
-      required this.phone,
-      required this.firstname,
-      required this.lastname,
-      required this.dateOfBirth,
-      required this.hometown,
-      required this.positionId,
-      required this.departments,
-      required this.job,
-      required this.workplace,
-      required this.school,
-      required this.majorId,
-      required this.dateJoin,
-      required this.favourites,
-      required this.skills,
-      required this.isExcellent,
-      required this.isAdmin,
-      required this.id,
-      required this.email,
-      required this.avatar,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.v});
-
-  factory Member.fromJson(Map<String?, dynamic> item) {
+  factory Member.fromJson(Map<String, dynamic> item) {
     return Member(
       description: item['description'],
       nickname: item['nickname'],
       phone: item['phone'],
       firstname: item['firstname'],
       lastname: item['lastname'],
-      dateOfBirth: item['dateOfBirth'] != null ? DateTime.parse(item['dateOfBirth']) : null,
+      dob: item['dob'] != null ? DateTime.parse(item['dob']) : null,
       hometown: item['hometown'],
       positionId: item['positionId'],
       departments: item['departments'],
@@ -83,22 +70,35 @@ class Member {
       workplace: item['workplace'],
       school: item['school'],
       majorId: item['majorId'],
-      dateJoin: item['dateJoin'] != null ? DateTime.parse(item['dateJoin']) : null,
+      gen: item['gen'] ?? -1,
       favourites: List<String>.from(item['favourites']),
       skills: List<String>.from(item['skills']),
       isExcellent: item['isExcellent'],
       isAdmin: item['isAdmin'],
+      MSSV: item['MSSV'],
       id: item['_id'],
       email: item['email'],
       avatar: item['avatar'],
-      createdAt: item['createdAt'] != null ? DateTime.parse(item['createdAt']) : null,
-      updatedAt: item['updatedAt'] != null ? DateTime.parse(item['updatedAt']) : null,
+      createdAt: item['createdAt'] != null
+          ? DateTime.parse(item['createdAt'])
+          : null,
+      updatedAt: item['updatedAt'] != null
+          ? DateTime.parse(item['updatedAt'])
+          : null,
       v: item['__v'],
+      dateJoin: item['dateJoin'] != null
+          ? DateTime.parse(item['dateJoin'])
+          : null,
     );
+  }
+
+
+  String getFullname() {
+    return '${this.firstname} ${this.lastname}';
   }
 
   @override
   String toString() {
-    return 'Member{description: $description, nickname: $nickname, phone: $phone, firstname: $firstname, lastname: $lastname, dateOfBirth: $dateOfBirth, hometown: $hometown, positionId: $positionId, departments: $departments, job: $job, workplace: $workplace, school: $school, majorId: $majorId, dateJoin: $dateJoin, favourites: $favourites, skills: $skills, isExcellent: $isExcellent, isAdmin: $isAdmin, id: $id, email: $email, avatar: $avatar, createdAt: $createdAt, updatedAt: $updatedAt, v: $v}';
+    return 'Member{description: $description, nickname: $nickname, phone: $phone, firstname: $firstname, lastname: $lastname, dateOfBirth: $dob, hometown: $hometown, positionId: $positionId, departments: $departments, job: $job, workplace: $workplace, school: $school, majorId: $majorId, dateJoin: $dateJoin, favourites: $favourites, skills: $skills, isExcellent: $isExcellent, isAdmin: $isAdmin, id: $id, email: $email, avatar: $avatar, createdAt: $createdAt, updatedAt: $updatedAt, v: $v}';
   }
 }

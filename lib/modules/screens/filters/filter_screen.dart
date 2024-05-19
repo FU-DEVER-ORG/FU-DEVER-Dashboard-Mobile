@@ -8,7 +8,7 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  final List<String> studentYearList = ['Gen 5', 'Gen 6', 'Gen 7', 'Any'];
+  final List<String> studentYearList = ['Gen 2', 'Gen 3', 'Gen 4', 'Gen 5', 'Gen 6', 'Gen 7', 'Any'];
   final List<String> clubPositionList = [
     'Chủ nhiệm',
     'Phó chủ nhiệm',
@@ -31,10 +31,10 @@ class _FilterScreenState extends State<FilterScreen> {
     'Thiết kế mỹ thuật số',
     'Any'
   ];
-  String dropdownValueGen = 'Gen 5';
-  String dropdownValuePosition = 'Chủ nhiệm';
-  String dropdownValueDeparment = 'Ban học thuật';
-  String dropdownValueMajor = 'Kĩ thuật phần mềm';
+  String dropdownValueGen = 'Any';
+  String dropdownValuePosition = 'Any';
+  String dropdownValueDeparment = 'Any';
+  String dropdownValueMajor = 'Any';
 
   TextEditingController controllerGen = TextEditingController();
   TextEditingController controllerPosition = TextEditingController();
