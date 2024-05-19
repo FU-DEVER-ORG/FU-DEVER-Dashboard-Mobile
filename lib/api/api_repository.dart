@@ -1,20 +1,26 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 class ApiRepository {
   static const _url = 'https://dever-dashboard-api.onrender.com/api/v1/';
 
+  Future<Uri> image() async {
+    final url =
+        Uri.parse('https://api.cloudinary.com/v1_1/de41uvd76/image/upload');
+    return url;
+  }
+
   static Future<Map<String, dynamic>> post(
-      {required String path,Map<String, dynamic> options = const {}}) async {
+      {required String path, Map<String, dynamic> options = const {}}) async {
     final response = await http.post(
-      Uri.parse(_url+path),
+      Uri.parse(_url + path),
       body: jsonEncode(options),
       headers: {'Content-Type': 'application/json'},
     );
     final responseData = jsonDecode(response.body);
     return responseData;
   }
+
   static Future<Map<String, dynamic>> get(
       {required String path,Map<String, dynamic> options = const {}}) async {
     final response = await http.get(
@@ -23,8 +29,11 @@ class ApiRepository {
     final responseData = jsonDecode(response.body);
     return responseData;
   }
+
   static Future<Map<String, dynamic>> put(
-      {required String path, Map<String, dynamic> options = const {},required String accessToken}) async {
+      {required String path,
+      Map<String, dynamic> options = const {},
+      required String accessToken}) async {
     final response = await http.put(
       Uri.parse(_url + path),
       headers: {
@@ -36,7 +45,6 @@ class ApiRepository {
     final responseData = jsonDecode(response.body);
     return responseData;
   }
-
 
   static Future<Map<String, dynamic>> test() async {
     final response = await get(path: "");

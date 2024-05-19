@@ -224,12 +224,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     )
                   : Padding(
                       padding: const EdgeInsets.only(top: 100),
-                      child: (userAvatar != null)
-                          ? Image.file(userAvatar)
-                          : SvgPicture.asset(
-                              'assets/images/filter-no-members.svg',
-                              fit: BoxFit.cover,
-                            ),
+                      child: SvgPicture.asset(
+                        'assets/images/filter-no-members.svg',
+                        fit: BoxFit.cover,
+                      ),
                     ),
             ],
           ),

@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fudever_dashboard/api/api_repository.dart';
+import 'package:fudever_dashboard/api/cloudinary_api.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../provider/image_provider.dart';
@@ -21,20 +24,20 @@ class ImageInput extends ConsumerStatefulWidget {
 class _ImageInputState extends ConsumerState<ImageInput> {
   File? _selectedImage;
 
-  void _openCamera() async {
+  Future<void> _openCamera() async {
     final pickedImage = await CameraHelper.openCamera();
     if (pickedImage != null) {
       setState(() {
         _selectedImage = pickedImage;
       });
       widget.onPickImage(_selectedImage!);
+
+      await CloudinaryApi().uploadImage(_selectedImage!);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final File? userAvatar = ref.watch(userImageProvider);
-
     Widget content = IconButton(
       onPressed: _openCamera,
       icon: const Icon(
@@ -50,9 +53,9 @@ class _ImageInputState extends ConsumerState<ImageInput> {
           child: SizedBox(
             height: 120,
             width: 120,
-            child: userAvatar != null
+            child: _selectedImage != null
                 ? Image.file(
-                    userAvatar,
+                    _selectedImage!,
                     fit: BoxFit.cover,
                   )
                 : Image.asset(
@@ -90,7 +93,7 @@ class CameraHelper {
       if (pickedImage == null) return null;
       return File(pickedImage.path);
     } catch (e) {
-      // print('Error opening camera: $e');
+      // Handle error if needed
       return null;
     }
   }
