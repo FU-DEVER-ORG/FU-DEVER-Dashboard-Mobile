@@ -25,10 +25,11 @@ class _ImageInputState extends ConsumerState<ImageInput> {
   File? _selectedImage;
 
   Future<void> _openCamera() async {
-    final pickedImage = await CameraHelper.openCamera();
+    // final pickedImage = await CameraHelper.openCamera();
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
-        _selectedImage = pickedImage;
+        _selectedImage = File(pickedImage.path);
       });
       widget.onPickImage(_selectedImage!);
 
