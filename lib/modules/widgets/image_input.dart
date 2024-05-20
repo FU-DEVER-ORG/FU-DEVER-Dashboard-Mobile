@@ -26,19 +26,22 @@ class _ImageInputState extends ConsumerState<ImageInput> {
 
   Future<void> _openCamera() async {
     // final pickedImage = await CameraHelper.openCamera();
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         _selectedImage = File(pickedImage.path);
       });
       widget.onPickImage(_selectedImage!);
-
-      await CloudinaryApi().uploadImage(_selectedImage!);
+      if (_selectedImage != null) {
+        final _imageUrl = await CloudinaryApi().uploadImage(_selectedImage!);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final avatarUrl = ref.watch(userImageProvider);
     Widget content = IconButton(
       onPressed: _openCamera,
       icon: const Icon(
@@ -54,9 +57,9 @@ class _ImageInputState extends ConsumerState<ImageInput> {
           child: SizedBox(
             height: 120,
             width: 120,
-            child: _selectedImage != null
+            child: avatarUrl != null
                 ? Image.file(
-                    _selectedImage!,
+                    avatarUrl,
                     fit: BoxFit.cover,
                   )
                 : Image.asset(
