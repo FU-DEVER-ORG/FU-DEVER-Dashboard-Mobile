@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
@@ -29,25 +31,32 @@ class _SocialMediaState extends State<SocialMediaScreen> {
   {'Facebook': 'assets/images/facebook.svg',
   'Github': 'assets/images/github.svg',
   'Youtube': 'assets/images/youtube.svg'};
+  final Map<String, String> socialId =
+  {'Facebook': '6640f2d6c4bfe1b448687835',
+  'Github': '6649687815c7acb7ca2eaa16',
+  'Youtube': '6649685f15c7acb7ca2eaa09'};
 
-  // void handleSubmit()async{
-  //   if(dropdownValue.isNotEmpty && urlController.text.isNotEmpty){
-  //     List<String, dynamic>skillsOptions=[
-  //       for(Map<> in socials)[...skills, skillController.text]
-  //     ]
-  //     Map<String, dynamic> updatedSkills = {
-  //       "skills" : ,
-  //     };
-  //     dynamic response = await UserController.editUsers(options: updatedSkills);
-  //     if(response['status'] == 'success'){
-  //       Navigator.of(context).push(
-  //         MaterialPageRoute(
-  //           builder: (context) => ProfileScreen(data: response['data'],),
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
+  void handleSubmit()async{
+    if(dropdownValue.isNotEmpty && urlController.text.isNotEmpty){
+      Map<String, dynamic> updatedSocials = {
+        "socials": [
+          ...socials,
+          {
+              "url": urlController.text,
+              "socialId": socialId[dropdownValue]
+          }
+        ],
+      };
+      dynamic response = await UserController.editUsers(options: updatedSocials);
+      if(response['status'] == 'success'){
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(data: response['data'],),
+          ),
+        );
+      }
+    }
+  }
   @override
   void initState() {
     print(widget.data);
