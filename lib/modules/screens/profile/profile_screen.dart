@@ -18,8 +18,12 @@ import 'package:fudever_dashboard/modules/widgets/image_input.dart';
 import 'package:fudever_dashboard/provider/image_provider.dart'; // Import the image provider
 
 class ProfileScreen extends ConsumerStatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({
+    Key? key,
+    data = null,
+  }) : super(key: key);
 
+  Map<String, dynamic>? data;
   @override
   ConsumerState<ProfileScreen> createState() => _ProfileState();
 }
@@ -77,9 +81,12 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     return listItems!;
   }
   Future<Map<String, dynamic>> getUserDetail() async {
-    String userId = "6648bf958f0c90107fe0565d";
-    dynamic response = await UserController.getUserDetail(userId: userId);
-    return response['data'];
+    if(widget.data==null){
+      String userId = "6648bf958f0c90107fe0565d";
+      dynamic response = await UserController.getUserDetail(userId: userId);
+      return response['data'];
+    }
+    return widget.data!['data'];
   }
 
 

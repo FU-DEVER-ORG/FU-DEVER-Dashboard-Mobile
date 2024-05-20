@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -25,33 +27,22 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
   String v_password = '';
 
   void handleSubmission() async {
-    if (_formKey.currentState!.validate()) {
-      //signUp(originalPassword, password);
-      Navigator.of(context).pushNamed('/');
+    if(_formKey.currentState?.validate() ?? false){
+      Map<String, dynamic> updatedPassword = {
+        "oldPassword" : currentPassword,
+        "newPassword" : newPassword
+      };
+      dynamic response = await UserController.changePassword(options: updatedPassword);
+      if(response['status'] == 'success'){
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(data: response['data'],),
+          ),
+        );
+      }
     }
   }
 
-  Future<void> signUp(String originalPassword, String password) async {
-    final url = 'http://api/Auth/sign-up';
-
-    final response = await http.post(
-      Uri.parse(url),
-      body: jsonEncode({
-        'originalPassword': originalPassword,
-        'password': password,
-      }),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode == 200) {
-      // Successful login
-      final responseData = jsonDecode(response.body);
-      print(responseData);
-    } else {
-      // Error handling
-      print('Login failed. Status code: ${response.statusCode}');
-    }
-  }
 
   @override
   void initState() {

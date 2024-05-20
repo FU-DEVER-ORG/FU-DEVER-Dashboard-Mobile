@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
+import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
@@ -16,6 +20,23 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   late QuillController? _controller = null;
   bool _verificationSuccess = false;
 
+  late List<Map<String, dynamic>> delta;
+
+  // void handleSubmit()async{
+  //   if(_controller!.document.toDelta().toJson().isNotEmpty){
+  //     Map<String, dynamic> updatedFavourites = {
+  //       "description" : _controller!.document.toDelta().toJson(),
+  //     };
+  //     dynamic response = await UserController.editUsers(options: updatedFavourites);
+  //     if(response['status'] == 'success'){
+  //       Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //           builder: (context) => ProfileScreen(data: response['data'],),
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
   @override
   void initState() {
     _controller = QuillController(
@@ -23,8 +44,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       selection: TextSelection.collapsed(offset: 0),
     );
     _controller!.addListener(() {
-      String value = _controller!.document.toPlainText();
-      print(value);
+      delta = _controller!.document.toDelta().toJson();
+
     });
     super.initState();
   }
@@ -145,9 +166,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 30),
             child: ElevatedButton(
-              onPressed: () {
-                // _showVerificationDialog(context);
-              },
+              onPressed: (){},
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(color: Colors.blue),
                 shape: RoundedRectangleBorder(

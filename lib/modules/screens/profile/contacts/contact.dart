@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 
 class ContactsScreen extends StatefulWidget {
@@ -18,6 +20,21 @@ class _IntroductionScreenState extends State<ContactsScreen> {
   final formKey =GlobalKey<FormState>();
   late String email = "";
   late String phone = "";
+  void handleSubmit()async{
+    if(phoneController.text.isNotEmpty){
+      Map<String, dynamic> updatedContacts = {
+        "phone" : phoneController.text,
+      };
+      dynamic response = await UserController.editUsers(options: updatedContacts);
+      if(response['status'] == 'success'){
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(data: response['data'],),
+          ),
+        );
+      }
+    }
+  }
   @override
   void initState() {
     emailController.text = widget.data['email']??"";
@@ -90,7 +107,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
               child: MaterialButton(
                 padding: EdgeInsets.symmetric(vertical: 16),
                 color: Theme.of(context).buttonTheme.colorScheme!.primary,
-                onPressed: () {},
+                onPressed: handleSubmit,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),

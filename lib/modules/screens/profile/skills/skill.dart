@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 import 'package:get/get.dart';
@@ -29,9 +30,22 @@ class _SkillsState extends State<SkillsScreen> {
         "skills" : [...skills, skillController.text],
       };
       dynamic response = await UserController.editUsers(options: updatedSkills);
-      print(response);
+      if(response['status'] == 'success'){
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(data: response['data'],),
+          ),
+        );
+      }
     }
   }
+
+  void deleteSkill(String skill) {
+    setState(() {
+      skills.remove(skill);
+    });
+  }
+
   @override
   void initState() {
     skills = widget.data.map((e) => e.toString()).toList();
@@ -64,7 +78,7 @@ class _SkillsState extends State<SkillsScreen> {
           child: ListView.builder(
               itemCount: skills.length,
               itemBuilder: (context, index) {
-                return Skill(skill: skills[index]);
+                return Skill(skill: skills[index],onDelete: () => deleteSkill(skills[index]));
               }),
         ),
         bottomSheet: Container(

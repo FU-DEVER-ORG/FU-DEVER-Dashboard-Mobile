@@ -30,8 +30,27 @@ class _SocialMediaState extends State<SocialMediaScreen> {
   'Github': 'assets/images/github.svg',
   'Youtube': 'assets/images/youtube.svg'};
 
+  // void handleSubmit()async{
+  //   if(dropdownValue.isNotEmpty && urlController.text.isNotEmpty){
+  //     List<String, dynamic>skillsOptions=[
+  //       for(Map<> in socials)[...skills, skillController.text]
+  //     ]
+  //     Map<String, dynamic> updatedSkills = {
+  //       "skills" : ,
+  //     };
+  //     dynamic response = await UserController.editUsers(options: updatedSkills);
+  //     if(response['status'] == 'success'){
+  //       Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //           builder: (context) => ProfileScreen(data: response['data'],),
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
   @override
   void initState() {
+    print(widget.data);
     if(widget.data!=null){
       socials = [
         for (var social in widget.data)

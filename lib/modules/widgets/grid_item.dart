@@ -69,8 +69,11 @@ class MemberGridItem extends StatelessWidget {
 }
 
 class Skill extends StatelessWidget {
-  const Skill({required this.skill, super.key});
+  const Skill({required this.skill, required this.onDelete, super.key});
+
   final String skill;
+  final VoidCallback onDelete;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -84,7 +87,7 @@ class Skill extends StatelessWidget {
           trailing: Transform.translate(
             offset: const Offset(0, -5),
             child: GestureDetector(
-              onTap: () {},
+              onTap: onDelete,
               child: const Text(
                 "x",
                 style: TextStyle(
@@ -99,6 +102,7 @@ class Skill extends StatelessWidget {
     );
   }
 }
+
 
 class Social extends StatelessWidget {
   const Social(

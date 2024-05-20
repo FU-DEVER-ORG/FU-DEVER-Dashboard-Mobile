@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 
 class IndividualInformationScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class IndividualInformationScreen extends StatefulWidget {
 
 class _IndividualInformationScreenState
     extends State<IndividualInformationScreen> {
+  RegExp regExp = RegExp(r'^\d{4}-\d{2}-\d{2}$');
   String dropdownValue = '';
   final List<String> clubPositionList = [
     'Trưởng ban',
@@ -29,12 +32,23 @@ class _IndividualInformationScreenState
     'Truyền thông',
     'Sự kiện',
   ];
+  final Map<String, dynamic> boardConstants = {
+    'Học thuật':"ACADEMIC",
+    'Truyền thông':"MEDIA",
+    'Sự kiện':"EVENT"
+  };
   final List<String> majorList = [
     'Kĩ thuật phần mềm',
     'An toàn thông tin',
     'Trí tuệ nhân tạo',
     'Thiết kế mỹ thuật số'
   ];
+  final Map<String, dynamic> majorConstants = {
+    'Kĩ thuật phần mềm':"SOFTWARE",
+    'An toàn thông tin':"SECURITY",
+    'Trí tuệ nhân tạo':"AI",
+    'Thiết kế mỹ thuật số': "DIGITAL"
+  };
 
   final TextEditingController firstnameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
@@ -47,20 +61,68 @@ class _IndividualInformationScreenState
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController majorController = TextEditingController();
 
+  void handleSubmit() async {
+    if (firstnameController.text.isNotEmpty &&
+        lastnameController.text.isNotEmpty &&
+        hometownController.text.isNotEmpty &&
+        schoolController.text.isNotEmpty) {
+      if (!regExp.hasMatch(dobController.text)) {
+        return;
+      }
+      DateTime dateTime = DateTime.parse(dobController.text);
+      dateTime = dateTime.add(const Duration(days: 1));
+      print({
+        ...widget.data['majorId'],
+        "name" : majorController.text,
+        "constant": majorConstants[majorController.text],
+      });
+      Map<String, dynamic> updated = {
+        "firstname": firstnameController.text,
+        "lastname": lastnameController.text,
+        "dob": dateTime.toUtc().toIso8601String(),
+        "majorId": {
+          ...widget.data['majorId'],
+          "name" : majorController.text,
+          "constant": majorConstants[majorController.text],
+        },
+        "hometown": hometownController.text,
+        "job": jobController.text,
+        "workplace": workplaceController.text,
+        "school": schoolController.text,
+      };
+      dynamic response = await UserController.editUsers(options: updated);
+      if (response['status'] == 'success') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(
+              data: response['data'],
+            ),
+          ),
+        );
+      }else{
+        print(response);
+      }
+    }
+  }
+
   @override
   void initState() {
-    print(widget.data);
-    firstnameController.text=widget.data['firstname'];
-    lastnameController.text=widget.data['lastname'];
+    firstnameController.text = widget.data['firstname'];
+    lastnameController.text = widget.data['lastname'];
     DateTime dob = DateTime.parse(widget.data['dob']);
-    dobController.text='${dob.year}/${dob.month}/${dob.day}';
-    hometownController.text=widget.data['hometown'];
-    positionController.text=widget.data['positionId']['name'];
-    boardController.text=widget.data['departments'][0]['name'];
-    jobController.text=widget.data['job'];
-    workplaceController.text=widget.data['workplace'];
-    schoolController.text=widget.data['school'];
-    majorController.text=widget.data['majorId']['name'];
+    dobController.text = '${dob.year}-${dob.month}-${dob.day}';
+    hometownController.text = widget.data['hometown'];
+    positionController.text = widget.data['positionId']['name'];
+    boardController.text = widget.data['departments'][0]['name'];
+    jobController.text = widget.data['job'];
+    workplaceController.text = widget.data['workplace'];
+    schoolController.text = widget.data['school'];
+    majorController.text = widget.data['majorId']['name'];
+    print({
+      ...widget.data['majorId'],
+      "name" : majorController.text,
+      "constant": majorConstants[majorController.text],
+    });
     super.initState();
   }
 
@@ -101,72 +163,85 @@ class _IndividualInformationScreenState
                   controller: firstnameController,
                   isCompulsory: true,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 CustomField(
                   title: 'Tên',
                   hintText: 'Nhập tên của bạn',
                   controller: lastnameController,
                   isCompulsory: true,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 CustomDateField(
                   title: 'Ngày sinh',
                   hintText: 'Chọn ngày sinh',
                   controller: dobController,
                   isCompulsory: false,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 CustomField(
                   title: 'Nơi ở',
                   hintText: 'Nơi ở hiện tại',
                   controller: hometownController,
                   isCompulsory: true,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 CustomReadOnlyDropdown(
                     title: 'Chức vụ CLB',
                     dropdownValue: "Chọn chức vụ",
                     // context: context,
                     controller: positionController,
-                    filterList: clubPositionList
+                    filterList: clubPositionList),
+                SizedBox(
+                  height: 10,
                 ),
-                SizedBox(height: 10,),
                 CustomDropdown(
                     title: 'Ban hoạt động',
                     dropdownValue: "Chọn ban của bạn",
                     // context: context,
                     controller: boardController,
-                    filterList: boardList
+                    filterList: boardList),
+                SizedBox(
+                  height: 10,
                 ),
-                SizedBox(height: 10,),
                 CustomField(
                     title: 'Nghề nghiệp',
                     hintText: 'Công việc hiện tại',
                     controller: jobController,
-                    isCompulsory: false
+                    isCompulsory: false),
+                SizedBox(
+                  height: 10,
                 ),
-                SizedBox(height: 10,),
                 CustomField(
                     title: 'Nơi làm việc',
                     hintText: 'Nơi làm việc hiện tại',
                     controller: workplaceController,
-                    isCompulsory: false
+                    isCompulsory: false),
+                SizedBox(
+                  height: 10,
                 ),
-                SizedBox(height: 10,),
                 CustomField(
                   title: 'Trường học',
                   hintText: 'Trường học gần nhất đang/đã từng học',
                   controller: schoolController,
                   isCompulsory: true,
                 ),
-                SizedBox(height: 10,),
-                CustomDropdown(
-                    title: 'Chuyên ngành',
-                    dropdownValue: "Chuyên ngành của bạn",
-                    // context: context,
-                    controller: majorController,
-                    filterList: majorList
+                SizedBox(
+                  height: 10,
                 ),
+                CustomDropdown(
+                  title: 'Chuyên ngành',
+                  dropdownValue: "Chuyên ngành của bạn",
+                  // context: context,
+                  controller: majorController,
+                  filterList: majorList),
               ],
             ),
           ),
@@ -186,19 +261,21 @@ class _IndividualInformationScreenState
               ]),
               child: Container(
                   child: MaterialButton(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                color: Theme.of(context).buttonTheme.colorScheme!.primary,
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(8.0), // Adjust the border radius
-                ),
-                child: Text(
-                  "Xác nhận",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.background),
-                ),
-              ))),
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  color: Theme.of(context).buttonTheme.colorScheme!.primary,
+                  onPressed: handleSubmit,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(8.0), // Adjust the border radius
+                  ),
+                  child: Text(
+                    "Xác nhận",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.background),
+                  ),
+                )
+              )
+          ),
         ]),
       ),
     );

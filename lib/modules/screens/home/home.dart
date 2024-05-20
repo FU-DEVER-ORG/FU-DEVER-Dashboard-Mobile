@@ -55,7 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void onSelectAvatar() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const ProfileScreen(),
+        builder: (context) => ProfileScreen(),
       ),
     );
   }

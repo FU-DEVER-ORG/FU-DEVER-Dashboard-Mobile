@@ -30,6 +30,21 @@ class ApiRepository {
     return responseData;
   }
 
+  static Future<Map<String, dynamic>> patch(
+      {required String path,
+      Map<String, dynamic> options = const {},
+      required String accessToken}) async {
+    final response = await http.patch(
+      Uri.parse(_url + path),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode(options),
+    );
+    final responseData = jsonDecode(response.body);
+    return responseData;
+  }
   static Future<Map<String, dynamic>> put(
       {required String path,
       Map<String, dynamic> options = const {},
@@ -42,9 +57,8 @@ class ApiRepository {
       },
       body: jsonEncode(options),
     );
-    print(response.body);
-    // final responseData = jsonDecode(response.body);
-    // return responseData;
+    final responseData = jsonDecode(response.body);
+    return responseData;
   }
 
   static Future<Map<String, dynamic>> test() async {

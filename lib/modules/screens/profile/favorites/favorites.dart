@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
@@ -19,6 +21,29 @@ class FavoritesScreen extends StatefulWidget {
 class _FavouritesState extends State<FavoritesScreen> {
   List<String> favourites = [];
   TextEditingController controller = TextEditingController();
+
+  void handleSubmit()async{
+    if(controller.text.isNotEmpty){
+      Map<String, dynamic> updatedFavourites = {
+        "favourites" : [...favourites, controller.text],
+      };
+      dynamic response = await UserController.editUsers(options: updatedFavourites);
+      if(response['status'] == 'success'){
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(data: response['data'],),
+          ),
+        );
+      }
+    }
+  }
+
+  void deleteFavourites(String skill) {
+    setState(() {
+      favourites.remove(skill);
+    });
+  }
+
   @override
   void initState() {
     favourites = widget.data.map((e) => e.toString()).toList();
@@ -49,7 +74,7 @@ class _FavouritesState extends State<FavoritesScreen> {
           child: ListView.builder(
               itemCount: favourites.length,
               itemBuilder: (context, index) {
-                return Skill(skill: favourites[index]);
+                return Skill(skill: favourites[index], onDelete: () => deleteFavourites(favourites[index]),);
               }),
         ),
         bottomSheet: Wrap(
@@ -77,7 +102,7 @@ class _FavouritesState extends State<FavoritesScreen> {
                       child: MaterialButton(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         color: Colors.blue,
-                        onPressed: () {},
+                        onPressed: handleSubmit,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust the border radius
