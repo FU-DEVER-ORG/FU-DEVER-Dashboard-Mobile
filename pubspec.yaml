@@ -52,6 +52,7 @@ dependencies:
   cloudinary_url_gen: ^1.5.0
   vsc_quill_delta_to_html: ^1.0.4
   flutter_widget_from_html: ^0.15.0
+  flutter_secure_storage: ^9.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

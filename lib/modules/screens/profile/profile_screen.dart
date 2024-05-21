@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/controller/id_manager.dart';
 import 'package:fudever_dashboard/layouts/auth_layout.dart';
 import 'package:fudever_dashboard/modules/screens/auth/login.dart';
 import 'package:fudever_dashboard/modules/screens/profile/contacts/contact.dart';
@@ -33,44 +34,43 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
   bool _isImageCaptured = false;
   bool _isConfirmed = false;
 
-
-
-  List<Map<String, dynamic>>? listItems=[];
+  List<Map<String, dynamic>>? listItems = [];
 
   List<Map<String, dynamic>> getListItems(Map<String, dynamic> data) {
     listItems = [
       {
         'icon': Icons.edit,
         'title': 'Giới thiệu',
-        'screen': IntroductionScreen(title: 'Giới thiệu', data: data['description'])
+        'screen':
+            IntroductionScreen(title: 'Giới thiệu', data: data['description'])
       },
       {
         'icon': Icons.error,
         'title': 'Thông tin cá nhân',
-        'screen': IndividualInformationScreen(title: 'Thông tin cá nhân', data: data)
+        'screen':
+            IndividualInformationScreen(title: 'Thông tin cá nhân', data: data)
       },
       {
         'icon': Icons.contacts_rounded,
         'title': 'Liên hệ',
-        'screen': ContactsScreen(title: 'Liên hệ', data: {
-          "email": data['email'],
-          "phone": data['phone']
-        })
+        'screen': ContactsScreen(
+            title: 'Liên hệ',
+            data: {"email": data['email'], "phone": data['phone']})
       },
       {
         'icon': Icons.public,
         'title': 'Mạng xã hội',
-        'screen': SocialMediaScreen(title: 'Mạng xã hội',data: data['socials'])
+        'screen': SocialMediaScreen(title: 'Mạng xã hội', data: data['socials'])
       },
       {
         'icon': Icons.favorite,
         'title': 'Sở thích',
-        'screen': FavoritesScreen(title: 'Sở thích',data: data['favourites'])
+        'screen': FavoritesScreen(title: 'Sở thích', data: data['favourites'])
       },
       {
         'icon': Icons.lightbulb,
         'title': 'Kỹ năng',
-        'screen': SkillsScreen(title: 'Kỹ năng',data: data['skills'])
+        'screen': SkillsScreen(title: 'Kỹ năng', data: data['skills'])
       },
       {
         'icon': Icons.lock,
@@ -80,14 +80,14 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     ];
     return listItems!;
   }
-  Future<Map<String, dynamic>> getUserDetail() async {
-    if(widget.data==null){
-      dynamic response = await UserController.getUserDetail();
+
+  Future<Map<String, dynamic>> getUserDetail(String userId) async {
+    if (widget.data == null) {
+      dynamic response = await UserController.getUserDetail(userId);
       return response['data'];
     }
     return widget.data!['data'];
   }
-
 
   @override
   void initState() {
@@ -108,7 +108,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
       );
     }
   }
-
 
   PreferredSizeWidget _buildProfileHeader(BuildContext context) {
     return AppBar(
@@ -182,7 +181,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     );
   }
 
-
   Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
     return SizedBox(
       height: 40,
@@ -198,11 +196,9 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     );
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
+    final Future<String?> userId = IdManager().getId();
     return Scaffold(
       appBar: _buildProfileHeader(context),
       body: SingleChildScrollView(
@@ -228,8 +224,9 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
             ),
             const SizedBox(height: 20),
             FutureBuilder<Map<String, dynamic>>(
-              future: getUserDetail(),
-              builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+              future: getUserDetail(userId.toString()),
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<String, dynamic>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else if (snapshot.hasError) {
@@ -245,8 +242,8 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       final item = listItems[index];
                       return _buildListTile(item['icon'], item['title'], () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (ctx) => item['screen']));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => item['screen']));
                       });
                     },
                   );

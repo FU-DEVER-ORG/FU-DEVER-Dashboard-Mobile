@@ -1,5 +1,5 @@
 import 'package:fudever_dashboard/api/api_repository.dart';
-import 'package:fudever_dashboard/provider/token_provider.dart';
+import 'package:fudever_dashboard/controller/token_manager.dart';
 
 class UserController extends ApiRepository{
   static Future<dynamic> getUsers() async {
@@ -14,8 +14,7 @@ class UserController extends ApiRepository{
     return response;
   }
 
-  static Future<dynamic> getUserDetail() async {
-    String userId = "6648bf958f0c90107fe0565d";
+  static Future<dynamic> getUserDetail(String userId) async {
     final response = await ApiRepository.get(path: "users/${userId}");
     return response;
   }

@@ -1,20 +1,30 @@
-import 'package:shared_preferences/shared_preferences.dart';
 
-class TokenManager {
-  static const _tokenKey = 'authToken';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-  Future<void> saveToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenKey, token);
+import '../controller/token_manager.dart';
+
+class TokenNotifier extends StateNotifier<String?> {
+  TokenNotifier() : super(null) {
+    _loadToken();
   }
 
-  Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_tokenKey);
+  final TokenManager _tokenManager = TokenManager();
+
+  Future<void> _loadToken() async {
+    state = await _tokenManager.getToken();
   }
 
-  Future<void> deleteToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_tokenKey);
+  Future<void> setToken(String token) async {
+    await _tokenManager.saveToken(token);
+    state = token;
   }
+
+  // Future<void> clearToken() async {
+  //   await _tokenManager.deleteToken();
+  //   state = null;
+  // }
 }
+
+final tokenProvider = StateNotifierProvider<TokenNotifier, String?>((ref) {
+  return TokenNotifier();
+});

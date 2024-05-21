@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/api/auth_api.dart';
+import 'package:fudever_dashboard/controller/id_manager.dart';
+import 'package:fudever_dashboard/controller/token_manager.dart';
 
 import '../../../main.dart';
-import '../../../provider/token_provider.dart';
 import '../../../utils/dialog.dart';
 
 class Login extends ConsumerWidget {
@@ -72,6 +73,8 @@ class _LoginFormState extends State<LoginForm> {
 
   String? errorEmail;
   String? errorPassword;
+
+  final IdManager _idManager = IdManager();
   final TokenManager _tokenManager = TokenManager();
 
   String? validateEmail(value) {
@@ -97,23 +100,31 @@ class _LoginFormState extends State<LoginForm> {
       errorEmail = validateEmail(email);
       errorPassword = validatePassword(password);
     });
+
     if (errorEmail == null && errorPassword == null) {
       try {
         await EasyLoading.show();
         final res = await AuthController.loginUser(email, password, rememberMe);
+
         if (res['status'] == 'success') {
           final token = res['data']['token'];
-          await _tokenManager.saveToken(token); // Lưu token ở đây
+          await _tokenManager.saveToken(token);
+          print('Token saved: $token');
+
+          // final id = res['data']['user']['id'];
+          // await _idManager.saveId(id);
+          // print('ID saved: $id');
+
           widget.onLoginSuccess(token);
-          // print(a);
           Navigator.of(context).pushNamed('/');
-          // return res['data']['user']['token'];
         } else {
           DialogUtils.showLoginErrorDialog(context);
         }
+
         await EasyLoading.dismiss();
       } catch (e) {
         await EasyLoading.dismiss();
+        print("Error: $e"); // Debugging line
       }
     }
   }
