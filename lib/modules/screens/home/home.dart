@@ -15,7 +15,13 @@ import '../../../provider/image_provider.dart';
 import '../members/view_members.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({this.arguments = null, super.key});
+  const HomeScreen({
+    this.arguments = null,
+    required this.token,
+    super.key,
+  });
+
+  final String token;
 
   final arguments;
   @override
@@ -55,13 +61,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void onSelectAvatar() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ProfileScreen(),
+        builder: (context) => ProfileScreen(token: widget.token),
       ),
     );
   }
 
   void getData() async {
-    data = await UserController.getUsers();
+    data = await UserController.getUsers(widget.token);
 
     setState(() {
       data = (data['data']['users'] as List)
@@ -81,17 +87,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   element.majorId!['name'] != widget.arguments['major'])) {
             return false;
           }
-          if (widget.arguments['department'] != 'Any'){
-              bool departmentExists = element.departments!.any(
-                (department) => department['name'] == widget.arguments['department']
-              );
-              if (!departmentExists) {
+          if (widget.arguments['department'] != 'Any') {
+            bool departmentExists = element.departments!.any((department) =>
+                department['name'] == widget.arguments['department']);
+            if (!departmentExists) {
               return false;
-              }
+            }
           }
           if (widget.arguments['gen'] != 'Any' &&
               (element.gen == -1 ||
-                  element.gen != int.parse(widget.arguments['gen'].toString().characters.last))) {
+                  element.gen !=
+                      int.parse(widget.arguments['gen']
+                          .toString()
+                          .characters
+                          .last))) {
             return false;
           }
           return true;
@@ -107,6 +116,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
     getData();
     members = null;
+    
     super.initState();
   }
 

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
 import 'package:fudever_dashboard/layouts/auth_layout.dart';
@@ -21,9 +22,11 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ProfileScreen({
     Key? key,
     data = null,
+    required this.token,
   }) : super(key: key);
 
   Map<String, dynamic>? data;
+  final String token;
   @override
   ConsumerState<ProfileScreen> createState() => _ProfileState();
 }
@@ -33,44 +36,43 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
   bool _isImageCaptured = false;
   bool _isConfirmed = false;
 
-
-
-  List<Map<String, dynamic>>? listItems=[];
+  List<Map<String, dynamic>>? listItems = [];
 
   List<Map<String, dynamic>> getListItems(Map<String, dynamic> data) {
     listItems = [
       {
         'icon': Icons.edit,
         'title': 'Giới thiệu',
-        'screen': IntroductionScreen(title: 'Giới thiệu', data: data['description'])
+        'screen':
+            IntroductionScreen(title: 'Giới thiệu', data: data['description'])
       },
       {
         'icon': Icons.error,
         'title': 'Thông tin cá nhân',
-        'screen': IndividualInformationScreen(title: 'Thông tin cá nhân', data: data)
+        'screen':
+            IndividualInformationScreen(title: 'Thông tin cá nhân', data: data)
       },
       {
         'icon': Icons.contacts_rounded,
         'title': 'Liên hệ',
-        'screen': ContactsScreen(title: 'Liên hệ', data: {
-          "email": data['email'],
-          "phone": data['phone']
-        })
+        'screen': ContactsScreen(
+            title: 'Liên hệ',
+            data: {"email": data['email'], "phone": data['phone']})
       },
       {
         'icon': Icons.public,
         'title': 'Mạng xã hội',
-        'screen': SocialMediaScreen(title: 'Mạng xã hội',data: data['socials'])
+        'screen': SocialMediaScreen(title: 'Mạng xã hội', data: data['socials'])
       },
       {
         'icon': Icons.favorite,
         'title': 'Sở thích',
-        'screen': FavoritesScreen(title: 'Sở thích',data: data['favourites'])
+        'screen': FavoritesScreen(title: 'Sở thích', data: data['favourites'])
       },
       {
         'icon': Icons.lightbulb,
         'title': 'Kỹ năng',
-        'screen': SkillsScreen(title: 'Kỹ năng',data: data['skills'])
+        'screen': SkillsScreen(title: 'Kỹ năng', data: data['skills'])
       },
       {
         'icon': Icons.lock,
@@ -80,15 +82,15 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     ];
     return listItems!;
   }
-  Future<Map<String, dynamic>> getUserDetail() async {
-    if(widget.data==null){
+
+  Future<Map<String, dynamic>> getUserDetail(String token) async {
+    if (widget.data == null) {
       String userId = "6648bf958f0c90107fe0565d";
       dynamic response = await UserController.getUserDetail(userId: userId);
       return response['data'];
     }
     return widget.data!['data'];
   }
-
 
   @override
   void initState() {
@@ -97,7 +99,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
 
   void _saveImage(BuildContext context) async {
     if (_selectedImage != null) {
-      ref.read(userImageProvider.notifier).changeProfileInfo(
+      ref.read(userImageProvider.notifier).changeImage(
             'User Name',
             _selectedImage!,
           ); // Replace 'User Name' with the actual user name
@@ -109,7 +111,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
       );
     }
   }
-
 
   PreferredSizeWidget _buildProfileHeader(BuildContext context) {
     return AppBar(
@@ -183,7 +184,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     );
   }
 
-
   Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
     return SizedBox(
       height: 40,
@@ -199,9 +199,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     );
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,24 +210,10 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
             const SizedBox(height: 20),
             _buildProfileImage(context),
             const SizedBox(height: 20),
-            const Text(
-              'Name',
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Text(
-              'email@gmail.com',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w200,
-              ),
-            ),
-            const SizedBox(height: 20),
             FutureBuilder<Map<String, dynamic>>(
-              future: getUserDetail(),
-              builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+              future: getUserDetail(widget.token),
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<String, dynamic>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else if (snapshot.hasError) {
@@ -246,8 +229,8 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       final item = listItems[index];
                       return _buildListTile(item['icon'], item['title'], () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (ctx) => item['screen']));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => item['screen']));
                       });
                     },
                   );

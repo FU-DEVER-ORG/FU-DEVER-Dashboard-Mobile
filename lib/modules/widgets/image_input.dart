@@ -1,13 +1,13 @@
 import 'dart:io';
-
-import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fudever_dashboard/api/api_repository.dart';
-import 'package:fudever_dashboard/api/cloudinary_api.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
+import '../../provider/token_provider.dart';
+import 'controller/image_controller.dart';
 
-import '../../provider/image_provider.dart';
+// Define a ChangeNotifierProvider for ImageController
+final imageControllerProvider =
+    ChangeNotifierProvider((ref) => ImageController());
 
 class ImageInput extends ConsumerStatefulWidget {
   const ImageInput({
@@ -22,83 +22,73 @@ class ImageInput extends ConsumerStatefulWidget {
 }
 
 class _ImageInputState extends ConsumerState<ImageInput> {
-  File? _selectedImage;
-
-  Future<void> _openCamera() async {
-    // final pickedImage = await CameraHelper.openCamera();
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        _selectedImage = File(pickedImage.path);
-      });
-      widget.onPickImage(_selectedImage!);
-      if (_selectedImage != null) {
-        final _imageUrl = await CloudinaryApi().uploadImage(_selectedImage!);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final avatarUrl = ref.watch(userImageProvider);
-    Widget content = IconButton(
-      onPressed: _openCamera,
-      icon: const Icon(
-        Icons.camera_alt,
-        color: Colors.blue,
-        size: 24.0,
-      ),
-    );
+    final imageController = ref.watch(imageControllerProvider);
+    final token = ref.watch(tokenProvider);
 
-    return Stack(
-      children: <Widget>[
-        ClipOval(
-          child: SizedBox(
-            height: 120,
-            width: 120,
-            child: avatarUrl != null
-                ? Image.file(
-                    avatarUrl,
-                    fit: BoxFit.cover,
-                  )
-                : Image.asset(
-                    'assets/images/demo-image.png',
-                    fit: BoxFit.cover,
+    if (token != null) {
+      UserController.getUsers(token);
+    }
+
+    return Column(
+      children: [
+        Stack(
+          children: <Widget>[
+            ClipOval(
+              child: SizedBox(
+                height: 120,
+                width: 120,
+                child: imageController.selectedImage != null
+                    ? Image.file(
+                        imageController.selectedImage!,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        'assets/images/logo-only.png',
+                        fit: BoxFit.cover,
+                      ),
+              ),
+            ),
+            Positioned(
+              top: 0.0,
+              right: 0.0,
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.blue,
+                    size: 24.0,
                   ),
+                  onPressed: () =>
+                      ref.read(imageControllerProvider).pickImageFromGallery(),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Name',
+          style: const TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        Positioned(
-          top: 0.0,
-          right: 0.0,
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-            ),
-            child: content,
+        Text(
+          'Email',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w200,
           ),
         ),
       ],
     );
-  }
-}
-
-class CameraHelper {
-  static Future<File?> openCamera() async {
-    final imagePicker = ImagePicker();
-    try {
-      final pickedImage = await imagePicker.pickImage(
-        source: ImageSource.camera,
-        maxWidth: 600,
-      );
-      if (pickedImage == null) return null;
-      return File(pickedImage.path);
-    } catch (e) {
-      // Handle error if needed
-      return null;
-    }
   }
 }

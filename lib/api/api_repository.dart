@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fudever_dashboard/models/login_request/login_request.dart';
 import 'package:http/http.dart' as http;
 
 class ApiRepository {
@@ -22,10 +23,13 @@ class ApiRepository {
   }
 
   static Future<Map<String, dynamic>> get(
-      {required String path,Map<String, dynamic> options = const {}}) async {
-    final response = await http.get(
-      Uri.parse(_url+path),
-    );
+      {required String path, Map<String, dynamic> options = const {}}) async {
+    String? token = await TokenManager().storage.read(key: 'admin_token');
+
+    final response = await http.get(Uri.parse(_url + path), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
     final responseData = jsonDecode(response.body);
     return responseData;
   }
@@ -45,6 +49,7 @@ class ApiRepository {
     final responseData = jsonDecode(response.body);
     return responseData;
   }
+
   static Future<Map<String, dynamic>> put(
       {required String path,
       Map<String, dynamic> options = const {},

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/api/auth_api.dart';
+import 'package:fudever_dashboard/models/login_request/login_request.dart';
 
 import '../../../main.dart';
+import '../../../provider/profile_provider.dart';
 import '../../../provider/token_provider.dart';
 import '../../../utils/dialog.dart';
+import '../home/home.dart';
 
 class Login extends ConsumerWidget {
   const Login({Key? key}) : super(key: key);
@@ -33,6 +36,8 @@ class Login extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(profileProvider.notifier).state;
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -41,13 +46,13 @@ class Login extends ConsumerWidget {
       screenWidth: screenWidth,
       onLoginSuccess: (token) {
         // Update the token using the provider
-        ref.read(tokenProvider.notifier).state = token;
+        // ref.read(tokenProvider.notifier).state = token;
       },
     );
   }
 }
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({
     required this.screenWidth,
     required this.screenHeight,
@@ -59,20 +64,22 @@ class LoginForm extends StatefulWidget {
   final void Function(String?) onLoginSuccess;
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   late bool obscureText;
 
-  String email = '';
-  String password = '';
+  // String email = '';
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   bool rememberMe = false;
 
   String? errorEmail;
   String? errorPassword;
-  final TokenManager _tokenManager = TokenManager();
+  // final TokenManager _tokenManager = TokenManager();
 
   String? validateEmail(value) {
     if (value == null || value.isEmpty) {
@@ -93,6 +100,9 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void handleSubmission() async {
+    final email = emailController.text;
+    final password = passwordController.text;
+
     setState(() {
       errorEmail = validateEmail(email);
       errorPassword = validatePassword(password);
@@ -100,13 +110,29 @@ class _LoginFormState extends State<LoginForm> {
     if (errorEmail == null && errorPassword == null) {
       try {
         await EasyLoading.show();
-        final res = await AuthController.loginUser(email, password, rememberMe);
+        final res = await AuthController.loginUser(email, password);
+
         if (res['status'] == 'success') {
           final token = res['data']['token'];
-          await _tokenManager.saveToken(token); // Lưu token ở đây
-          widget.onLoginSuccess(token);
+          final id = res['data']['user']['id'];
+
+          TokenManager().saveToken(token);
+          IdManager().saveId(id);
+
+          // UserRequest(token: token);
+          // ref.read(profileProvider.notifier).state = profile;
+          // await _tokenManager.saveToken(token); // Lưu token ở đây
+          // widget.onLoginSuccess(token);
           // print(a);
-          Navigator.of(context).pushNamed('/');
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) {
+                return HomeScreen(
+                  token: token,
+                );
+              },
+            ),
+          );
           // return res['data']['user']['token'];
         } else {
           DialogUtils.showLoginErrorDialog(context);
@@ -267,7 +293,7 @@ class _LoginFormState extends State<LoginForm> {
                 bottom: MediaQuery.of(context).viewInsets.bottom + 40),
             onChanged: (value) {
               setState(() {
-                password = value!;
+                passwordController.text = value!;
                 errorPassword = null;
               });
             },
@@ -325,7 +351,7 @@ class _LoginFormState extends State<LoginForm> {
                 bottom: MediaQuery.of(context).viewInsets.bottom + 100),
             onChanged: (value) {
               setState(() {
-                email = value!;
+                emailController.text = value!;
                 errorEmail = null;
               });
             },

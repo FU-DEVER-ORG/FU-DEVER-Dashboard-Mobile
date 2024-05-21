@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class User {
+  final String? id;
   final String email;
   final String password;
   final String? description;
@@ -27,6 +28,7 @@ class User {
   final bool isAdmin;
 
   User({
+    this.id,
     required this.email,
     required this.password,
     this.description,

@@ -36,7 +36,8 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
       if(response['status'] == 'success'){
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ProfileScreen(data: response['data'],),
+            builder: (context) => ProfileScreen(
+                data: response['data'], token: response['data']['token']),
           ),
         );
       }

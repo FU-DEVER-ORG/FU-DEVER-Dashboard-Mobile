@@ -2,7 +2,7 @@ import 'package:fudever_dashboard/api/api_repository.dart';
 import 'package:fudever_dashboard/provider/token_provider.dart';
 
 class UserController extends ApiRepository{
-  static Future<dynamic> getUsers() async {
+  static Future<dynamic> getUsers(String token) async {
     final response = await ApiRepository.get(path: "users");
     return response;
   }

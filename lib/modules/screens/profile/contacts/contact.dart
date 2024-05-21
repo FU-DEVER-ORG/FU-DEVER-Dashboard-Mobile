@@ -5,7 +5,7 @@ import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 
 class ContactsScreen extends StatefulWidget {
-  const ContactsScreen({super.key,required this.data, required this.title});
+  const ContactsScreen({super.key, required this.data, required this.title});
 
   final String title;
   final Map<String, String> data;
@@ -17,28 +17,31 @@ class ContactsScreen extends StatefulWidget {
 class _IntroductionScreenState extends State<ContactsScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final formKey =GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   late String email = "";
   late String phone = "";
-  void handleSubmit()async{
-    if(phoneController.text.isNotEmpty){
+  void handleSubmit() async {
+    if (phoneController.text.isNotEmpty) {
       Map<String, dynamic> updatedContacts = {
-        "phone" : phoneController.text,
+        "phone": phoneController.text,
       };
-      dynamic response = await UserController.editUsers(options: updatedContacts);
-      if(response['status'] == 'success'){
+      dynamic response =
+          await UserController.editUsers(options: updatedContacts);
+      if (response['status'] == 'success') {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ProfileScreen(data: response['data'],),
+            builder: (context) => ProfileScreen(
+                data: response['data'], token: response['data']['token']),
           ),
         );
       }
     }
   }
+
   @override
   void initState() {
-    emailController.text = widget.data['email']??"";
-    phoneController.text = widget.data['phone']??"";
+    emailController.text = widget.data['email'] ?? "";
+    phoneController.text = widget.data['phone'] ?? "";
     emailController.addListener(() {
       setState(() {
         email = emailController.text;
@@ -51,6 +54,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -79,21 +83,31 @@ class _IntroductionScreenState extends State<ContactsScreen> {
         body: Form(
           key: formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical:20, horizontal: 20.0),
-            child: Column(
-              children: [
-                CustomField(title: "Email",hintText: "Email của bạn",controller: emailController,isCompulsory: true,readOnly: true,),
-                SizedBox(height: 10,),
-                CustomField(title: "Số điện thoại",hintText: "Số điện thoại của bạn",controller: phoneController,isCompulsory: true,),
-              ]
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20.0),
+            child: Column(children: [
+              CustomField(
+                title: "Email",
+                hintText: "Email của bạn",
+                controller: emailController,
+                isCompulsory: true,
+                readOnly: true,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              CustomField(
+                title: "Số điện thoại",
+                hintText: "Số điện thoại của bạn",
+                controller: phoneController,
+                isCompulsory: true,
+              ),
+            ]),
           ),
         ),
-        bottomSheet: Wrap(
-          children: [
+        bottomSheet: Wrap(children: [
           Container(
-          width: screenWidth,
-          padding: const EdgeInsets.fromLTRB(20, 8,20,24),
+            width: screenWidth,
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
               BoxShadow(
                 color: Colors.black.withAlpha(51), // Shadow color

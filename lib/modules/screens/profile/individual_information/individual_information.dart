@@ -95,8 +95,7 @@ class _IndividualInformationScreenState
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ProfileScreen(
-              data: response['data'],
-            ),
+                data: response['data'], token: response['data']['token']),
           ),
         );
       }else{

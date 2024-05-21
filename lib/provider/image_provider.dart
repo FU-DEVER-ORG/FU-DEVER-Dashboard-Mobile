@@ -6,7 +6,7 @@ import 'package:path/path.dart' as path;
 class ImageProvider extends StateNotifier<File?> {
   ImageProvider() : super(null);
 
-  void changeProfileInfo(String name, File avatar) async {
+  void changeImage(String name, File avatar) async {
     final appDirectory = await syspaths.getApplicationDocumentsDirectory();
     final filename = path.basename(avatar.path);
     final copiedImage = await avatar.copy('${appDirectory.path}/$filename');

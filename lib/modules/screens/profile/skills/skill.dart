@@ -24,16 +24,17 @@ class _SkillsState extends State<SkillsScreen> {
 
   TextEditingController skillController = TextEditingController();
 
-  void handleSubmit()async{
-    if(skillController.text.isNotEmpty){
+  void handleSubmit() async {
+    if (skillController.text.isNotEmpty) {
       Map<String, dynamic> updatedSkills = {
-        "skills" : [...skills, skillController.text],
+        "skills": [...skills, skillController.text],
       };
       dynamic response = await UserController.editUsers(options: updatedSkills);
-      if(response['status'] == 'success'){
+      if (response['status'] == 'success') {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ProfileScreen(data: response['data'],),
+            builder: (context) => ProfileScreen(
+                data: response['data'], token: response['data']['token']),
           ),
         );
       }
@@ -69,8 +70,13 @@ class _SkillsState extends State<SkillsScreen> {
           backgroundColor: Theme.of(context).colorScheme.background,
           centerTitle: true,
           leading: GestureDetector(
-            onTap: (){Navigator.pop(context);},
-            child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
           ),
         ),
         body: Container(
@@ -78,47 +84,53 @@ class _SkillsState extends State<SkillsScreen> {
           child: ListView.builder(
               itemCount: skills.length,
               itemBuilder: (context, index) {
-                return Skill(skill: skills[index],onDelete: () => deleteSkill(skills[index]));
+                return Skill(
+                    skill: skills[index],
+                    onDelete: () => deleteSkill(skills[index]));
               }),
         ),
         bottomSheet: Container(
-            width: screenWidth,
-            padding: EdgeInsets.fromLTRB(20, 8,20,24),
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(51), // Shadow color
-                spreadRadius: 0,
-                blurRadius: 24, // Shadow blur radius
-                offset: Offset(0, -1),
-              )
-            ]),
-            child: Wrap(
-              spacing: 8,
-                children: [
-                  CustomField(title: "Kỹ năng", hintText: "Nhập kỹ năng của bạn", controller: skillController, isCompulsory: true),
-                  SizedBox(height: 10,),
-                  Container(
-                      width: screenWidth,
-                      child: MaterialButton(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        color: Theme.of(context).buttonTheme.colorScheme!.primary,
-                        onPressed: handleSubmit,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              10.0), // Adjust the border radius
-                        ),
-                        child: Text(
-                          "Thêm kỹ năng",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.background),
-                        ),
-                      )
-                  ),
-                ],
+          width: screenWidth,
+          padding: EdgeInsets.fromLTRB(20, 8, 20, 24),
+          decoration: BoxDecoration(color: Colors.white, boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(51), // Shadow color
+              spreadRadius: 0,
+              blurRadius: 24, // Shadow blur radius
+              offset: Offset(0, -1),
+            )
+          ]),
+          child: Wrap(
+            spacing: 8,
+            children: [
+              CustomField(
+                  title: "Kỹ năng",
+                  hintText: "Nhập kỹ năng của bạn",
+                  controller: skillController,
+                  isCompulsory: true),
+              SizedBox(
+                height: 10,
               ),
+              Container(
+                  width: screenWidth,
+                  child: MaterialButton(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    color: Theme.of(context).buttonTheme.colorScheme!.primary,
+                    onPressed: handleSubmit,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10.0), // Adjust the border radius
+                    ),
+                    child: Text(
+                      "Thêm kỹ năng",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.background),
+                    ),
+                  )),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
