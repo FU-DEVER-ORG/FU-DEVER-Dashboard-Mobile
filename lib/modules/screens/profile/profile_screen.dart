@@ -83,7 +83,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
 
   Future<Map<String, dynamic>> getUserDetail(String userId) async {
     if (widget.data == null) {
-      dynamic response = await UserController.getUserDetail(userId);
+      dynamic response = await UserController.getUserDetail();
       return response['data'];
     }
     return widget.data!['data'];

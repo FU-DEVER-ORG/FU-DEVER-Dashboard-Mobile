@@ -1,5 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/api/api_repository.dart';
+import 'package:fudever_dashboard/controller/id_manager.dart';
 import 'package:fudever_dashboard/controller/token_manager.dart';
+import 'package:fudever_dashboard/provider/id_provider.dart';
 
 class UserController extends ApiRepository{
   static Future<dynamic> getUsers() async {
@@ -14,8 +17,11 @@ class UserController extends ApiRepository{
     return response;
   }
 
-  static Future<dynamic> getUserDetail(String userId) async {
-    final response = await ApiRepository.get(path: "users/${userId}");
+  static Future<dynamic> getUserDetail() async {
+
+    final IdManager idManager = IdManager();
+    String? id = await idManager.getId();
+    final response = await ApiRepository.get(path: "users/${id}");
     return response;
   }
 

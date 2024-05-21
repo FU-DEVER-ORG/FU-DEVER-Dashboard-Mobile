@@ -109,12 +109,10 @@ class _LoginFormState extends State<LoginForm> {
         if (res['status'] == 'success') {
           final token = res['data']['token'];
           await _tokenManager.saveToken(token);
-          print('Token saved: $token');
+          final userId = res['data']['user']['_id'];
+          await _idManager.saveId(userId);
 
-          // final id = res['data']['user']['id'];
-          // await _idManager.saveId(id);
-          // print('ID saved: $id');
-
+          print(userId);
           widget.onLoginSuccess(token);
           Navigator.of(context).pushNamed('/');
         } else {
