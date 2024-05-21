@@ -106,10 +106,10 @@ class Skill extends StatelessWidget {
 
 class Social extends StatelessWidget {
   const Social(
-      {required this.socialTitle, required this.socialIcon, super.key});
+      {required this.onDelete, required this.socialTitle, required this.socialIcon, super.key});
   final String socialTitle;
   final String socialIcon;
-
+  final VoidCallback onDelete;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -135,7 +135,7 @@ class Social extends StatelessWidget {
           trailing: Transform.translate(
             offset: const Offset(0, -5),
             child: GestureDetector(
-              onTap: () {},
+              onTap: onDelete,
               child: const Text(
                 "x",
                 style: TextStyle(

@@ -39,6 +39,8 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
             builder: (context) => ProfileScreen(data: response['data'],),
           ),
         );
+      }else{
+        print(response);
       }
     }
   }
@@ -156,8 +158,6 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter a valid password'; // Changed error message
-                      } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
-                        return 'Enter a valid password'; // Changed error message
                       } else {
                         return null;
                       }
@@ -234,8 +234,6 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter a valid password'; // Changed error message
-                      } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
-                        return 'Enter a valid password'; // Changed error message
                       } else {
                         return null;
                       }
@@ -311,8 +309,6 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter a valid password'; // Changed error message
-                      } else if (!RegExp(r'^[\w]+$').hasMatch(value)) {
-                        return 'Enter a valid password'; // Changed error message
                       } else if (newPassword != v_password) {
                         return 'Passwords are not the same'; // Changed error message
                       } else {
@@ -339,7 +335,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
                   child: MaterialButton(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     color: Theme.of(context).buttonTheme.colorScheme!.primary,
-                    onPressed: () {},
+                    onPressed: handleSubmission,
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(8.0), // Adjust the border radius

@@ -40,12 +40,10 @@ class _IndividualInformationScreenState
   final List<String> majorList = [
     'Kĩ thuật phần mềm',
     'An toàn thông tin',
-    'Trí tuệ nhân tạo',
-    'Thiết kế mỹ thuật số'
   ];
   final Map<String, dynamic> majorConstants = {
-    'Kĩ thuật phần mềm':"SOFTWARE",
-    'An toàn thông tin':"SECURITY",
+    'Kĩ thuật phần mềm': "6644ce1fd59b62195dd378fd",
+    'An toàn thông tin': "6644d19ed59b62195dd37928",
     'Trí tuệ nhân tạo':"AI",
     'Thiết kế mỹ thuật số': "DIGITAL"
   };
@@ -71,20 +69,11 @@ class _IndividualInformationScreenState
       }
       DateTime dateTime = DateTime.parse(dobController.text);
       dateTime = dateTime.add(const Duration(days: 1));
-      print({
-        ...widget.data['majorId'],
-        "name" : majorController.text,
-        "constant": majorConstants[majorController.text],
-      });
       Map<String, dynamic> updated = {
         "firstname": firstnameController.text,
         "lastname": lastnameController.text,
         "dob": dateTime.toUtc().toIso8601String(),
-        "majorId": {
-          ...widget.data['majorId'],
-          "name" : majorController.text,
-          "constant": majorConstants[majorController.text],
-        },
+        "majorId": majorConstants[majorController.text],
         "hometown": hometownController.text,
         "job": jobController.text,
         "workplace": workplaceController.text,
@@ -202,7 +191,7 @@ class _IndividualInformationScreenState
                 SizedBox(
                   height: 10,
                 ),
-                CustomDropdown(
+                CustomReadOnlyDropdown(
                     title: 'Ban hoạt động',
                     dropdownValue: "Chọn ban của bạn",
                     // context: context,

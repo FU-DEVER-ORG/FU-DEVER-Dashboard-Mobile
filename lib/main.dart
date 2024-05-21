@@ -22,7 +22,7 @@ void main() async {
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (settings) =>
             Routes.generateRoutes(settings, token ?? ''),
-        initialRoute: '/',
+        initialRoute: 'splash',
         builder: EasyLoading.init(),
       ),
     ),

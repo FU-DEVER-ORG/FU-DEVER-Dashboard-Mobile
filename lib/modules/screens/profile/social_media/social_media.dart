@@ -40,7 +40,10 @@ class _SocialMediaState extends State<SocialMediaScreen> {
     if(dropdownValue.isNotEmpty && urlController.text.isNotEmpty){
       Map<String, dynamic> updatedSocials = {
         "socials": [
-          ...socials,
+          for(dynamic element in widget.data){
+            "url" : element['url'],
+            "socialId":element["socialId"]['_id']
+          },
           {
               "url": urlController.text,
               "socialId": socialId[dropdownValue]
@@ -57,9 +60,22 @@ class _SocialMediaState extends State<SocialMediaScreen> {
       }
     }
   }
+
+  void deleteSkill(int index) {
+    setState(() {
+      widget.data.removeAt(index);
+      socials = [
+        for (var social in widget.data)
+          {
+            "url": social['url'],
+            "name": social['socialId']['name'],
+          }
+      ];
+    });
+  }
+
   @override
   void initState() {
-    print(widget.data);
     if(widget.data!=null){
       socials = [
         for (var social in widget.data)
@@ -175,7 +191,10 @@ class _SocialMediaState extends State<SocialMediaScreen> {
               itemCount: socials.length,
               itemBuilder: (context, index) {
                 return Social(socialTitle: socials[index]['name']!,
-                  socialIcon: constants[socials[index]['name']!]!,);
+                  socialIcon: constants[socials[index]['name']!]!,onDelete: () {
+                    deleteSkill(index);
+                  },
+                );
               }),
         ),
         bottomSheet: Wrap(
@@ -213,7 +232,7 @@ class _SocialMediaState extends State<SocialMediaScreen> {
                 child: MaterialButton(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   color: Theme.of(context).buttonTheme.colorScheme!.primary,
-                  onPressed: () {},
+                  onPressed: handleSubmit,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),

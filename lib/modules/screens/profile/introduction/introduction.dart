@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/quill_delta.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
 import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
-import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:html/parser.dart' show parse;
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({Key? key, required this.title, required this.data}) : super(key: key);
@@ -22,27 +24,44 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   late List<Map<String, dynamic>> delta;
 
-  // void handleSubmit()async{
-  //   if(_controller!.document.toDelta().toJson().isNotEmpty){
-  //     Map<String, dynamic> updatedFavourites = {
-  //       "description" : _controller!.document.toDelta().toJson(),
-  //     };
-  //     dynamic response = await UserController.editUsers(options: updatedFavourites);
-  //     if(response['status'] == 'success'){
-  //       Navigator.of(context).push(
-  //         MaterialPageRoute(
-  //           builder: (context) => ProfileScreen(data: response['data'],),
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
+  void handleSubmit()async{
+    if(_controller!.document.toDelta().toJson().isNotEmpty){
+      final converter = QuillDeltaToHtmlConverter(
+        _controller!.document.toDelta().toJson(),
+        ConverterOptions.forEmail(),
+      );
+
+      final html = converter.convert();
+
+      Map<String, dynamic> updatedFavourites = {
+        "description" : html,
+      };
+      dynamic response = await UserController.editUsers(options: updatedFavourites);
+      if(response['status'] == 'success'){
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(data: response['data'],),
+          ),
+        );
+      }
+    }
+  }
   @override
   void initState() {
-    _controller = QuillController(
-      document: Document.fromJson([{'insert':'${widget.data}\n'}]),
-      selection: TextSelection.collapsed(offset: 0),
-    );
+    if(widget.data.contains("<")) {
+      var document = parse(widget.data);
+      Delta delta = Delta()..insert(document.body!.text + '\n');
+      _controller = QuillController(
+          document: Document.fromJson(delta.toJson()),
+          selection: TextSelection.collapsed(offset: 0)
+      );
+    }else {
+      _controller = QuillController(
+        document: Document.fromJson([{'insert':'${widget.data!}\n'}]),
+        selection: TextSelection.collapsed(offset: 0)
+      );
+    };
+
     _controller!.addListener(() {
       delta = _controller!.document.toDelta().toJson();
 
@@ -166,7 +185,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 30),
             child: ElevatedButton(
-              onPressed: (){},
+              onPressed: handleSubmit,
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(color: Colors.blue),
                 shape: RoundedRectangleBorder(

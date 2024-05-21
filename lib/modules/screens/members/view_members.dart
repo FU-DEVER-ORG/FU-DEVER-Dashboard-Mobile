@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/member.dart';
@@ -220,7 +221,10 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(widget.member.description!),
+                        (widget.member.description!.contains("<"))
+                            ?HtmlWidget(widget.member.description!)
+                            :Text(widget.member.description!
+                        ),
                         const SizedBox(height: 10),
                         Row(
                           children: [
