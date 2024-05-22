@@ -47,6 +47,10 @@ class _IndividualInformationScreenState
     'Trí tuệ nhân tạo':"AI",
     'Thiết kế mỹ thuật số': "DIGITAL"
   };
+  final Map<String, dynamic> toMajorConstants = {
+    "6644ce1fd59b62195dd378fd":'Kĩ thuật phần mềm',
+    "6644d19ed59b62195dd37928":'An toàn thông tin',
+  };
 
   final TextEditingController firstnameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
@@ -69,6 +73,7 @@ class _IndividualInformationScreenState
       }
       DateTime dateTime = DateTime.parse(dobController.text);
       dateTime = dateTime.add(const Duration(days: 1));
+
       Map<String, dynamic> updated = {
         "firstname": firstnameController.text,
         "lastname": lastnameController.text,
@@ -81,13 +86,7 @@ class _IndividualInformationScreenState
       };
       dynamic response = await UserController.editUsers(options: updated);
       if (response['status'] == 'success') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ProfileScreen(
-              data: response['data'],
-            ),
-          ),
-        );
+        Navigator.of(context).pop(true);
       }else{
         print(response);
       }
@@ -106,11 +105,9 @@ class _IndividualInformationScreenState
     jobController.text = widget.data['job'];
     workplaceController.text = widget.data['workplace'];
     schoolController.text = widget.data['school'];
-    majorController.text = widget.data['majorId']['name'];
-    print({
-      ...widget.data['majorId'],
-      "name" : majorController.text,
-      "constant": majorConstants[majorController.text],
+    majorController.text=toMajorConstants[widget.data['majorId']['_id']]??'Kỹ thuật phần mềm';
+    majorController.addListener(() {
+      print(majorConstants[majorController.text]);
     });
     super.initState();
   }
@@ -132,7 +129,7 @@ class _IndividualInformationScreenState
           centerTitle: true,
           leading: GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.of(context).pop(false);
             },
             child: Icon(
               Icons.arrow_back_ios_new,

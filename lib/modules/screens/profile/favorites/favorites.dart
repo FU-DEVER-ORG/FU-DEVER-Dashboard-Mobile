@@ -29,11 +29,7 @@ class _FavouritesState extends State<FavoritesScreen> {
       };
       dynamic response = await UserController.editUsers(options: updatedFavourites);
       if(response['status'] == 'success'){
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ProfileScreen(data: response['data'],),
-          ),
-        );
+        Navigator.of(context).pop(true);
       }
     }
   }
@@ -63,7 +59,8 @@ class _FavouritesState extends State<FavoritesScreen> {
             style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
           ),
           leading: GestureDetector(
-            onTap: (){Navigator.pop(context);},
+            onTap: (){        Navigator.of(context).pop(false);
+            },
             child: Icon(Icons.arrow_back_ios_new, color: Theme.of(context).colorScheme.onBackground,),
           ),
           backgroundColor: Theme.of(context).colorScheme.background,

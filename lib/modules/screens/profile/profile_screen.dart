@@ -81,7 +81,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     return listItems!;
   }
 
-  Future<Map<String, dynamic>> getUserDetail(String userId) async {
+  Future<Map<String, dynamic>> getUserDetail() async {
     if (widget.data == null) {
       dynamic response = await UserController.getUserDetail();
       return response['data'];
@@ -198,7 +198,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Future<String?> userId = IdManager().getId();
     return Scaffold(
       appBar: _buildProfileHeader(context),
       body: SingleChildScrollView(
@@ -224,7 +223,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
             ),
             const SizedBox(height: 20),
             FutureBuilder<Map<String, dynamic>>(
-              future: getUserDetail(userId.toString()),
+              future: getUserDetail(),
               builder: (BuildContext context,
                   AsyncSnapshot<Map<String, dynamic>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -241,9 +240,12 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                     itemCount: listItems.length,
                     itemBuilder: (BuildContext context, int index) {
                       final item = listItems[index];
-                      return _buildListTile(item['icon'], item['title'], () {
-                        Navigator.of(context).push(MaterialPageRoute(
+                      return _buildListTile(item['icon'], item['title'], () async {
+                        bool isUpdated = await Navigator.of(context).push(MaterialPageRoute(
                             builder: (ctx) => item['screen']));
+                        if(isUpdated){
+                          Navigator.of(context).pop(true);
+                        }
                       });
                     },
                   );

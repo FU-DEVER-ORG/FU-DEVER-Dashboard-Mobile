@@ -27,11 +27,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
       };
       dynamic response = await UserController.editUsers(options: updatedContacts);
       if(response['status'] == 'success'){
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ProfileScreen(data: response['data'],),
-          ),
-        );
+        Navigator.of(context).pop(true);
       }
     }
   }
@@ -68,7 +64,7 @@ class _IntroductionScreenState extends State<ContactsScreen> {
           centerTitle: true,
           leading: GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.of(context).pop(false);
             },
             child: Icon(
               Icons.arrow_back_ios_new,
