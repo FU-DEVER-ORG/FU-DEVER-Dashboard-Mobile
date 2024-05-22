@@ -5,19 +5,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
 import 'package:fudever_dashboard/models/member.dart';
+import 'package:fudever_dashboard/models/user.dart';
 import 'package:fudever_dashboard/modules/screens/filters/filter_screen.dart';
 import 'package:fudever_dashboard/modules/screens/profile/profile_screen.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 import 'package:fudever_dashboard/modules/widgets/search_and_filter.dart';
 
 import 'dart:async';
+import '../../../controller/id_manager.dart';
 import '../../../provider/image_provider.dart';
 import '../members/view_members.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({this.arguments = null, super.key});
+  HomeScreen({
+    this.arguments = null,
+    data = null,
+    super.key,
+  });
 
   final arguments;
+  Map<String, dynamic>? data;
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
@@ -27,6 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   late List<Member>? members;
   late TextEditingController searchBarController = TextEditingController();
   late Timer? _debounce = null;
+  User? user;
 
   late List<Member>? searchMembers;
   void useDebounce(String value) {
@@ -60,6 +68,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
+  Future<Map<String, dynamic>> getUserDetail(String userId) async {
+    if (widget.data == null) {
+      dynamic response = await UserController.getUserDetail();
+      return response['data'];
+    }
+    return widget.data!['data'];
+  }
+
   void getData() async {
     data = await UserController.getUsers();
 
@@ -81,17 +97,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   element.majorId!['name'] != widget.arguments['major'])) {
             return false;
           }
-          if (widget.arguments['department'] != 'Any'){
-              bool departmentExists = element.departments!.any(
-                (department) => department['name'] == widget.arguments['department']
-              );
-              if (!departmentExists) {
+          if (widget.arguments['department'] != 'Any') {
+            bool departmentExists = element.departments!.any((department) =>
+                department['name'] == widget.arguments['department']);
+            if (!departmentExists) {
               return false;
-              }
+            }
           }
           if (widget.arguments['gen'] != 'Any' &&
               (element.gen == -1 ||
-                  element.gen != int.parse(widget.arguments['gen'].toString().characters.last))) {
+                  element.gen !=
+                      int.parse(widget.arguments['gen']
+                          .toString()
+                          .characters
+                          .last))) {
             return false;
           }
           return true;
@@ -106,6 +125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       useDebounce(searchBarController.text);
     });
     getData();
+    // getUserDetail();
     members = null;
     super.initState();
   }
@@ -114,6 +134,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void dispose() {
     _debounce?.cancel();
     super.dispose();
+  }
+
+  Widget _buildProfileImage(BuildContext context) {
+    final Future<String?> userId = IdManager().getId();
+
+    return FutureBuilder(
+      future: getUserDetail(userId.toString()),
+      builder:
+          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return CircleAvatar(
+            backgroundImage: NetworkImage(snapshot.data!['avatar']),
+            radius: 20.0, // Adjust the radius as needed
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -139,14 +180,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 });
               },
               child: Container(
-                // width: 100,
-                // height: 100,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white,
-
-                  // borderRadius: BorderRadius.circular(100),
                   boxShadow: [
                     BoxShadow(
                       color: const Color.fromARGB(255, 149, 157, 165)
@@ -191,7 +228,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ? CircleAvatar(
                         backgroundImage: FileImage(userAvatar),
                       )
-                    : Image.asset('assets/images/Avatar.png'),
+                    : _buildProfileImage(context),
               ),
             ),
           ],

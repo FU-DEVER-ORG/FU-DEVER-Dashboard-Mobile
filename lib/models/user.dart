@@ -1,106 +1,107 @@
-import 'dart:io';
-
-import 'package:meta/meta.dart';
-import 'dart:convert';
-
 class User {
-  final String email;
-  final String password;
-  final String? description;
-  final File avatar;
-  final String? nickname;
-  final String? phone;
-  final String? firstname;
-  final String? lastname;
-  final DateTime? dob;
-  final String? hometown;
-  final String? positionId;
-  final String? departmentId;
-  final String? job;
-  final String? workplace;
-  final String? school;
-  final String? majorId;
-  final DateTime? dateJoin;
-  final List<String>? favourites;
-  final List<String>? skills;
-  final bool isExcellent;
-  final bool isAdmin;
+  String? description;
+  String? nickname;
+  String? phone;
+  String? firstname;
+  String? lastname;
+  DateTime? dob;
+  String? hometown;
+  Map<String, dynamic>? positionId;
+  List<dynamic>? departments;
+  String? job;
+  String? workplace;
+  String? school;
+  Map<String, dynamic>? majorId;
+  int? gen;
+  List<String>? favourites;
+  List<String>? skills;
+  bool? isExcellent;
+  bool? isAdmin;
+  String? MSSV;
+  String? id;
+  String? email;
+  String? avatar;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
+  DateTime? dateJoin;
+  List<dynamic>? socials;
 
   User({
-    required this.email,
-    required this.password,
-    this.description,
-    required this.avatar,
-    this.nickname,
-    this.phone,
-    this.firstname,
-    this.lastname,
-    this.dob,
-    this.hometown,
-    this.positionId,
-    this.departmentId,
-    this.job,
-    this.workplace,
-    this.school,
-    this.majorId,
-    this.dateJoin,
-    this.favourites,
-    this.skills,
-    required this.isExcellent,
-    required this.isAdmin,
+  this.description,
+  this.nickname,
+  this.phone,
+  this.firstname,
+  this.lastname,
+  this.dob,
+  this.hometown,
+  this.positionId,
+  this.departments,
+  this.job,
+  this.workplace,
+  this.school,
+  this.majorId,
+  this.gen,
+  this.favourites,
+  this.skills,
+  this.isExcellent,
+  this.isAdmin,
+  this.MSSV,
+  this.id,
+  this.email,
+  this.avatar,
+  this.createdAt,
+  this.updatedAt,
+  this.v,
+  this.dateJoin,
+  this.socials
   });
 
-  // Factory method to create a User instance from a JSON map
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromJson(Map<String, dynamic> item) {
     return User(
-      email: json['email'],
-      password: json['password'],
-      description: json['description'],
-      avatar: json['avatar'],
-      nickname: json['nickname'],
-      phone: json['phone'],
-      firstname: json['firstname'],
-      lastname: json['lastname'],
-      dob: json['dob'] != null ? DateTime.parse(json['dob']) : null,
-      hometown: json['hometown'],
-      positionId: json['positionId'],
-      departmentId: json['departmentId'],
-      job: json['job'],
-      workplace: json['workplace'],
-      school: json['school'],
-      majorId: json['majorId'],
-      dateJoin: json['dateJoin'] != null ? DateTime.parse(json['dateJoin']) : null,
-      favourites: json['favourites'] != null ? List<String>.from(json['favourites']) : [],
-      skills: json['skills'] != null ? List<String>.from(json['skills']) : [],
-      isExcellent: json['isExcellent'],
-      isAdmin: json['isAdmin'],
+      description: item['description'],
+      nickname: item['nickname'],
+      phone: item['phone'],
+      firstname: item['firstname'],
+      lastname: item['lastname'],
+      dob: item['dob'] != null ? DateTime.parse(item['dob']) : null,
+      hometown: item['hometown'],
+      positionId: item['positionId'],
+      departments: item['departments'],
+      job: item['job'],
+      workplace: item['workplace'],
+      school: item['school'],
+      majorId: item['majorId'],
+      gen: item['gen'] ?? -1,
+      favourites: List<String>.from(item['favourites']),
+      skills: List<String>.from(item['skills']),
+      isExcellent: item['isExcellent'],
+      isAdmin: item['isAdmin'],
+      MSSV: item['MSSV'],
+      id: item['_id'],
+      email: item['email'],
+      avatar: item['avatar'],
+      createdAt: item['createdAt'] != null
+          ? DateTime.parse(item['createdAt'])
+          : null,
+      updatedAt: item['updatedAt'] != null
+          ? DateTime.parse(item['updatedAt'])
+          : null,
+      v: item['__v'],
+      dateJoin: item['dateJoin'] != null
+          ? DateTime.parse(item['dateJoin'])
+          : null,
+      socials: item['socials']
     );
   }
 
-  // Method to convert a User instance to a JSON map
-  Map<String, dynamic> toJson() {
-    return {
-      'email': email,
-      'password': password,
-      'description': description,
-      'avatar': avatar,
-      'nickname': nickname,
-      'phone': phone,
-      'firstname': firstname,
-      'lastname': lastname,
-      'dob': dob?.toIso8601String(),
-      'hometown': hometown,
-      'positionId': positionId,
-      'departmentId': departmentId,
-      'job': job,
-      'workplace': workplace,
-      'school': school,
-      'majorId': majorId,
-      'dateJoin': dateJoin?.toIso8601String(),
-      'favourites': favourites,
-      'skills': skills,
-      'isExcellent': isExcellent,
-      'isAdmin': isAdmin,
-    };
+
+  String getFullname() {
+    return '${this.firstname} ${this.lastname}';
+  }
+
+  @override
+  String toString() {
+    return 'User{description: $description, nickname: $nickname, phone: $phone, firstname: $firstname, lastname: $lastname, dateOfBirth: $dob, hometown: $hometown, positionId: $positionId, departments: $departments, job: $job, workplace: $workplace, school: $school, majorId: $majorId, dateJoin: $dateJoin, favourites: $favourites, skills: $skills, isExcellent: $isExcellent, isAdmin: $isAdmin, id: $id, email: $email, avatar: $avatar, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, socials: $socials}';
   }
 }

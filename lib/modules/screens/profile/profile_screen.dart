@@ -16,7 +16,9 @@ import 'package:fudever_dashboard/modules/screens/profile/qrcode_member_card/qrc
 import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 import 'package:fudever_dashboard/modules/screens/profile/social_media/social_media.dart';
 import 'package:fudever_dashboard/modules/widgets/image_input.dart';
-import 'package:fudever_dashboard/provider/image_provider.dart'; // Import the image provider
+import 'package:fudever_dashboard/provider/image_provider.dart';
+
+import '../home/home.dart'; // Import the image provider
 
 class ProfileScreen extends ConsumerStatefulWidget {
   ProfileScreen({
@@ -97,13 +99,17 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
   void _saveImage(BuildContext context) async {
     if (_selectedImage != null) {
       ref.read(userImageProvider.notifier).changeProfileInfo(
-            'User Name',
             _selectedImage!,
           ); // Replace 'User Name' with the actual user name
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Image saved successfully'),
+        ),
+      );
+      Navigator.of(context).pop(
+        MaterialPageRoute(
+          builder: (ctx) => HomeScreen(),
         ),
       );
     }
@@ -169,14 +175,48 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
   }
 
   Widget _buildProfileImage(BuildContext context) {
-    return ImageInput(
-      onPickImage: (image) {
-        _saveImage(context);
-        setState(() {
-          _selectedImage = image;
-          _isImageCaptured = true;
-          _isConfirmed = false;
-        });
+    final Future<String?> userId = IdManager().getId();
+
+    return FutureBuilder(
+      future: getUserDetail(userId.toString()),
+      builder:
+          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return Column(
+            children: [
+              ImageInput(
+                onPickImage: (image) {
+                  _saveImage(context);
+                  setState(() {
+                    _selectedImage = image;
+                    _isImageCaptured = true;
+                    _isConfirmed = false;
+                  });
+                },
+                imageUrl: snapshot.data?['avatar'],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                '${snapshot.data?['firstname']} ${snapshot.data?['lastname']}',
+                style: const TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                snapshot.data?['email'],
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+            ],
+          );
+        }
       },
     );
   }
@@ -207,21 +247,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
           children: [
             const SizedBox(height: 20),
             _buildProfileImage(context),
-            const SizedBox(height: 20),
-            const Text(
-              'Name',
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Text(
-              'email@gmail.com',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w200,
-              ),
-            ),
             const SizedBox(height: 20),
             FutureBuilder<Map<String, dynamic>>(
               future: getUserDetail(userId.toString()),
