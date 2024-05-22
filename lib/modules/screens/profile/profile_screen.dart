@@ -17,6 +17,7 @@ import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 import 'package:fudever_dashboard/modules/screens/profile/social_media/social_media.dart';
 import 'package:fudever_dashboard/modules/widgets/image_input.dart';
 import 'package:fudever_dashboard/provider/image_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home/home.dart'; // Import the image provider
 
@@ -121,7 +122,8 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
       centerTitle: true,
       leading: GestureDetector(
         onTap: () {
-          Navigator.pop(context);
+          bool profileUpdated = true;
+          Navigator.pop(context, profileUpdated);
         },
         child: Icon(
           Icons.arrow_back_ios_new,
@@ -265,12 +267,22 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                     itemCount: listItems.length,
                     itemBuilder: (BuildContext context, int index) {
                       final item = listItems[index];
-                      return _buildListTile(item['icon'], item['title'], () async {
-                        bool isUpdated = await Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => item['screen']));
-                        if(isUpdated){
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (ctx) => ProfileScreen()));
+                      return _buildListTile(item['icon'], item['title'],
+                          () async {
+                        // Await the navigation and capture the result.
+                        bool? isUpdated = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => item['screen'],
+                          ),
+                        );
+
+                        // Provide a default value of `false` if `isUpdated` is null.
+                        if (isUpdated == true) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (ctx) => ProfileScreen(),
+                            ),
+                          );
                         }
                       });
                     },
@@ -281,7 +293,11 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
               child: ElevatedButton.icon(
-                onPressed: () {
+                onPressed: () async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  await prefs.clear();
+
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
@@ -291,7 +307,8 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                         trailing: Login.trailing(context),
                       ),
                     ),
-                    (route) => true,
+                    (route) =>
+                        false, // This ensures all previous routes are removed
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -312,7 +329,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),

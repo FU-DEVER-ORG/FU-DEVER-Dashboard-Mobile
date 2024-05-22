@@ -8,20 +8,12 @@ import 'package:fudever_dashboard/modules/screens/home/splash.dart';
 import 'package:fudever_dashboard/modules/screens/members/test.dart';
 
 class Routes {
-  static Route<dynamic> generateRoutes(RouteSettings settings, String token) {
-    // if(JwtDecoder.isExpired(token)){
-    //   return MaterialPageRoute(builder: (_) {
-    //     return AuthLayout(
-    //       body: Login(),
-    //       title: "Đăng nhập",
-    //     );
-    //   });
-    // }
+  static Route<dynamic> generateRoutes(RouteSettings settings, String? token) {
     switch (settings.name) {
       case '/':
         final args = settings.arguments;
         return MaterialPageRoute(builder: (_) {
-          return HomeScreen(arguments: args,);
+          return HomeScreen(arguments: args);
         });
       case 'splash':
         return MaterialPageRoute(builder: (_) {
@@ -51,18 +43,6 @@ class Routes {
             trailing: ForgotPassword.trailing(context),
           );
         });
-      // case 'change-password':
-      //   return MaterialPageRoute(builder: (_) {
-      //     return ChangePassword();
-      //   });
-      // case 'skills':
-      //   return MaterialPageRoute(builder: (_) {
-      //     return Skills();
-      //   });
-      // case 'profile':
-      //   return MaterialPageRoute(builder: (_) {
-      //     return DefaultLayout(body: ProfileScreen());
-      //   });
       case 'testing':
         return MaterialPageRoute(builder: (_) {
           return const Testing();

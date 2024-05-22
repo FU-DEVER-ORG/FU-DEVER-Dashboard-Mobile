@@ -12,6 +12,7 @@ import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 import 'package:fudever_dashboard/modules/widgets/search_and_filter.dart';
 
 import 'dart:async';
+import '../../../api/api_repository.dart';
 import '../../../controller/id_manager.dart';
 import '../../../provider/image_provider.dart';
 import '../members/view_members.dart';
@@ -60,12 +61,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  void onSelectAvatar() {
-    Navigator.of(context).push(
+  void onSelectAvatar() async {
+    final result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ProfileScreen(),
       ),
     );
+
+    if (result == true) {
+      await ApiRepository
+          .loadAllAPIs(); // Load lại tất cả các API khi profile được cập nhật
+      getData(); // Load lại dữ liệu từ API liên quan đến người dùng
+    }
   }
 
   Future<Map<String, dynamic>> getUserDetail(String userId) async {
@@ -127,6 +134,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     getData();
     // getUserDetail();
     members = null;
+    ApiRepository.loadAllAPIs();
     super.initState();
   }
 
@@ -160,6 +168,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final File? userAvatar = ref.watch(userImageProvider);
+    final Future<String?> userId = IdManager().getId();
 
     return PopScope(
       canPop: false,
@@ -210,11 +219,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     fontSize: 15,
                     fontWeight: FontWeight.normal),
               ),
-              Text(
-                'Developer',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    fontSize: 20),
+              FutureBuilder(
+                future: getUserDetail(userId.toString()),
+                builder: (BuildContext context,
+                    AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return Text(
+                      '${snapshot.data?['firstname']} ${snapshot.data?['lastname']}',
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          fontSize: 20),
+                    );
+                  }
+                },
               ),
             ],
           ),
