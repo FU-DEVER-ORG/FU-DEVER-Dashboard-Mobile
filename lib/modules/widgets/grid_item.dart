@@ -1,8 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fudever_dashboard/models/member.dart';
 
-class MemberGridItem extends StatelessWidget {
+import '../../provider/image_provider.dart';
+
+class MemberGridItem extends ConsumerStatefulWidget {
   const MemberGridItem({
     super.key,
     required this.member,
@@ -13,9 +17,16 @@ class MemberGridItem extends StatelessWidget {
   final void Function() onSelectMember;
 
   @override
+  ConsumerState<MemberGridItem> createState() => _MemberGridItemState();
+}
+
+class _MemberGridItemState extends ConsumerState<MemberGridItem> {
+  @override
   Widget build(BuildContext context) {
+    final avatarUrl = ref.watch(userImageProvider);
+
     return InkWell(
-      onTap: onSelectMember,
+      onTap: widget.onSelectMember,
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16),
       child: Container(
@@ -30,7 +41,7 @@ class MemberGridItem extends StatelessWidget {
               child: Stack(
                 children: [
                   Image.network(
-                    member.avatar!,
+                    widget.member.avatar!,
                     height: 246,
                     width: 168,
                     fit: BoxFit.cover,
@@ -46,7 +57,7 @@ class MemberGridItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                         child: Text(
-                          'Gen ${member.gen}',
+                          'Gen ${widget.member.gen}',
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),
@@ -56,11 +67,17 @@ class MemberGridItem extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Text(
-              "${member.firstname!} ${member.lastname!}",
-              style: const TextStyle(fontWeight: FontWeight.bold),
+            Flexible(
+              child: AutoSizeText(
+                "${widget.member.firstname!} ${widget.member.lastname!}",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                minFontSize: 10, // minimum font size to fit the text
+              ),
             ),
-            Text(member.positionId!['name']),
+            Text(widget.member.positionId!['name']),
           ],
         ),
       ),
@@ -81,7 +98,7 @@ class Skill extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.circular(8),
         elevation: 16,
-        shadowColor: Color.fromARGB(77, 149, 157, 165),
+        shadowColor: const Color.fromARGB(77, 149, 157, 165),
         child: ListTile(
           title: Text(skill),
           trailing: Transform.translate(
@@ -103,10 +120,12 @@ class Skill extends StatelessWidget {
   }
 }
 
-
 class Social extends StatelessWidget {
   const Social(
-      {required this.onDelete, required this.socialTitle, required this.socialIcon, super.key});
+      {required this.onDelete,
+      required this.socialTitle,
+      required this.socialIcon,
+      super.key});
   final String socialTitle;
   final String socialIcon;
   final VoidCallback onDelete;
@@ -117,7 +136,7 @@ class Social extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.circular(8),
         elevation: 16,
-        shadowColor: Color.fromARGB(77, 149, 157, 165),
+        shadowColor: const Color.fromARGB(77, 149, 157, 165),
         child: ListTile(
           leading: CircleAvatar(
             radius: 13,
@@ -130,7 +149,7 @@ class Social extends StatelessWidget {
           ),
           title: GestureDetector(
             child: Text(socialTitle),
-            onTap: (){},
+            onTap: () {},
           ),
           trailing: Transform.translate(
             offset: const Offset(0, -5),

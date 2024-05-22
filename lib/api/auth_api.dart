@@ -12,22 +12,6 @@ class AuthController extends ApiRepository {
       "password": password,
       "rememberMe": rememberMe,
     });
-    if (response != null && response['status'] == 'success') {
-      final data = response['data']['user'];
-      final Profile profile = Profile(
-        email: data['email'],
-        avatar: data['avatar'],
-        firstName: data['firstname'],
-        lastName: data['lastname'],
-        id: data['_id'],
-      );
-      // Lưu ID ở đây
-      // final token = response['data']['token'];
-      // final id = response['data']['user']['id'];
-      // await TokenManager().saveToken(token);
-      // await IdManager().saveId(id);
-      return response;
-    }
     return response;
   }
 }

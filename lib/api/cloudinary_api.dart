@@ -21,6 +21,7 @@ class CloudinaryApi extends ApiRepository {
         final responseString = String.fromCharCodes(responseData);
         final jsonMap = jsonDecode(responseString);
         _imageUrl = jsonMap['url'];
+        
         return _imageUrl;
       } else {
         print('Upload failed with status: ${response.statusCode}');
