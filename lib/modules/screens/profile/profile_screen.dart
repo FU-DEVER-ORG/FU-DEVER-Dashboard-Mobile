@@ -178,7 +178,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     final Future<String?> userId = IdManager().getId();
 
     return FutureBuilder(
-      future: getUserDetail(userId.toString()),
+      future: getUserDetail(),
       builder:
           (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -269,7 +269,8 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                         bool isUpdated = await Navigator.of(context).push(MaterialPageRoute(
                             builder: (ctx) => item['screen']));
                         if(isUpdated){
-                          Navigator.of(context).pop(true);
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              builder: (ctx) => ProfileScreen()));
                         }
                       });
                     },

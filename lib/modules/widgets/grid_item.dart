@@ -67,16 +67,16 @@ class _MemberGridItemState extends ConsumerState<MemberGridItem> {
               ),
             ),
             const SizedBox(height: 10),
-            Flexible(
-              child: AutoSizeText(
-                "${widget.member.firstname!} ${widget.member.lastname!}",
-                style: const TextStyle(fontWeight: FontWeight.bold),
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                minFontSize: 10, // minimum font size to fit the text
-              ),
-            ),
+            // Flexible(
+            //   child: AutoSizeText(
+            //     "${widget.member.firstname!} ${widget.member.lastname!}",
+            //     style: const TextStyle(fontWeight: FontWeight.bold),
+            //     softWrap: true,
+            //     overflow: TextOverflow.ellipsis,
+            //     maxLines: 2,
+            //     minFontSize: 10, // minimum font size to fit the text
+            //   ),
+            // ),
             Text(widget.member.positionId!['name']),
           ],
         ),
