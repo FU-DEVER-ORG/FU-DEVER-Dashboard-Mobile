@@ -54,7 +54,6 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
-                //TODO Tạo bóng cho image
                 child: Container(
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -67,8 +66,14 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                       ),
                     ],
                   ),
-                  child: Image.network(
+                  child:(widget.member.avatar!=null)
+                      ?
+                  Image.network(
                     widget.member.avatar!,
+                    fit: BoxFit.cover,
+                  )
+                      :Image.asset(
+                    "assets/images/demo-image.png",
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -83,7 +88,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.member.getFullname(),
+                              widget.member.getFullname()??"FullName",
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -91,7 +96,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               ),
                             ),
                             Text(
-                              widget.member.positionId!['name'],
+                              widget.member.positionId!['name']??"Thành viên",
                               style: const TextStyle(color: Colors.blue),
                             ),
                           ],
@@ -106,7 +111,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(15, 6, 15, 6),
                             child: Text(
-                              "gen ${widget.member.gen}",
+                              "gen ${widget.member.gen??6}",
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
@@ -124,14 +129,17 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                               children: [
                                 const Icon(Icons.work),
                                 const SizedBox(width: 8),
-                                Text(widget.member.job!),
+                                Text(widget.member.job??"none"),
                               ],
                             ),
                             Row(
                               children: [
                                 const Icon(Icons.calendar_month),
                                 const SizedBox(width: 8),
-                                Text('${widget.member.dob!.day}/${widget.member.dob!.month}/${widget.member.dob!.year}')
+                                (widget.member.dob!=null)?
+                                  Text('${widget.member.dob!.day}/${widget.member.dob!.month}/${widget.member.dob!.year}')
+                                :
+                                  Text('date of birth'),
                               ],
                             ),
                           ],
@@ -148,7 +156,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Email'),
                             const Spacer(),
                             Text(
-                              widget.member.email!,
+                              widget.member.email??"email",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -160,7 +168,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Quê quán'),
                             const Spacer(),
                             Text(
-                              widget.member.hometown!,
+                              widget.member.hometown??"hometown",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -172,7 +180,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             const Text('Số điện thoại'),
                             const Spacer(),
                             Text(
-                              widget.member.phone!,
+                              widget.member.phone??"0900939203",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -194,7 +202,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         ),
                         const SizedBox(height: 8),
                         Center(
-                          child: _buildHobbiesContainer(widget.member.favourites!),
+                          child: _buildHobbiesContainer(widget.member.favourites??[]),
                         ),
                         const Text(
                           'Kỹ năng',
@@ -205,7 +213,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         ),
                         const SizedBox(height: 8),
                         Center(
-                          child: _buildSkillsContainer(widget.member.skills!),
+                          child: _buildSkillsContainer(widget.member.skills??[]),
                         ),
                       ],
                     ),
@@ -221,10 +229,14 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        (widget.member.description!.contains("<"))
+                        (widget.member.description!=null)
+                        ?
+                          (widget.member.description!.contains("<"))
                             ?HtmlWidget(widget.member.description!)
-                            :Text(widget.member.description!
-                        ),
+                            :Text(widget.member.description!)
+                        :
+                          Text("description")
+                        ,
                         const SizedBox(height: 10),
                         Row(
                           children: [
@@ -242,12 +254,22 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           children: [
                             const Text('Chức vụ'),
                             const Spacer(),
-                            Text(
+                            (widget.member.positionId!=null)
+                                ?
+                              Text(
                               widget.member.positionId!['name'],
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                                ),
+                              )
+                                :
+                              Text(
+                                "Ban học thuật",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ,
                           ],
                         ),
                         Row(
@@ -255,6 +277,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           children: [
                             const Text('Ban'),
                             const Spacer(),
+                            (widget.member.departments!=null)?
                             Expanded(
                                 child: ListView.builder(
                                   shrinkWrap: true,
@@ -271,6 +294,12 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                                     );
                                 }
                               ),
+                            ):
+                            Text(
+                              "Ban học thuật",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             )
                           ],
                         ),
@@ -278,12 +307,20 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                           children: [
                             const Text('Chuyên ngành'),
                             const Spacer(),
+                            (widget.member.majorId!=null)?
                             Text(
                               widget.member.majorId!['name'],
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
+                            ):
+                            Text(
+                              "Kỹ thuật phần mềm",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                            ,
                           ],
                         ),
                         Row(
@@ -291,7 +328,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             Text('Nơi làm việc'),
                             Spacer(),
                             Text(
-                              widget.member.workplace!,
+                              widget.member.workplace??"none",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),

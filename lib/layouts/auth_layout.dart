@@ -19,7 +19,7 @@ class _AuthLayoutState extends State<AuthLayout> {
   Color handleStatusBar() {
     if (kIsWeb) {
       // Specific code for web
-      return Colors.transparent;
+      return Color.fromARGB(255, 0, 123, 255);
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       // Specific code for iOS
       return Colors.transparent;
