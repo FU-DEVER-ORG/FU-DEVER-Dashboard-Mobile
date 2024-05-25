@@ -22,6 +22,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({
     this.arguments = null,
     super.key,
+    this.data,
   });
 
   final arguments;
