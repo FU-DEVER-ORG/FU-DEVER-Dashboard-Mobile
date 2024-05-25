@@ -1,14 +1,18 @@
 import 'dart:io';
 
 import 'package:cloudinary_url_gen/cloudinary.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/api/api_repository.dart';
 import 'package:fudever_dashboard/api/cloudinary_api.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/modules/screens/home/home.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../provider/image_provider.dart';
+import '../../utils/confirm_image.dart';
 import '../screens/profile/profile_screen.dart';
 
 class ImageInput extends ConsumerStatefulWidget {
@@ -27,102 +31,101 @@ class ImageInput extends ConsumerStatefulWidget {
 
 class _ImageInputState extends ConsumerState<ImageInput> {
   File? _selectedImage;
-  Future<void> _openCamera() async {
+
+  Future<void> _openGallery() async {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      if (mounted) {
-        setState(() {
-          _selectedImage = File(pickedImage.path);
-        });
-      }
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+      });
       widget.onPickImage(_selectedImage!);
-      if (_selectedImage != null) {
-        final _imageUrl = await CloudinaryApi().uploadImage(_selectedImage!);
-        if (_imageUrl != null) {
-          final response =
-              await UserController.editUsers(options: {'avatar': _imageUrl});
-          if (response['status'] == 'success') {
-            // Check if the widget is still mounted before navigating
-            if (mounted) {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ProfileScreen(
-                    data: response['data']['user']['avatar'],
-                  ),
-                ),
-              );
-            }
-          } else {
-            // Handle error case
-          }
-        }
-      }
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ConfirmImage(
+            getConfirmImage: _selectedImage!,
+          ),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final avatarUrl = ref.watch(userImageProvider);
-
-    Widget content = IconButton(
-      onPressed: _openCamera,
-      icon: const Icon(
-        Icons.camera_alt,
-        color: Colors.blue,
-        size: 24.0,
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Chọn ảnh từ thư viện'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      _openGallery();
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.image),
+                    title: const Text('Xem ảnh'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Platform.isIOS
+                              ? CupertinoAlertDialog(
+                                  content: avatarUrl != null
+                                      ? Image.file(avatarUrl)
+                                      : Image.network(widget.imageUrl),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('Đóng'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                )
+                              : AlertDialog(
+                                  content: avatarUrl != null
+                                      ? Image.file(avatarUrl)
+                                      : Image.network(widget.imageUrl),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('Đóng'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: Center(
+        child: avatarUrl == null
+            ? CircleAvatar(
+                radius: 60,
+                backgroundImage: NetworkImage(widget.imageUrl),
+              )
+            : CircleAvatar(
+                radius: 60,
+                backgroundImage: FileImage(avatarUrl),
+              ),
       ),
     );
-
-    return Stack(
-      children: <Widget>[
-        ClipOval(
-          child: SizedBox(
-            height: 120,
-            width: 120,
-            child: avatarUrl != null
-                ? Image.file(
-                    avatarUrl,
-                    fit: BoxFit.cover,
-                  )
-                : Image.network(
-                    widget.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-          ),
-        ),
-        Positioned(
-          top: 0.0,
-          right: 0.0,
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-            ),
-            child: content,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class CameraHelper {
-  static Future<File?> openCamera() async {
-    final imagePicker = ImagePicker();
-    try {
-      final pickedImage = await imagePicker.pickImage(
-        source: ImageSource.camera,
-        maxWidth: 600,
-      );
-      if (pickedImage == null) return null;
-      return File(pickedImage.path);
-    } catch (e) {
-      // Handle error if needed
-      return null;
-    }
   }
 }
