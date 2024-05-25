@@ -224,8 +224,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
   }
 
   Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
-    return SizedBox(
-      height: 40,
+    return Center(
       child: ListTile(
         leading: Icon(icon, color: Colors.blue),
         title: Text(title),
@@ -254,7 +253,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
               builder: (BuildContext context,
                   AsyncSnapshot<Map<String, dynamic>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return Container(height: 280,);
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {

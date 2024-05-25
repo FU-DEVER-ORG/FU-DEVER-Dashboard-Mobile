@@ -166,6 +166,7 @@ class _IndividualInformationScreenState
                   hintText: 'Chọn ngày sinh',
                   controller: dobController,
                   isCompulsory: false,
+                  restorationId: "dob",
                 ),
                 SizedBox(
                   height: 10,

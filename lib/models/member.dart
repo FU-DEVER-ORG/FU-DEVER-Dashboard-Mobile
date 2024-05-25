@@ -72,7 +72,7 @@ class Member {
       workplace: item['workplace'],
       school: item['school'],
       majorId: item['majorId'],
-      gen: item['gen'] ?? -1,
+      gen: item['gen'] ?? 5,
       favourites: List<String>.from(item['favourites']),
       skills: List<String>.from(item['skills']),
       isExcellent: item['isExcellent'],

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -20,7 +21,6 @@ import '../members/view_members.dart';
 class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({
     this.arguments = null,
-    data = null,
     super.key,
   });
 
@@ -38,14 +38,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   User? user;
 
   late List<Member>? searchMembers;
-  void useDebounce(String value) {
+  void useDebounce(String value){
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 1500), () {
-      if (data != null) {
-        searchMembers = List<Member>.from(data!.where((Member element) =>
-            element.getFullname().toLowerCase().contains(value.toLowerCase())));
+    _debounce = Timer(const Duration(milliseconds: 1500), () async{
+      if (data != null){
+        data = await UserController.filterUsers(filter: widget.arguments,search:value);
+        searchMembers = (data['data']['users'] as List)
+            .map((item) => Member.fromJson(item))
+            .toList();
         setState(() {
-          members = searchMembers;
+          members = [...searchMembers!];
         });
       }
     });
@@ -69,8 +71,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
 
     if (result == true) {
-      await ApiRepository
-          .loadAllAPIs(); // Load lại tất cả các API khi profile được cập nhật
+      // await ApiRepository
+      //     .loadAllAPIs(); // Load lại tất cả các API khi profile được cập nhật
       getData(); // Load lại dữ liệu từ API liên quan đến người dùng
     }
   }
@@ -84,45 +86,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void getData() async {
-    data = await UserController.getUsers();
+    if (widget.arguments != null){
+      data = await UserController.filterUsers(filter:widget.arguments);
+    }else{
+      data = await UserController.getUsers();
+    }
 
     setState(() {
       data = (data['data']['users'] as List)
           .map((item) => Member.fromJson(item))
           .toList();
       members = [...data];
-      if (widget.arguments != null) {
-        members = members!.where((Member element) {
-          if (widget.arguments['position'] != 'Any' &&
-              (element.positionId == null ||
-                  element.positionId!['name'] !=
-                      widget.arguments['position'])) {
-            return false;
-          }
-          if (widget.arguments['major'] != 'Any' &&
-              (element.majorId == null ||
-                  element.majorId!['name'] != widget.arguments['major'])) {
-            return false;
-          }
-          if (widget.arguments['department'] != 'Any') {
-            bool departmentExists = element.departments!.any((department) =>
-                department['name'] == widget.arguments['department']);
-            if (!departmentExists) {
-              return false;
-            }
-          }
-          if (widget.arguments['gen'] != 'Any' &&
-              (element.gen == -1 ||
-                  element.gen !=
-                      int.parse(widget.arguments['gen']
-                          .toString()
-                          .characters
-                          .last))) {
-            return false;
-          }
-          return true;
-        }).toList();
-      }
     });
   }
 
@@ -152,7 +126,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       builder:
           (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Container();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

@@ -9,6 +9,10 @@ class UserController extends ApiRepository{
     final response = await ApiRepository.get(path: "users");
     return response;
   }
+  static Future<dynamic> filterUsers({dynamic filter=const{},String search=""}) async {
+    final response = await ApiRepository.get(path: "users?filter=${filter}&search=${search}");
+    return response;
+  }
 
   static Future<dynamic> editUsers({required Map<String, dynamic> options}) async {
     final TokenManager _tokenManager = TokenManager();

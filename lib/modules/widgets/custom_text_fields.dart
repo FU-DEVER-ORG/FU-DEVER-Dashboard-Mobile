@@ -88,13 +88,15 @@ class _CustomFieldState extends State<CustomField> {
 class CustomDateField extends StatefulWidget {
   CustomDateField(
       {super.key,
-      required this.title,
-      required this.hintText,
-      required this.controller,
-      required this.isCompulsory,
-      this.validation = _defaultValidation});
+        required this.title,
+        required this.hintText,
+        required this.controller,
+        required this.isCompulsory,
+        required this.restorationId,
+        this.validation = _defaultValidation});
 
-  late String title;
+  final String? restorationId;
+  final String title;
   final String hintText;
   final TextEditingController controller;
   final bool isCompulsory;
@@ -112,7 +114,73 @@ class CustomDateField extends StatefulWidget {
   State<CustomDateField> createState() => _CustomDateFieldState();
 }
 
-class _CustomDateFieldState extends State<CustomDateField> {
+class _CustomDateFieldState extends State<CustomDateField> with RestorationMixin {
+
+  late List<String> initDate;
+  late RestorableDateTime _selectedDate;
+  late final RestorableRouteFuture<DateTime?> _restorableDatePickerRouteFuture;
+
+  @override
+  String? get restorationId => widget.restorationId;
+
+  @override
+  void initState() {
+    super.initState();
+    initDate = widget.controller.text.split('-');
+    _selectedDate = RestorableDateTime(
+        DateTime(int.parse(initDate[0]), int.parse(initDate[1]), int.parse(initDate[2])));
+    _restorableDatePickerRouteFuture = RestorableRouteFuture<DateTime?>(
+      onComplete: _selectDate,
+      onPresent: (NavigatorState navigator, Object? arguments) {
+        return navigator.restorablePush(
+          _datePickerRoute,
+          arguments: _selectedDate.value.millisecondsSinceEpoch,
+        );
+      },
+    );
+  }
+
+  @pragma('vm:entry-point')
+  static Route<DateTime> _datePickerRoute(
+      BuildContext context,
+      Object? arguments,
+      ) {
+    return DialogRoute<DateTime>(
+      context: context,
+      builder: (BuildContext context) {
+        return DatePickerDialog(
+          restorationId: 'date_picker_dialog',
+          initialEntryMode: DatePickerEntryMode.calendarOnly,
+          initialDate: DateTime.fromMillisecondsSinceEpoch(arguments! as int),
+          firstDate: DateTime(1996),
+          lastDate: DateTime(2008),
+        );
+      },
+    );
+  }
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_selectedDate, 'selected_date');
+    registerForRestoration(_restorableDatePickerRouteFuture, 'date_picker_route_future');
+  }
+
+  void _selectDate(DateTime? newSelectedDate) {
+    if (newSelectedDate != null) {
+      setState(() {
+        _selectedDate.value = newSelectedDate;
+        widget.controller.text = '${_selectedDate.value.year}-${_selectedDate.value.month}-${_selectedDate.value.day}';
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _selectedDate.dispose();
+    _restorableDatePickerRouteFuture.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -124,53 +192,59 @@ class _CustomDateFieldState extends State<CustomDateField> {
               Text(widget.title),
               (widget.isCompulsory)
                   ? const Text(
-                      " *",
-                      style: TextStyle(color: Colors.red),
-                    )
+                " *",
+                style: TextStyle(color: Colors.red),
+              )
                   : Container(),
             ],
           ),
         ),
         TextFormField(
-            controller: widget.controller,
-            keyboardType: TextInputType.datetime,
-            decoration: InputDecoration(
-              suffixIcon: const Padding(
-                padding: EdgeInsets.only(right: 10.0),
-                child: Icon(
+          onTap: ()=>_restorableDatePickerRouteFuture.present(),
+          controller: widget.controller,
+          keyboardType: TextInputType.datetime,
+          decoration: InputDecoration(
+            suffixIcon:  Padding(
+              padding: EdgeInsets.only(right: 10.0),
+              child: IconButton(
+                onPressed: ()=>_restorableDatePickerRouteFuture.present(),
+                icon: Icon(
                   Icons.date_range,
                   color: Color.fromARGB(255, 215, 215, 215),
                   size: 25,
                 ),
               ),
-              filled: true,
-              fillColor: Colors.white,
-              isDense: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 215, 215, 215), width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 215, 215, 215), width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.red, width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              hintText: widget.hintText,
-              hintStyle:
-                  const TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
             ),
-            validator: widget.validation),
+            filled: true,
+            fillColor: Colors.white,
+            isDense: true,
+            contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 215, 215, 215), width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 215, 215, 215), width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            hintText: widget.hintText,
+            hintStyle:
+            const TextStyle(color: Color.fromARGB(255, 215, 215, 215)),
+          ),
+          validator: widget.validation
+        ),
       ],
     );
   }
 }
+
 
 class CustomDropdown extends StatefulWidget {
   const CustomDropdown({
@@ -221,8 +295,11 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 filled: true,
                 fillColor: Colors.white,
                 isDense: true,
+                constraints: BoxConstraints(
+                    maxHeight: 40
+                ),
                 contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    EdgeInsets.symmetric(horizontal: 16),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: Color.fromARGB(255, 215, 215, 215),),
@@ -306,8 +383,11 @@ class _CustomReadOnlyDropdownState extends State<CustomReadOnlyDropdown> {
                   filled: true,
                   fillColor: Colors.white,
                   isDense: true,
+                  constraints: BoxConstraints(
+                    maxHeight: 40
+                  ),
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      EdgeInsets.symmetric(horizontal: 16),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Color.fromARGB(255, 215, 215, 215),),

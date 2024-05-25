@@ -1,4 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fudever_dashboard/api/department_api.dart';
+import 'package:fudever_dashboard/api/major_api.dart';
+import 'package:fudever_dashboard/api/position_api.dart';
+import 'package:fudever_dashboard/controller/filter_manager.dart';
+
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({Key? key}) : super(key: key);
@@ -8,87 +15,180 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  final List<String> studentYearList = ['Gen 2', 'Gen 3', 'Gen 4', 'Gen 5', 'Gen 6', 'Gen 7', 'Any'];
-  final List<String> clubPositionList = [
-    'Chủ nhiệm',
-    'Phó chủ nhiệm',
-    'Thư ký',
-    'Trưởng ban',
-    'Phó ban',
-    'Thành viên',
+  final FilterService _storageService = FilterService();
+
+  final List<String> genList = [
+    'Gen 2',
+    'Gen 3',
+    'Gen 4',
+    'Gen 5',
+    'Gen 6',
+    'Gen 7',
     'Any'
   ];
-  final List<String> boardList = [
-    'Ban học thuật',
-    'Ban truyền thông',
-    'Ban sự kiện',
-    'Any'
-  ];
-  final List<String> majorList = [
-    'Kĩ thuật phần mềm',
-    'An toàn thông tin',
-    'Trí tuệ nhân tạo',
-    'Thiết kế mỹ thuật số',
-    'Any'
-  ];
+  final List<String> kList = ['K15', 'K16', 'K17', 'K18', 'K19', 'Any'];
+
+  List<String> clubPositionList = ['Any'];
+  List<String> boardList = ['Any'];
+  List<String> majorList = ['Any'];
+
+  late dynamic positionsRes = null;
+  late dynamic majorsRes = null;
+  late dynamic departmentsRes = null;
+
   String dropdownValueGen = 'Any';
+  String dropdownValueK = 'Any';
   String dropdownValuePosition = 'Any';
-  String dropdownValueDeparment = 'Any';
+  String dropdownValueDepartment = 'Any';
   String dropdownValueMajor = 'Any';
 
   TextEditingController controllerGen = TextEditingController();
+  TextEditingController controllerK = TextEditingController();
   TextEditingController controllerPosition = TextEditingController();
   TextEditingController controllerDepartment = TextEditingController();
   TextEditingController controllerMajor = TextEditingController();
 
+  late Future<void> dataFuture;
 
-  Widget buildDropdown(
-      {required String title,
-      required TextEditingController controller,
-      required String dropdownValue,
-      required List<String> filterList}) {
+  @override
+  void initState() {
+    super.initState();
+    dataFuture = getData();
+    loadFilterValues();
+  }
+
+  Future<void> getData() async {
+    try {
+      positionsRes = await PositionController.getPositions();
+      majorsRes = await MajorController.getMajors();
+      departmentsRes = await DepartmentController.getDepartments();
+
+      setState(() {
+        clubPositionList = (positionsRes['data'] as List)
+            .map((item) => item['name'].toString())
+            .toList();
+        majorList = (majorsRes['data'] as List)
+            .map((item) => item['name'].toString())
+            .toList();
+        boardList = (departmentsRes['data'] as List)
+            .map((item) => item['name'].toString())
+            .toList();
+        // Adding 'Any' option at the end
+        clubPositionList.add('Any');
+        majorList.add('Any');
+        boardList.add('Any');
+      });
+    } catch (e) {
+      print("An error occurred: $e");
+    }
+  }
+
+  Future<void> loadFilterValues() async {
+    dropdownValueGen = await _storageService.read('gen') ?? 'Any';
+    dropdownValueK = await _storageService.read('k') ?? 'Any';
+    dropdownValuePosition = await _storageService.read('position') ?? 'Any';
+    dropdownValueDepartment = await _storageService.read('department') ?? 'Any';
+    dropdownValueMajor = await _storageService.read('major') ?? 'Any';
+
+    controllerGen.text = dropdownValueGen;
+    controllerK.text = dropdownValueK;
+    controllerPosition.text = dropdownValuePosition;
+    controllerDepartment.text = dropdownValueDepartment;
+    controllerMajor.text = dropdownValueMajor;
+  }
+
+  Future<void> saveFilterValues() async {
+    await _storageService.write('gen', dropdownValueGen);
+    await _storageService.write('k', dropdownValueK);
+    await _storageService.write('position', dropdownValuePosition);
+    await _storageService.write('department', dropdownValueDepartment);
+    await _storageService.write('major', dropdownValueMajor);
+  }
+
+  void handleFilter() async {
+    await saveFilterValues();
+
+    Map<String, dynamic> filter = {};
+
+    if (controllerMajor.text.isNotEmpty && controllerMajor.text != 'Any') {
+      var majorOption = (majorsRes['data'] as List).firstWhere((major) {
+        return controllerMajor.text == major['name'];
+      });
+      filter['majorId'] = majorOption["_id"];
+    }
+
+    if (controllerPosition.text.isNotEmpty && controllerPosition.text != 'Any') {
+      var positionOption = (positionsRes['data'] as List).firstWhere((position) {
+        return controllerPosition.text == position['name'];
+      });
+      filter['positionId'] = positionOption["_id"];
+    }
+
+    if (controllerDepartment.text.isNotEmpty && controllerDepartment.text != 'Any') {
+      var departmentOption = (departmentsRes['data'] as List).firstWhere((department) {
+        return controllerDepartment.text == department['name'];
+      });
+      filter['departments'] = departmentOption["_id"];
+    }
+
+    if (controllerGen.text.isNotEmpty && controllerGen.text != 'Any') {
+      filter['gen'] = controllerGen.text.substring(4);
+    }
+
+    if (controllerK.text.isNotEmpty && controllerK.text != 'Any') {
+      filter['kGeneration'] = controllerK.text.substring(1);
+    }
+    // Pass the filter object to the next screen
+    Navigator.of(context).pushNamed("/", arguments: jsonEncode(filter));
+  }
+
+  Widget buildDropdown({
+    required String title,
+    required TextEditingController controller,
+    required String dropdownValue,
+    required List<String> filterList,
+  }) {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Text(title),
       ),
-      subtitle: DropdownMenu<String>(
-        controller: controller,
-        trailingIcon: const Icon(
-          Icons.keyboard_arrow_down_outlined,
-          color: Colors.grey,
-        ),
-        inputDecorationTheme: const InputDecorationTheme(
+      subtitle: DropdownButtonFormField<String>(
+        value: dropdownValue,
+        icon: Icon(Icons.keyboard_arrow_down, color: Color.fromARGB(255, 215, 215, 215),),
+        decoration: InputDecoration(
           filled: true,
-          fillColor: Color.fromARGB(255, 243, 249, 253),
+          fillColor: const Color.fromARGB(255, 243, 249, 253),
           isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          enabledBorder: OutlineInputBorder(
+          contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          enabledBorder: const OutlineInputBorder(
             borderSide:
-                BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+            BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderSide:
-                BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
+            BorderSide(color: Color.fromARGB(255, 215, 215, 215), width: 2),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          labelStyle: TextStyle(
-            color: Color.fromARGB(255, 215, 215, 215),
-          ),
         ),
-        hintText: dropdownValue,
-        width: MediaQuery.of(context).size.width - 40,
-        initialSelection: dropdownValue,
-        textStyle: Theme.of(context).textTheme.bodySmall,
-        selectedTrailingIcon: Icon(
-          Icons.expand_less,
-          color: Theme.of(context).iconTheme.color,
-        ),
-        dropdownMenuEntries:
-            filterList.map<DropdownMenuEntry<String>>((String value) {
-          return DropdownMenuEntry<String>(value: value, label: value);
+        items: filterList.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
         }).toList(),
+        onChanged: (String? newValue) {
+          setState(() {
+            controller.text = newValue!;
+            if (title == 'Gen') dropdownValueGen = newValue;
+            if (title == 'Chức vụ CLB') dropdownValuePosition = newValue;
+            if (title == 'Ban') dropdownValueDepartment = newValue;
+            if (title == 'Chuyên ngành') dropdownValueMajor = newValue;
+            if (title == 'Khóa') dropdownValueK = newValue;
+          });
+        },
       ),
     );
   }
@@ -124,39 +224,39 @@ class _FilterScreenState extends State<FilterScreen> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 24, top: 8),
+          padding: const EdgeInsets.only(bottom: 24, top: 12),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 onPressed: () {
-                  controllerMajor.text= dropdownValueMajor;
-                  controllerGen.text = dropdownValueGen;
-                  controllerPosition.text = dropdownValuePosition;
-                  controllerDepartment.text = dropdownValueDeparment;
+                  setState(() {
+                    dropdownValueGen = 'Any';
+                    dropdownValueK = 'Any';
+                    dropdownValuePosition = 'Any';
+                    dropdownValueDepartment = 'Any';
+                    dropdownValueMajor = 'Any';
+
+                    controllerGen.text = 'Any';
+                    controllerK.text = 'Any';
+                    controllerPosition.text = 'Any';
+                    controllerDepartment.text = 'Any';
+                    controllerMajor.text = 'Any';
+                  });
                 },
                 style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.blue,
-                side: const BorderSide(color: Colors.blue),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.blue,
+                  side: const BorderSide(color: Colors.blue),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
                   fixedSize: Size(screenWidth / 2.3, screenHeight),
                 ),
                 child: const Text('Xóa bộ lọc'),
               ),
-              const SizedBox(width: 16),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/",arguments: {
-                    "major":controllerMajor.text,
-                    "gen":controllerGen.text,
-                    "position":controllerPosition.text,
-                    "department":controllerDepartment.text,
-                  });
-                },
+                onPressed: handleFilter,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
@@ -166,23 +266,56 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                   fixedSize: Size(screenWidth / 2.3, screenHeight),
                 ),
-                child: const Text(
-                  'Xác nhận',
-                ),
+                child: const Text('Xác nhận'),
               ),
             ],
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildDropdown(title: 'Khóa', dropdownValue: dropdownValueGen, filterList: studentYearList, controller: controllerGen),
-            buildDropdown(title: 'Chức vụ CLB', dropdownValue:  dropdownValuePosition, filterList: clubPositionList,controller: controllerPosition),
-            buildDropdown(title: 'Ban', dropdownValue:  dropdownValueDeparment, filterList: boardList, controller: controllerDepartment),
-            buildDropdown(title: 'Chuyên ngành', dropdownValue:  dropdownValueMajor, filterList: majorList,controller: controllerMajor),
-          ],
-        ),
+      body: FutureBuilder<void>(
+        future: dataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('An error occurred'));
+          } else {
+            return ListView(
+              children: [
+                buildDropdown(
+                  title: 'Gen',
+                  controller: controllerGen,
+                  dropdownValue: dropdownValueGen,
+                  filterList: genList,
+                ),
+                buildDropdown(
+                  title: 'Khóa',
+                  controller: controllerK,
+                  dropdownValue: dropdownValueK,
+                  filterList: kList,
+                ),
+                buildDropdown(
+                  title: 'Chức vụ CLB',
+                  controller: controllerPosition,
+                  dropdownValue: dropdownValuePosition,
+                  filterList: clubPositionList,
+                ),
+                buildDropdown(
+                  title: 'Ban',
+                  controller: controllerDepartment,
+                  dropdownValue: dropdownValueDepartment,
+                  filterList: boardList,
+                ),
+                buildDropdown(
+                  title: 'Chuyên ngành',
+                  controller: controllerMajor,
+                  dropdownValue: dropdownValueMajor,
+                  filterList: majorList,
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
