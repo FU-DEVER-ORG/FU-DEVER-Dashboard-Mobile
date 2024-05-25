@@ -57,7 +57,9 @@ class _MemberGridItemState extends ConsumerState<MemberGridItem> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                         child: Text(
-                          'Gen ${widget.member.gen}',
+                          widget.member.gen == null
+                              ? 'Gen ?'
+                              : 'Gen ${widget.member.gen}',
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),

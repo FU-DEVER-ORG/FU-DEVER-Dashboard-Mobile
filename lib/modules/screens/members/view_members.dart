@@ -139,7 +139,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                                 (widget.member.dob!=null)?
                                   Text('${widget.member.dob!.day}/${widget.member.dob!.month}/${widget.member.dob!.year}')
                                 :
-                                  Text('date of birth'),
+                                  const Text('date of birth'),
                               ],
                             ),
                           ],
@@ -235,7 +235,7 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                             ?HtmlWidget(widget.member.description!)
                             :Text(widget.member.description!)
                         :
-                          Text("description")
+                          const Text("description")
                         ,
                         const SizedBox(height: 10),
                         Row(
@@ -263,9 +263,9 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                                 ),
                               )
                                 :
-                              Text(
+                              const Text(
                                 "Ban học thuật",
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               )
@@ -295,9 +295,9 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                                 }
                               ),
                             ):
-                            Text(
+                            const Text(
                               "Ban học thuật",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             )
@@ -314,9 +314,9 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ):
-                            Text(
+                            const Text(
                               "Kỹ thuật phần mềm",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             )
@@ -325,11 +325,11 @@ class _ProfileScreenState extends State<ViewMemberScreen> {
                         ),
                         Row(
                           children: [
-                            Text('Nơi làm việc'),
-                            Spacer(),
+                            const Text('Nơi làm việc'),
+                            const Spacer(),
                             Text(
                               widget.member.workplace??"none",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

@@ -19,6 +19,7 @@ import 'package:fudever_dashboard/modules/widgets/image_input.dart';
 import 'package:fudever_dashboard/provider/image_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../api/cloudinary_api.dart';
 import '../home/home.dart'; // Import the image provider
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -97,22 +98,31 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     super.initState();
   }
 
-  void _saveImage(BuildContext context) async {
+  Future<void> _saveImage(BuildContext context) async {
     if (_selectedImage != null) {
-      ref.read(userImageProvider.notifier).changeProfileInfo(
-            _selectedImage!,
-          ); // Replace 'User Name' with the actual user name
+      final _imageUrl = await CloudinaryApi().uploadImage(_selectedImage!);
+      if (_imageUrl != null) {
+        final response =
+            await UserController.editUsers(options: {'avatar': _imageUrl});
+        if (response['status'] == 'success') {
+          ref.read(userImageProvider.notifier).changeProfileInfo(
+                _selectedImage!,
+              ); // Replace 'User Name' with the actual user name
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Image saved successfully'),
-        ),
-      );
-      Navigator.of(context).pop(
-        MaterialPageRoute(
-          builder: (ctx) => HomeScreen(),
-        ),
-      );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Image saved successfully'),
+            ),
+          );
+          Navigator.of(context).pop(
+            MaterialPageRoute(
+              builder: (ctx) => HomeScreen(),
+            ),
+          );
+        } else {
+          // Handle error case
+        }
+      }
     }
   }
 
@@ -135,42 +145,28 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
         style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
       ),
       actions: [
-        if (_isImageCaptured && !_isConfirmed)
-          GestureDetector(
-            onTap: () {
-              _saveImage(context);
+        GestureDetector(
+          onTap: () {
+            // Navigate to QR code screen and set checkmark
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const QrCodeMember();
+                },
+              ),
+            ).then((_) {
               setState(() {
-                _isConfirmed = true;
+                _isImageCaptured = false;
+                _isConfirmed = false;
               });
-            },
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: Icon(Icons.check, color: Colors.blue),
-            ),
-          )
-        else
-          GestureDetector(
-            onTap: () {
-              // Navigate to QR code screen and set checkmark
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const QrCodeMember();
-                  },
-                ),
-              ).then((_) {
-                setState(() {
-                  _isImageCaptured = false;
-                  _isConfirmed = false;
-                });
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: SvgPicture.asset('assets/images/QR.svg'),
-            ),
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+            child: SvgPicture.asset('assets/images/QR.svg'),
           ),
+        ),
       ],
       backgroundColor: Theme.of(context).colorScheme.background,
     );
@@ -191,8 +187,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
           return Column(
             children: [
               ImageInput(
-                onPickImage: (image) {
-                  _saveImage(context);
+                onPickImage: (image) async {
                   setState(() {
                     _selectedImage = image;
                     _isImageCaptured = true;
