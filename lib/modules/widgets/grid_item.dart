@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fudever_dashboard/models/member.dart';
@@ -170,6 +172,86 @@ class Social extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TopLeaders extends StatefulWidget {
+  const TopLeaders({super.key, this.isCenter=true});
+  final bool isCenter;
+
+  @override
+  State<TopLeaders> createState() => _TopLeadersState();
+}
+
+class _TopLeadersState extends State<TopLeaders> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: (widget.isCenter)?MainAxisAlignment.center:MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(height: 24,),
+        Stack(
+          children: [
+            CircleAvatar(
+              radius: 39,
+              backgroundColor: Colors.blue,
+              child: Image.asset(
+                "assets/images/Avatar.png",
+                fit: BoxFit.contain,
+                height: 74,
+                width: 74,
+              ),
+            ),
+            (!widget.isCenter)
+                ?
+            Transform.translate(
+              offset: Offset(24,-20),
+              child: SvgPicture.asset("assets/images/crown.svg")
+            )
+                :
+            Container(),
+            Transform.translate(
+              offset: Offset(26,65),
+              child: CircleAvatar(
+                radius: 14,
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.black,
+                child: Text(
+                  "2",
+                ),
+              ),
+            )
+          ]
+        ),
+        SizedBox(height: 20,),
+        Container(
+          width: 90,
+          child: Text(
+            "Tamara Schmidt Thang",
+            style: TextStyle(
+              fontWeight: FontWeight.bold
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.black,
+              radius: 8,
+              child: Image.asset(
+                "assets/images/points.png",
+                height: 10,
+                width: 10,
+              ),
+            ),
+            SizedBox(width: 4,),
+            Text("40 pts"),
+          ],
+        )
+      ],
     );
   }
 }

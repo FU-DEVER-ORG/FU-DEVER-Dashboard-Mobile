@@ -245,7 +245,6 @@ class _CustomDateFieldState extends State<CustomDateField> with RestorationMixin
   }
 }
 
-
 class CustomDropdown extends StatefulWidget {
   const CustomDropdown({
     required this.title,

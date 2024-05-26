@@ -3,7 +3,9 @@ import 'package:fudever_dashboard/layouts/auth_layout.dart';
 import 'package:fudever_dashboard/modules/screens/auth/forgot_pass.dart';
 import 'package:fudever_dashboard/modules/screens/auth/login.dart';
 import 'package:fudever_dashboard/modules/screens/auth/signup.dart';
+import 'package:fudever_dashboard/modules/screens/home/activity.dart';
 import 'package:fudever_dashboard/modules/screens/home/home.dart';
+import 'package:fudever_dashboard/modules/screens/home/leader_board.dart';
 import 'package:fudever_dashboard/modules/screens/home/splash.dart';
 import 'package:fudever_dashboard/modules/screens/members/test.dart';
 
@@ -14,6 +16,11 @@ class Routes {
         final args = settings.arguments;
         return MaterialPageRoute(builder: (_) {
           return HomeScreen(arguments: args);
+        });
+      case 'activity':
+        final args = settings.arguments;
+        return MaterialPageRoute(builder: (_) {
+          return ActivityScreen(arguments: args);
         });
       case 'splash':
         return MaterialPageRoute(builder: (_) {
@@ -45,7 +52,7 @@ class Routes {
         });
       case 'testing':
         return MaterialPageRoute(builder: (_) {
-          return const Testing();
+          return LeaderBoard();
         });
       default:
         return MaterialPageRoute(builder: (_) {
