@@ -177,7 +177,12 @@ class Social extends StatelessWidget {
 }
 
 class TopLeaders extends StatefulWidget {
-  const TopLeaders({super.key, this.isCenter=true});
+  const TopLeaders({super.key, this.isCenter=true, required this.name, required this.points, required this.avatar, required this.position});
+  final String name;
+  final int points;
+  final String avatar;
+  final int position;
+
   final bool isCenter;
 
   @override
@@ -197,11 +202,13 @@ class _TopLeadersState extends State<TopLeaders> {
             CircleAvatar(
               radius: 39,
               backgroundColor: Colors.blue,
-              child: Image.asset(
-                "assets/images/Avatar.png",
-                fit: BoxFit.contain,
-                height: 74,
-                width: 74,
+              child: ClipOval(
+                child: Image.network(
+                  widget.avatar,
+                  fit: BoxFit.cover,
+                  height: 74,
+                  width: 74,
+                ),
               ),
             ),
             (!widget.isCenter)
@@ -219,7 +226,7 @@ class _TopLeadersState extends State<TopLeaders> {
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.black,
                 child: Text(
-                  "2",
+                  "${widget.position}",
                 ),
               ),
             )
@@ -229,7 +236,7 @@ class _TopLeadersState extends State<TopLeaders> {
         Container(
           width: 90,
           child: Text(
-            "Tamara Schmidt Thang",
+            widget.name,
             style: TextStyle(
               fontWeight: FontWeight.bold
             ),
@@ -248,7 +255,7 @@ class _TopLeadersState extends State<TopLeaders> {
               ),
             ),
             SizedBox(width: 4,),
-            Text("40 pts"),
+            Text("${widget.points} pts"),
           ],
         )
       ],

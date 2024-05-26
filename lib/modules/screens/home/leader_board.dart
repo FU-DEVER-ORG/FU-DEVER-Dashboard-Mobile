@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fudever_dashboard/api/leetcode_api.dart';
+import 'package:fudever_dashboard/api/users_api.dart';
 import 'package:fudever_dashboard/modules/widgets/custom_text_fields.dart';
 import 'package:fudever_dashboard/modules/widgets/grid_item.dart';
 
@@ -12,7 +14,35 @@ class LeaderBoard extends StatefulWidget {
 }
 
 class _LeaderBoardState extends State<LeaderBoard> {
+  final _formKey = GlobalKey<FormState>();
   final leetcodeController = TextEditingController();
+  late dynamic data=null;
+  void getData() async {
+    // data = await UserController.getUsers();
+    data = await LeetcodeController.getLeaderBoard();
+    setState(() {
+      data = data['data'];
+      // print(data);
+      // print();
+    });
+  }
+  bool isNotValid = false;
+  void handleSubmission()async {
+    dynamic options = {
+      "leetcodeUsername": leetcodeController.text
+    };
+    dynamic res = await LeetcodeController.subscribeLeetcode(options: options);
+    if(res['status']=='success'){
+      Navigator.of(context).pushReplacementNamed('leader-board');
+    }
+    print(res);
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,40 +76,62 @@ class _LeaderBoardState extends State<LeaderBoard> {
         actions: [
           IconButton(
             onPressed: (){
-              showModalBottomSheet(context: context, builder: (builder){
-                return Wrap(
-                  children: [
-                    Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-                      child: Column(
-                        children: [
-                          CustomField(title: "Leetcode username", hintText: "Nhập username leetcode của bạn", controller: leetcodeController, isCompulsory: true),
-                          const SizedBox(height: 10),
-                          Container(
-                            width: screenWidth,
-                            child: MaterialButton(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              color: Theme.of(context).buttonTheme.colorScheme!.primary,
-                              onPressed: (){},
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (builder){
+                return GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode()); // Hide keyboard when tapping outside the text field
+                  },
+                  child: Wrap(
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        padding:EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom, // Add bottom padding equal to the keyboard height
+                          left: 16,
+                          right: 16,
+                          top: 8,
+                        ),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              CustomField(
+                                title: "Leetcode username",
+                                hintText: "Nhập username leetcode của bạn",
+                                controller: leetcodeController,
+                                isCompulsory: true,
                               ),
-                              child: Text(
-                                "Xác nhận",
-                                style: TextStyle(
-                                  color: Theme
-                                      .of(context)
-                                      .colorScheme
-                                      .background,
+                              const SizedBox(height: 10),
+                              Container(
+                                width: screenWidth,
+                                child: MaterialButton(
+                                  padding: EdgeInsets.symmetric(vertical: 16),
+                                  color: Theme.of(context).buttonTheme.colorScheme!.primary,
+                                  onPressed: handleSubmission,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Text(
+                                    "Xác nhận",
+                                    style: TextStyle(
+                                      color: Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .background,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              const SizedBox(height: 8),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ]
+                    ]
+                  ),
                 );
               });
             },
@@ -95,15 +147,31 @@ class _LeaderBoardState extends State<LeaderBoard> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
+          (data==null)?Container():Container(
             width: screenWidth,
             height: 200,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TopLeaders(),
-                TopLeaders(isCenter: false,),
-                TopLeaders()
+                TopLeaders(
+                  name: '${data[1]['userId']['firstname']} ${data[1]['userId']['lastname']}',
+                  position: 2,
+                  points: data[1]['acSubmissionList'].length*10,
+                  avatar: "${data[1]['userId']['avatar']}",
+                ),
+                TopLeaders(
+                  isCenter: false,
+                  name: '${data[0]['userId']['firstname']} ${data[0]['userId']['lastname']}',
+                  position: 1,
+                  points: data[0]['acSubmissionList'].length*10,
+                  avatar: "${data[0]['userId']['avatar']}",
+                ),
+                TopLeaders(
+                  name: '${data[2]['userId']['firstname']} ${data[2]['userId']['lastname']}',
+                  position: 3,
+                  points: data[2]['acSubmissionList'].length*10,
+                  avatar: "${data[2]['userId']['avatar']}",
+                )
               ],
             ),
           ),
@@ -114,8 +182,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
                 color: const Color.fromARGB(255, 243, 249, 253),
               ),
               padding: const EdgeInsets.only(left: 20.0,right: 20.0,top: 24),
-              child: ListView.builder(
-                itemCount: 20,
+              child: (data==null)?Container():ListView.builder(
+                itemCount: data.length,
                 itemBuilder: (BuildContext context, index){
                   return Container(
                     decoration: BoxDecoration(
@@ -132,17 +200,21 @@ class _LeaderBoardState extends State<LeaderBoard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text((index>5)?'${index+4}':' ${index+4}'),
+                            Text((index>5)?'${index+1}':' ${index+1}'),
                             SizedBox(width: 10,),
-                            CircleAvatar(
-                              radius: 19,
-                              child: Image.asset("assets/images/Avatar.png"),
-                            )
+                            ClipOval(
+                              child: Image.network(
+                                "${data[index]['userId']['avatar']}",
+                                fit: BoxFit.cover,
+                                height: 38, // Ensure this is twice the radius for a complete circle
+                                width: 38,  // Ensure this is twice the radius for a complete circle
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      title: Text("Marsha Fisher"),
-                      trailing: Text("40 pts"),
+                      title: Text('${data[index]['userId']['firstname']} ${data[index]['userId']['lastname']}'),
+                      trailing: Text("${data[index]['acSubmissionList'].length*10} pts"),
                     ),
                   );
                 },

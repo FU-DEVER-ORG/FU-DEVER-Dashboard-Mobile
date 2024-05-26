@@ -1,8 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/api/api_repository.dart';
 import 'package:fudever_dashboard/controller/id_manager.dart';
 import 'package:fudever_dashboard/controller/token_manager.dart';
-import 'package:fudever_dashboard/provider/id_provider.dart';
 
 class UserController extends ApiRepository{
   static Future<dynamic> getUsers() async {

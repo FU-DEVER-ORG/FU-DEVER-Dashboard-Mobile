@@ -37,7 +37,34 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
   late TextEditingController searchBarController = TextEditingController();
   late Timer? _debounce = null;
   User? user;
-  // late List<Map<String, dynamic>>
+  late List<Map<String, dynamic>> activities = [
+    {
+      "title": "Leetcode",
+      "icon": "points.png",
+      "uri": "leader-board"
+    },
+    {
+      "title": "Điểm hoạt động",
+      "icon": "activity-points.png",
+      "uri": "on-work"
+    },
+    {
+      "title": "Nộp quỹ",
+      "icon": "fund.png",
+      "uri": "on-work"
+    },
+    {
+      "title": "Ghép đôi",
+      "icon": "pairing.png",
+      "uri": "on-work"
+    },
+    {
+      "title": "Lịch sử CLB",
+      "icon": "history.png",
+      "uri": "on-work"
+    },
+  ];
+
 
   void getData() async {
     if (widget.arguments != null){
@@ -53,6 +80,9 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
       members = [...data];
     });
   }
+
+
+
   void onSelectAvatar() async {
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
@@ -142,27 +172,32 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: GridView.builder(
-            itemCount: 5,
+            itemCount: activities.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 4.0,
                 mainAxisSpacing: 4.0
             ),
             itemBuilder: (BuildContext context, int index){
-              return Column(
-                children: [
-                  CircleAvatar(
-                    radius: 32,
-                    backgroundColor: Colors.black,
-                    child: Image.asset(
-                      "assets/images/points.png",
-                      height: 45,
-                      width: 45,
+              return GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pushNamed(activities[index]['uri']);
+                },
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 32,
+                      backgroundColor: Colors.black,
+                      child: Image.asset(
+                        "assets/images/${activities[index]['icon']}",
+                        height: 45,
+                        width: 45,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5,),
-                  Text("Leetcode")
-                ],
+                    SizedBox(height: 5,),
+                    Text(activities[index]['title'])
+                  ],
+                ),
               );
             },
           ),

@@ -22,6 +22,21 @@ class ApiRepository {
     final responseData = jsonDecode(response.body);
     return responseData;
   }
+  static Future<Map<String, dynamic>> subscribe(
+      {required String path, Map<String, dynamic> options = const {},
+        required String accessToken}) async {
+    final response = await http.post(
+      Uri.parse(_url + path),
+      body: jsonEncode(options),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+
+    );
+    final responseData = jsonDecode(response.body);
+    return responseData;
+  }
 
   static Future<Map<String, dynamic>> get(
       {required String path, Map<String, dynamic> options = const {}}) async {

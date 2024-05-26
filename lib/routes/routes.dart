@@ -8,6 +8,7 @@ import 'package:fudever_dashboard/modules/screens/home/home.dart';
 import 'package:fudever_dashboard/modules/screens/home/leader_board.dart';
 import 'package:fudever_dashboard/modules/screens/home/splash.dart';
 import 'package:fudever_dashboard/modules/screens/members/test.dart';
+import 'package:fudever_dashboard/modules/screens/onWork.dart';
 
 class Routes {
   static Route<dynamic> generateRoutes(RouteSettings settings, String? token) {
@@ -49,6 +50,14 @@ class Routes {
             title: "Quên mật khẩu",
             trailing: ForgotPassword.trailing(context),
           );
+        });
+      case 'leader-board':
+        return MaterialPageRoute(builder: (_) {
+          return LeaderBoard();
+        });
+      case 'on-work':
+        return MaterialPageRoute(builder: (_) {
+          return OnWork();
         });
       case 'testing':
         return MaterialPageRoute(builder: (_) {
