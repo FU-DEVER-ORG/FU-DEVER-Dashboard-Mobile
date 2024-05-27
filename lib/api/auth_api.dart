@@ -15,7 +15,7 @@ class AuthController extends ApiRepository {
     ProfileStorage.setAvatar(response['data']['user']['avatar']);
     ProfileStorage.setFirstName(response['data']['user']['firstname']);
     ProfileStorage.setLastName(response['data']['user']['lastname']);
-    ProfileStorage.setLastName(response['data']['user']['email']);
+    ProfileStorage.setEmail(response['data']['user']['email']);
     return response;
   }
 }
