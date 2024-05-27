@@ -37,13 +37,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   late TextEditingController searchBarController = TextEditingController();
   late Timer? _debounce = null;
   User? user;
+  late ScrollController _scrollController;
 
   late List<Member>? searchMembers;
-  void useDebounce(String value){
+  void useDebounce(String value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 1500), () async{
-      if (data != null){
-        data = await UserController.filterUsers(filter: widget.arguments,search:value);
+    _debounce = Timer(const Duration(milliseconds: 1500), () async {
+      if (data != null) {
+        data = await UserController.filterUsers(
+            filter: widget.arguments, search: value);
         searchMembers = (data['data']['users'] as List)
             .map((item) => Member.fromJson(item))
             .toList();
@@ -52,6 +54,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         });
       }
     });
+  }
+
+  void _scrollToTop() {
+    setState(() {
+      ApiRepository.loadAllAPIs();
+      getData();
+    });
+    _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 
   void onSelectMember(BuildContext context, Member member) {
@@ -78,7 +92,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
-  Future<Map<String, dynamic>> getUserDetail(String userId) async {
+  Future<Map<String, dynamic>> getUserDetail() async {
     if (widget.data == null) {
       dynamic response = await UserController.getUserDetail();
       return response['data'];
@@ -87,9 +101,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void getData() async {
-    if (widget.arguments != null){
-      data = await UserController.filterUsers(filter:widget.arguments);
-    }else{
+    if (widget.arguments != null) {
+      data = await UserController.filterUsers(filter: widget.arguments);
+    } else {
       data = await UserController.getUsers();
     }
 
@@ -109,12 +123,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     getData();
     // getUserDetail();
     members = null;
+    _scrollController = ScrollController();
     ApiRepository.loadAllAPIs();
     super.initState();
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _debounce?.cancel();
     super.dispose();
   }
@@ -123,7 +139,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final Future<String?> userId = IdManager().getId();
 
     return FutureBuilder(
-      future: getUserDetail(userId.toString()),
+      future: getUserDetail(),
       builder:
           (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -156,8 +172,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  Navigator.of(context).pushNamed("activity"
-                  );
+                  Navigator.of(context).pushNamed("activity");
                 });
               },
               child: Container(
@@ -182,35 +197,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
           ),
-          title: Column(
-            children: [
-              Text(
-                'Chào mừng',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal),
-              ),
-              FutureBuilder(
-                future: getUserDetail(userId.toString()),
-                builder: (BuildContext context,
-                    AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return Text(
-                      '${snapshot.data?['firstname']} ${snapshot.data?['lastname']}',
-                      style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                          fontSize: 20),
-                    );
-                  }
-                },
-              ),
-            ],
+          title: GestureDetector(
+            onTap: _scrollToTop,
+            child: Column(
+              children: [
+                Text(
+                  'Chào mừng',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal),
+                ),
+                FutureBuilder(
+                  future: getUserDetail(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator(
+                        color: Color.fromARGB(255, 243, 249, 253),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Text(
+                        '${snapshot.data?['firstname']} ${snapshot.data?['lastname']}',
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            fontSize: 20),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
           backgroundColor: const Color.fromARGB(255, 243, 249, 253),
           actions: [
@@ -236,6 +257,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               (members != null)
                   ? Expanded(
                       child: GridView.builder(
+                        controller: _scrollController,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
