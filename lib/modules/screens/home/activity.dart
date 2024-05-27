@@ -176,7 +176,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                   ],
                 ),
                 child: SvgPicture.asset(
-                  'assets/images/home.svg',
+                  'assets/images/Home_Drawer.svg',
                   // fit: BoxFit.contain,
                 ),
               ),
