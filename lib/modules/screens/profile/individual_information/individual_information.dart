@@ -97,18 +97,18 @@ class _IndividualInformationScreenState
   void initState() {
     firstnameController.text = widget.data['firstname'];
     lastnameController.text = widget.data['lastname'];
-    DateTime dob = DateTime.parse(widget.data['dob']);
+    DateTime dob = DateTime.parse("2003-12-19");
+    if(widget.data['dob']!=null){
+      DateTime dob = DateTime.parse(widget.data['dob']);
+    }
     dobController.text = '${dob.year}-${dob.month}-${dob.day}';
-    hometownController.text = widget.data['hometown'];
+    hometownController.text = widget.data['hometown']??"None";
     positionController.text = widget.data['positionId']['name'];
     boardController.text = widget.data['departments'][0]['name'];
-    jobController.text = widget.data['job'];
-    workplaceController.text = widget.data['workplace'];
-    schoolController.text = widget.data['school'];
+    jobController.text = widget.data['job']??"None";
+    workplaceController.text = widget.data['workplace']??"None";
+    schoolController.text = widget.data['school']??"None";
     majorController.text=toMajorConstants[widget.data['majorId']['_id']]??'Kỹ thuật phần mềm';
-    majorController.addListener(() {
-      print(majorConstants[majorController.text]);
-    });
     super.initState();
   }
 

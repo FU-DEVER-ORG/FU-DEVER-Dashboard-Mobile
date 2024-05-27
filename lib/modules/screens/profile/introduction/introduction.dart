@@ -44,7 +44,12 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   }
   @override
   void initState() {
-    if(widget.data.contains("<")) {
+    if(widget.data==null){
+    _controller = QuillController(
+    document: Document.fromJson([{'insert':'Write about your self \n'}]),
+    selection: TextSelection.collapsed(offset: 0)
+    );
+    }else if(widget.data.contains("<")) {
       var document = parse(widget.data);
       Delta delta = Delta()..insert(document.body!.text + '\n');
       _controller = QuillController(
