@@ -8,6 +8,7 @@ class UserController extends ApiRepository{
     return response;
   }
   static Future<dynamic> filterUsers({dynamic filter=const{},String search=""}) async {
+    print(filter);
     final response = await ApiRepository.get(path: "users?filter=${filter}&search=${search}");
     return response;
   }

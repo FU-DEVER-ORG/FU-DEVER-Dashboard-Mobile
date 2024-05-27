@@ -97,6 +97,34 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
     }
   }
 
+  Future<Map<String, dynamic>> getUserDetail(String userId) async {
+    if (widget.data == null) {
+      dynamic response = await UserController.getUserDetail();
+      return response['data'];
+    }
+    return widget.data!['data'];
+  }
+
+  Widget _buildProfileImage(BuildContext context) {
+    final Future<String?> userId = IdManager().getId();
+
+    return FutureBuilder(
+      future: getUserDetail(userId.toString()),
+      builder:
+          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return CircleAvatar(
+            backgroundImage: NetworkImage(snapshot.data!['avatar']),
+            radius: 20.0, // Adjust the radius as needed
+          );
+        }
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -148,7 +176,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                   ],
                 ),
                 child: SvgPicture.asset(
-                  'assets/images/drawer.svg',
+                  'assets/images/home.svg',
                   // fit: BoxFit.contain,
                 ),
               ),
@@ -167,7 +195,19 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
             ],
           ),
           backgroundColor: const Color.fromARGB(255, 243, 249, 253),
-          actions: [],
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: onSelectAvatar,
+                child: userAvatar != null
+                    ? CircleAvatar(
+                  backgroundImage: FileImage(userAvatar),
+                )
+                    : _buildProfileImage(context),
+              ),
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),

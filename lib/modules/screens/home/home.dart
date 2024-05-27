@@ -20,7 +20,7 @@ import '../members/view_members.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({
-    this.arguments = null,
+    this.arguments = const {},
     super.key,
     this.data,
   });
@@ -43,7 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 1500), () async{
       if (data != null){
-        data = await UserController.filterUsers(filter: widget.arguments,search:value);
+        data = await UserController.filterUsers(filter: jsonEncode(widget.arguments??{}),search:value);
         searchMembers = (data['data']['users'] as List)
             .map((item) => Member.fromJson(item))
             .toList();
@@ -88,7 +88,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void getData() async {
     if (widget.arguments != null){
-      data = await UserController.filterUsers(filter:widget.arguments);
+      data = await UserController.filterUsers(filter:jsonEncode(widget.arguments));
     }else{
       data = await UserController.getUsers();
     }

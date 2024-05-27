@@ -139,7 +139,7 @@ class _FilterScreenState extends State<FilterScreen> {
       filter['kGeneration'] = controllerK.text.substring(1);
     }
     // Pass the filter object to the next screen
-    Navigator.of(context).pushNamed("/", arguments: jsonEncode(filter));
+    Navigator.of(context).pushNamed("/", arguments: filter);
   }
 
   Widget buildDropdown({
