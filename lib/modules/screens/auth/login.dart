@@ -124,7 +124,7 @@ class _LoginFormState extends State<LoginForm> {
         await EasyLoading.dismiss();
       } catch (e) {
         await EasyLoading.dismiss();
-        print("Error: $e"); // Debugging line
+        DialogUtils.showLoginErrorDialog(context);
       }
     }
   }

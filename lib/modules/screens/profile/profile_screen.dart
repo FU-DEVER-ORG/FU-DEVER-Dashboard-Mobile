@@ -17,6 +17,7 @@ import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 import 'package:fudever_dashboard/modules/screens/profile/social_media/social_media.dart';
 import 'package:fudever_dashboard/modules/widgets/image_input.dart';
 import 'package:fudever_dashboard/provider/image_provider.dart';
+import 'package:fudever_dashboard/utils/custom_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../api/cloudinary_api.dart';
@@ -295,18 +296,26 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                   final SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   await prefs.clear();
-
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AuthLayout(
-                        body: const Login(),
-                        title: "Đăng nhập",
-                        trailing: Login.trailing(context),
-                      ),
-                    ),
-                    (route) =>
-                        false, // This ensures all previous routes are removed
+                  CustomDialog.showCustomDialog(
+                    // ignore: use_build_context_synchronously
+                    context: context,
+                    title: 'Đăng xuất',
+                    content: 'Bạn chắc chắn muốn đăng xuất không?',
+                    cancelButton: 'Quay lại',
+                    acceptButton: 'Đăng xuất',
+                    onPressedCheck: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AuthLayout(
+                            body: const Login(),
+                            title: "Đăng nhập",
+                            trailing: Login.trailing(context),
+                          ),
+                        ),
+                        (route) => false,
+                      );
+                    },
                   );
                 },
                 style: ElevatedButton.styleFrom(
