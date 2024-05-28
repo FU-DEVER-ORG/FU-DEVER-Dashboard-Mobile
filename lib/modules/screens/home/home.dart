@@ -14,7 +14,7 @@ import 'package:fudever_dashboard/modules/widgets/search_and_filter.dart';
 
 import 'dart:async';
 import '../../../api/api_repository.dart';
-import '../../../controller/id_manager.dart';
+import '../../../controller/id_controller.dart';
 import '../../../provider/image_provider.dart';
 import '../members/view_members.dart';
 
@@ -56,10 +56,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _scrollToTop() {
-    setState(() {
-      ApiRepository.loadAllAPIs();
-      getData();
-    });
+    // setState(() {
+    //   ApiRepository.loadAllAPIs();
+    //   getData();
+    // });
     _scrollController.animateTo(
       0.0,
       duration: Duration(milliseconds: 500),

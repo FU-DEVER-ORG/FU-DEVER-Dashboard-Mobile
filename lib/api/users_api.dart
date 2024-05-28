@@ -1,6 +1,6 @@
 import 'package:fudever_dashboard/api/api_repository.dart';
-import 'package:fudever_dashboard/controller/id_manager.dart';
-import 'package:fudever_dashboard/controller/token_manager.dart';
+import 'package:fudever_dashboard/controller/id_controller.dart';
+import 'package:fudever_dashboard/controller/token_controller.dart';
 
 class UserController extends ApiRepository{
   static Future<dynamic> getUsers() async {

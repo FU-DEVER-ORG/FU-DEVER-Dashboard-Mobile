@@ -1,19 +1,13 @@
 import 'dart:io';
 
-import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fudever_dashboard/api/api_repository.dart';
-import 'package:fudever_dashboard/api/cloudinary_api.dart';
-import 'package:fudever_dashboard/api/users_api.dart';
-import 'package:fudever_dashboard/modules/screens/home/home.dart';
+import 'package:fudever_dashboard/controller/profile_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../provider/image_provider.dart';
 import '../../utils/confirm_image.dart';
-import '../screens/profile/profile_screen.dart';
 
 class ImageInput extends ConsumerStatefulWidget {
   const ImageInput({
@@ -38,6 +32,7 @@ class _ImageInputState extends ConsumerState<ImageInput> {
     if (pickedImage != null) {
       setState(() {
         _selectedImage = File(pickedImage.path);
+        ProfileController.setAvatar(_selectedImage!);
       });
       widget.onPickImage(_selectedImage!);
       Navigator.of(context).push(
@@ -116,14 +111,14 @@ class _ImageInputState extends ConsumerState<ImageInput> {
         );
       },
       child: Center(
-        child: avatarUrl == null
+        child: ProfileController.getAvatar() == null
             ? CircleAvatar(
                 radius: 60,
                 backgroundImage: NetworkImage(widget.imageUrl),
               )
             : CircleAvatar(
                 radius: 60,
-                backgroundImage: FileImage(avatarUrl),
+                backgroundImage: FileImage(ProfileController.getAvatar()!),
               ),
       ),
     );

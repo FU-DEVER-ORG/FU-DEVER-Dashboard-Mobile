@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controller/id_manager.dart';
+import '../controller/id_controller.dart';
 
 class IdNotifier extends StateNotifier<String?> {
   IdNotifier() : super(null) {

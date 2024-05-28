@@ -14,7 +14,7 @@ import 'package:fudever_dashboard/modules/widgets/search_and_filter.dart';
 
 import 'dart:async';
 import '../../../api/api_repository.dart';
-import '../../../controller/id_manager.dart';
+import '../../../controller/id_controller.dart';
 import '../../../provider/image_provider.dart';
 import '../members/view_members.dart';
 
@@ -195,19 +195,19 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
             ],
           ),
           backgroundColor: const Color.fromARGB(255, 243, 249, 253),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: onSelectAvatar,
-                child: userAvatar != null
-                    ? CircleAvatar(
-                  backgroundImage: FileImage(userAvatar),
-                )
-                    : _buildProfileImage(context),
-              ),
-            ),
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.only(right: 20.0),
+          //     child: GestureDetector(
+          //       onTap: onSelectAvatar,
+          //       child: userAvatar != null
+          //           ? CircleAvatar(
+          //         backgroundImage: FileImage(userAvatar),
+          //       )
+          //           : _buildProfileImage(context),
+          //     ),
+          //   ),
+          // ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),

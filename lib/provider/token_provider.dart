@@ -1,7 +1,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controller/token_manager.dart';
+import '../controller/token_controller.dart';
 
 class TokenNotifier extends StateNotifier<String?> {
   TokenNotifier() : super(null) {

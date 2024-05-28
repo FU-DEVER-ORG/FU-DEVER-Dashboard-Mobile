@@ -1,17 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-class ProfileStorage {
+class ProfileController {
   static ValueNotifier<String> avatar = ValueNotifier<String>('');
-  static String _avatar = '';
+  static File? _avatar;
   static String _firstName = '';
   static String _lastName = '';
   static String _email = '';
 
-  static void setAvatar(String avatar) {
+  static void setAvatar(File avatar) {
     _avatar = avatar;
   }
 
-  static String getAvatar() {
+  static File? getAvatar() {
     return _avatar;
   }
 
@@ -39,9 +41,8 @@ class ProfileStorage {
     return _email;
   }
 
-  // Update all profile information at once
   static void updateProfile(
-      {String? avatar, String? firstName, String? lastName, String? email}) {
+      {File? avatar, String? firstName, String? lastName, String? email}) {
     if (avatar != null) {
       _avatar = avatar;
     }

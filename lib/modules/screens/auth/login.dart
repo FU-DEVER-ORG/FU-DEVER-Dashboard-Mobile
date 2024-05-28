@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/api/auth_api.dart';
-import 'package:fudever_dashboard/controller/id_manager.dart';
-import 'package:fudever_dashboard/controller/token_manager.dart';
+import 'package:fudever_dashboard/controller/id_controller.dart';
+import 'package:fudever_dashboard/controller/token_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
