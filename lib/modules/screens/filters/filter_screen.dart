@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fudever_dashboard/api/department_api.dart';
 import 'package:fudever_dashboard/api/major_api.dart';
 import 'package:fudever_dashboard/api/position_api.dart';
-import 'package:fudever_dashboard/controller/filter_manager.dart';
+import 'package:fudever_dashboard/controller/filter_controller.dart';
 
 
 class FilterScreen extends StatefulWidget {

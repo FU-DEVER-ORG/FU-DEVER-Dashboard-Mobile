@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
-import 'package:fudever_dashboard/controller/id_manager.dart';
 import 'package:fudever_dashboard/layouts/auth_layout.dart';
 import 'package:fudever_dashboard/modules/screens/auth/login.dart';
 import 'package:fudever_dashboard/modules/screens/profile/contacts/contact.dart';
@@ -21,12 +20,13 @@ import 'package:fudever_dashboard/utils/custom_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../api/cloudinary_api.dart';
-import '../home/home.dart'; // Import the image provider
+import '../home/home.dart';
 
+// ignore: must_be_immutable
 class ProfileScreen extends ConsumerStatefulWidget {
   ProfileScreen({
     Key? key,
-    data = null,
+    data,
   }) : super(key: key);
 
   Map<String, dynamic>? data;
@@ -35,10 +35,6 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileState extends ConsumerState<ProfileScreen> {
-  File? _selectedImage;
-  bool _isImageCaptured = false;
-  bool _isConfirmed = false;
-
   List<Map<String, dynamic>>? listItems = [];
 
   List<Map<String, dynamic>> getListItems(Map<String, dynamic> data) {
@@ -99,34 +95,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     super.initState();
   }
 
-  Future<void> _saveImage(BuildContext context) async {
-    if (_selectedImage != null) {
-      final _imageUrl = await CloudinaryApi().uploadImage(_selectedImage!);
-      if (_imageUrl != null) {
-        final response =
-            await UserController.editUsers(options: {'avatar': _imageUrl});
-        if (response['status'] == 'success') {
-          ref.read(userImageProvider.notifier).changeProfileInfo(
-                _selectedImage!,
-              ); // Replace 'User Name' with the actual user name
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Image saved successfully'),
-            ),
-          );
-          Navigator.of(context).pop(
-            MaterialPageRoute(
-              builder: (ctx) => HomeScreen(),
-            ),
-          );
-        } else {
-          // Handle error case
-        }
-      }
-    }
-  }
-
   PreferredSizeWidget _buildProfileHeader(BuildContext context) {
     return AppBar(
       foregroundColor: Theme.of(context).colorScheme.onBackground,
@@ -157,10 +125,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                 },
               ),
             ).then((_) {
-              setState(() {
-                _isImageCaptured = false;
-                _isConfirmed = false;
-              });
+              setState(() {});
             });
           },
           child: Padding(
@@ -173,9 +138,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     );
   }
 
-  Widget _buildProfileImage(BuildContext context) {
-    final Future<String?> userId = IdManager().getId();
-
+  Widget _buildHeaderProfile(BuildContext context) {
     return FutureBuilder(
       future: getUserDetail(),
       builder:
@@ -191,11 +154,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
             children: [
               ImageInput(
                 onPickImage: (image) async {
-                  setState(() {
-                    _selectedImage = image;
-                    _isImageCaptured = true;
-                    _isConfirmed = false;
-                  });
+                  setState(() {});
                 },
                 imageUrl: snapshot.data?['avatar'],
               ),
@@ -235,6 +194,50 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
     );
   }
 
+  Widget _buildProfileBody(BuildContext context) {
+    return FutureBuilder<Map<String, dynamic>>(
+      future: getUserDetail(),
+      builder:
+          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(
+            height: 280,
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          Map<String, dynamic> data = snapshot.data!;
+          List<Map<String, dynamic>> listItems = getListItems(data);
+
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: listItems.length,
+            itemBuilder: (BuildContext context, int index) {
+              final item = listItems[index];
+              return _buildListTile(item['icon'], item['title'], () async {
+                // Await the navigation and capture the result.
+                bool? isUpdated = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => item['screen'],
+                  ),
+                );
+                if (isUpdated == true) {
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (ctx) => ProfileScreen(),
+                    ),
+                  );
+                }
+              });
+            },
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -244,51 +247,9 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            _buildProfileImage(context),
+            _buildHeaderProfile(context),
             const SizedBox(height: 20),
-            FutureBuilder<Map<String, dynamic>>(
-              future: getUserDetail(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(
-                    height: 280,
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  Map<String, dynamic> data = snapshot.data!;
-                  List<Map<String, dynamic>> listItems = getListItems(data);
-
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: listItems.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final item = listItems[index];
-                      return _buildListTile(item['icon'], item['title'],
-                          () async {
-                        // Await the navigation and capture the result.
-                        bool? isUpdated = await Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (ctx) => item['screen'],
-                          ),
-                        );
-
-                        // Provide a default value of `false` if `isUpdated` is null.
-                        if (isUpdated == true) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (ctx) => ProfileScreen(),
-                            ),
-                          );
-                        }
-                      });
-                    },
-                  );
-                }
-              },
-            ),
+            _buildProfileBody(context),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
               child: ElevatedButton.icon(

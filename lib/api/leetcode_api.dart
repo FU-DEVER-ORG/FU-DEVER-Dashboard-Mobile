@@ -1,5 +1,5 @@
 import 'package:fudever_dashboard/api/api_repository.dart';
-import 'package:fudever_dashboard/controller/token_manager.dart';
+import 'package:fudever_dashboard/controller/token_controller.dart';
 
 class LeetcodeController extends ApiRepository{
   static Future<dynamic> getLeaderBoard() async {

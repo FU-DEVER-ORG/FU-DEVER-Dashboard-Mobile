@@ -1,8 +1,4 @@
 import 'package:fudever_dashboard/api/api_repository.dart';
-import 'package:fudever_dashboard/controller/id_manager.dart';
-
-import '../controller/token_manager.dart';
-import '../models/profile.dart';
 
 class AuthController extends ApiRepository {
   static Future<dynamic> loginUser(
@@ -12,10 +8,6 @@ class AuthController extends ApiRepository {
       "password": password,
       "rememberMe": rememberMe,
     });
-    ProfileStorage.setAvatar(response['data']['user']['avatar']);
-    ProfileStorage.setFirstName(response['data']['user']['firstname']);
-    ProfileStorage.setLastName(response['data']['user']['lastname']);
-    ProfileStorage.setEmail(response['data']['user']['email']);
     return response;
   }
 }
