@@ -15,12 +15,9 @@ import 'package:fudever_dashboard/modules/screens/profile/qrcode_member_card/qrc
 import 'package:fudever_dashboard/modules/screens/profile/skills/skill.dart';
 import 'package:fudever_dashboard/modules/screens/profile/social_media/social_media.dart';
 import 'package:fudever_dashboard/modules/widgets/image_input.dart';
-import 'package:fudever_dashboard/provider/image_provider.dart';
+import 'package:fudever_dashboard/provider/token_provider.dart';
 import 'package:fudever_dashboard/utils/custom_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../api/cloudinary_api.dart';
-import '../home/home.dart';
 
 // ignore: must_be_immutable
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -254,9 +251,6 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
               padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
               child: ElevatedButton.icon(
                 onPressed: () async {
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.clear();
                   CustomDialog.showCustomDialog(
                     // ignore: use_build_context_synchronously
                     context: context,
@@ -264,7 +258,13 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                     content: 'Bạn chắc chắn muốn đăng xuất không?',
                     cancelButton: 'Quay lại',
                     acceptButton: 'Đăng xuất',
-                    onPressedCheck: () {
+                    onPressedCheck: () async {
+                      final tokenManager = TokenNotifier();
+                      await tokenManager.clearToken();
+
+                      // final SharedPreferences prefs =
+                      //     await SharedPreferences.getInstance();
+                      // await prefs.clear();
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -297,7 +297,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
