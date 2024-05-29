@@ -19,10 +19,10 @@ class TokenNotifier extends StateNotifier<String?> {
     state = token;
   }
 
-  // Future<void> clearToken() async {
-  //   await _tokenManager.deleteToken();
-  //   state = null;
-  // }
+  Future<void> clearToken() async {
+    await _tokenManager.deleteToken();
+    state = null;
+  }
 }
 
 final tokenProvider = StateNotifierProvider<TokenNotifier, String?>((ref) {
