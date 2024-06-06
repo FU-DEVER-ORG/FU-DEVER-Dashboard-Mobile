@@ -31,14 +31,14 @@ class _ConfirmImageState extends ConsumerState<ConfirmImage> {
           await UserController.editUsers(options: {'avatar': _imageUrl});
       if (response['status'] == 'success') {
         if (mounted) {
-          Navigator.of(context).pop(true);
-          // Navigator.of(context).pushReplacement(
-          //   MaterialPageRoute(
-          //     builder: (context) => HomeScreen(
-          //       data: response,
-          //     ),
-          //   ),
-          // );
+          Navigator.of(context).pop();
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                data: response,
+              ),
+            ),
+          );
         }
       } else {
         // Handle error case

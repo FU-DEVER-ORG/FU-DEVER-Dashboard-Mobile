@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fudever_dashboard/api/users_api.dart';
+import 'package:fudever_dashboard/controller/profile_controller.dart';
 import 'package:fudever_dashboard/layouts/auth_layout.dart';
 import 'package:fudever_dashboard/modules/screens/auth/login.dart';
 import 'package:fudever_dashboard/modules/screens/profile/contacts/contact.dart';
@@ -151,7 +152,9 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
             children: [
               ImageInput(
                 onPickImage: (image) async {
-                  setState(() {});
+                  setState(() {
+                    snapshot.data?['avatar'];
+                  });
                 },
                 imageUrl: snapshot.data?['avatar'],
               ),
@@ -262,6 +265,7 @@ class _ProfileState extends ConsumerState<ProfileScreen> {
                       final tokenManager = TokenNotifier();
                       await tokenManager.clearToken();
 
+                      ProfileController.clearProfile();
                       // final SharedPreferences prefs =
                       //     await SharedPreferences.getInstance();
                       // await prefs.clear();

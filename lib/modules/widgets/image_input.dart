@@ -6,24 +6,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fudever_dashboard/controller/profile_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../api/users_api.dart';
 import '../../provider/image_provider.dart';
 import '../../utils/confirm_image.dart';
 
 class ImageInput extends ConsumerStatefulWidget {
-  const ImageInput({
+  ImageInput({
     Key? key,
     required this.onPickImage,
     required this.imageUrl,
+    data,
   }) : super(key: key);
 
   final String imageUrl;
   final void Function(File image) onPickImage;
+  Map<String, dynamic>? data;
 
   @override
   ConsumerState<ImageInput> createState() => _ImageInputState();
 }
 
 class _ImageInputState extends ConsumerState<ImageInput> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   File? _selectedImage;
 
   Future<void> _openGallery() async {
@@ -32,7 +40,6 @@ class _ImageInputState extends ConsumerState<ImageInput> {
     if (pickedImage != null) {
       setState(() {
         _selectedImage = File(pickedImage.path);
-        ProfileController.setAvatar(_selectedImage!);
       });
       widget.onPickImage(_selectedImage!);
       Navigator.of(context).push(
@@ -43,6 +50,14 @@ class _ImageInputState extends ConsumerState<ImageInput> {
         ),
       );
     }
+  }
+
+  Future<Map<String, dynamic>> getUserDetail() async {
+    if (widget.data == null) {
+      dynamic response = await UserController.getUserDetail();
+      return response['data'];
+    }
+    return widget.data!['data']['avatar'];
   }
 
   @override
@@ -111,14 +126,14 @@ class _ImageInputState extends ConsumerState<ImageInput> {
         );
       },
       child: Center(
-        child: ProfileController.getAvatar() == null
+        child: ProfileController.getAvatarPath() == null
             ? CircleAvatar(
                 radius: 60,
                 backgroundImage: NetworkImage(widget.imageUrl),
               )
             : CircleAvatar(
                 radius: 60,
-                backgroundImage: FileImage(ProfileController.getAvatar()!),
+                backgroundImage: FileImage(avatarUrl!),
               ),
       ),
     );
